@@ -1,0 +1,10 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <ui:VisualElement picking-mode="Ignore" name="container" class="time-control-container">
+        <IOSEF.UI.Toolbar.Toggle name="Toggle" />
+        <ui:SliderInt picking-mode="Ignore" value="1" high-value="10" low-value="1" name="slider" style="width: 125px;" />
+        <ui:VisualElement picking-mode="Ignore" style="flex-direction: row; flex-grow: 1; justify-content: space-between;">
+            <ui:Label text="x110" display-tooltip-when-elided="true" name="sliderValue" picking-mode="Ignore" class="label" style="width: 40px;" />
+            <ui:Label text="10:11:22" display-tooltip-when-elided="true" name="timeValue" picking-mode="Ignore" class="label" style="width: 65px;" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

@@ -1,0 +1,74 @@
+using IOSEF.Data;
+using UnityEngine;
+using UnityEngine.UIElements;
+
+namespace IOSEF.UI.Panel
+{
+    public class EntryDataField : VisualElement
+    {
+        public bool IsReadonly
+        {
+            get => _isReadonly;
+            set
+            {
+                if (_isReadonly == value) return;
+                SetReadonly(value);
+            }
+        }
+        
+        public EntryData EntryData
+        {
+            get => _entryData;
+            set => SetValueWithoutNotify(value);
+        }
+
+        private const string Uss = "StyleSheet/panel-field";
+        private const string UssEntryDataField = "panel-field-entrydata";
+
+        private readonly StringField _stringField;
+        private EntryData _entryData;
+        private bool _isReadonly;
+
+        public EntryDataField(EntryData entryData)
+        {
+            styleSheets.Add(Resources.Load<StyleSheet>(Uss));
+            AddToClassList(UssEntryDataField);
+
+            _entryData = entryData;
+            
+            var label = new Label(entryData.Type.ToString()); 
+            _stringField = new StringField(entryData.Key, entryData.Value);
+            
+            Add(label);
+            Add(_stringField);
+
+            _stringField.RegisterCallback<ChangeEvent<string>>(evt =>
+            {
+                if (entryData.Validate(_stringField.value))
+                {
+                    _stringField.SetValueWithoutNotify(evt.newValue);
+                    _entryData.Value = evt.newValue;
+                }
+                else
+                {
+                    _stringField.SetValueWithoutNotify(evt.previousValue);
+                }
+            });
+
+            _stringField.isDelayed = true;
+            _stringField.multiline = false;
+        }
+
+        private void SetValueWithoutNotify(EntryData entryData)
+        {
+            _entryData = entryData;
+            _stringField.SetValueWithoutNotify(entryData.Value);
+        }
+
+        private void SetReadonly(bool isReadonly)
+        {
+            _isReadonly = isReadonly;
+            _stringField.isReadOnly = _isReadonly;
+        }
+    }
+}

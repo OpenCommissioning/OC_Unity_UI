@@ -1,0 +1,36 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <ui:VisualElement name="panel-container">
+        <ui:VisualElement name="container" class="panel-container" style="width: 323px;">
+            <ui:VisualElement name="header" class="panel-header" style="align-items: flex-start; margin-left: 6px;">
+                <ui:Label text="Title" display-tooltip-when-elided="true" name="title" class="panel-label" />
+                <ui:VisualElement name="bottons" class="panel-header-bar" style="right: 2px;">
+                    <ui:Button display-tooltip-when-elided="false" enable-rich-text="false" name="focus" class="panel-header-button" style="background-image: resource(&apos;Icons/d_ViewToolZoom@2x&apos;); -unity-slice-left: 2; -unity-slice-top: 2; -unity-slice-right: 2; -unity-slice-bottom: 2;" />
+                    <ui:Button display-tooltip-when-elided="false" enable-rich-text="false" name="pin" class="panel-header-button" style="background-image: url(&apos;project://database/Packages/com.unity.timeline/Editor/StyleSheets/Images/Icons/d_TrackMarkerButtonEnabled@2x.png?fileID=2800000&amp;guid=6192986415256ca47a97a97507406f5e&amp;type=3#d_TrackMarkerButtonEnabled@2x&apos;); -unity-slice-left: 2; -unity-slice-top: 2; -unity-slice-right: 2; -unity-slice-bottom: 2;" />
+                    <ui:Button display-tooltip-when-elided="false" enable-rich-text="false" name="close" class="panel-header-button" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement name="content" class="panel-content">
+                <PlanX.UI.Panel.Button text="button" />
+                <PlanX.UI.Panel.ToggleSlide label="Toggle Slied" value="false" />
+                <PlanX.UI.Panel.Toggle label="Toggle" />
+                <PlanX.UI.Panel.BinaryStatusField label="Binary Status Field" />
+                <PlanX.UI.Panel.StringField label="String Field" />
+                <PlanX.UI.Panel.FloatField label="Float Field" />
+                <PlanX.UI.Panel.IntegerField label="Integer Field" />
+                <PlanX.UI.Panel.Vector3Field label="Vector3 Field" />
+                <PlanX.UI.Panel.Vector3IntField label="Vector3Int Field" />
+                <PlanX.UI.Panel.Vector2Field label="Vector2 Field" />
+                <PlanX.UI.Panel.Vector2IntField label="Vector2Int Field" />
+                <PlanX.UI.Panel.SliderInt label="SliderInt" show-input-field="true" />
+                <PlanX.UI.Panel.Slider label="Slider" show-input-field="true" />
+                <PlanX.UI.Panel.MinMaxSlider low-limit="0.47" high-limit="0.78" label="Min Max Slider" />
+                <PlanX.UI.Panel.DropdownField index="-1" choices="System.Collections.Generic.List`1[System.String]" label="Dropdown" />
+                <PlanX.UI.Panel.EnumField label="Enum" />
+                <PlanX.UI.Panel.ProgressBarField title="PROGRESS" value="50" />
+                <PlanX.UI.Panel.ScrollView scroll-deceleration-rate="0,135" elasticity="0,1" mode="VerticalAndHorizontal" style="height: 80px; width: auto;">
+                    <ui:Label text="very long and very large text" style="color: rgb(255, 255, 255); -unity-text-align: upper-left; font-size: 96px;" />
+                </PlanX.UI.Panel.ScrollView>
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

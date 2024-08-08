@@ -1,0 +1,31 @@
+{
+  "name": "com.spiratec.iosef.ui",
+  "version": "2.0.0",
+  "displayName": "PlanX UI",
+  "description": "Runtime UI for PlanX projects",
+  "unity": "2021.1",
+  "documentationUrl": "",
+  "changelogUrl": "",
+  "licensesUrl": "",
+    "dependencies": {
+        "com.spiratec.iosef": "1.0.0",
+        "com.unity.cinemachine": "2.8.9"
+    },
+  "author": {
+    "name": "onoff engineering gmbh",
+    "email": ["michael.kasseckert@onoff-group.de","viktor.gaponenko@onoff-group.com","moritz.langer@onoff-group.com"],
+    "url": "https://onoff-group.com/contact"
+  },
+    "samples": [
+        {
+            "displayName": "Demo",
+            "description": "Demo scenes with basic components",
+            "path": "Samples~/Demo"
+        },
+        {
+            "displayName": "Environment",
+            "description": "Base environment",
+            "path": "Samples~/Environment"
+        }
+    ]
+}
