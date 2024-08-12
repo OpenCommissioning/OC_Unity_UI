@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace IOSEF.UI.Panel
+namespace OC.UI.Panel
 {
     public class SubsystemPanel : VisualElement, ICloseble
     {

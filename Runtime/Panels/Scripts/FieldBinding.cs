@@ -1,6 +1,6 @@
 using System;
 
-namespace IOSEF.UI.Panel
+namespace OC.UI.Panel
 {
     [Serializable]
 	public class FieldBinding

@@ -1,7 +1,7 @@
 using NaughtyAttributes;
 using UnityEngine;
 
-namespace IOSEF.UI.Interactions
+namespace OC.UI.Interactions
 {
     [RequireComponent(typeof(Interaction))]
     public class ColliderMaterial : MaterialChanger
@@ -29,6 +29,7 @@ namespace IOSEF.UI.Interactions
         [Button]
         public void Change()
         {
+            if (!Application.isPlaying) return;
             _isEnabled = !_isEnabled;
             EnableView(_isEnabled);
         }

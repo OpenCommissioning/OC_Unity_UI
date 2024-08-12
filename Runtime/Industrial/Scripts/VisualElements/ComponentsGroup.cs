@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace IOSEF.UI.Industrial
+namespace OC.UI.Industrial
 {
     public class ComponentsGroup : VisualElement
     {

@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace IOSEF.UI.Panel
+namespace OC.UI.Panel
 {
     public class FloatField : UnityEngine.UIElements.FloatField
     {

@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace IOSEF.UI.Console
+namespace OC.UI.Console
 {
     public class ConsoleItem : VisualElement
     {

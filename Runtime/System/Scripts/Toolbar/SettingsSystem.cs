@@ -1,16 +1,16 @@
-using IOSEF.UI.Panel;
-using Button = IOSEF.UI.Panel.Button;
-using SliderInt = IOSEF.UI.Panel.SliderInt;
+using OC.UI.Panel;
+using Button = OC.UI.Panel.Button;
+using SliderInt = OC.UI.Panel.SliderInt;
 
-namespace IOSEF.UI.Toolbar
+namespace OC.UI.Toolbar
 {
     public class SettingsSystem: ToolbarSystemPanel
     {
-        private SliderInt _mouseSensitivity;
+        private Panel.SliderInt _mouseSensitivity;
 
         protected override void AddContent(SubsystemPanel subsystemPanel)
         {
-            _mouseSensitivity = new SliderInt("Mouse sensitivity")
+            _mouseSensitivity = new Panel.SliderInt("Mouse sensitivity")
             {
                 showInputField = true,
                 lowValue = 1,
@@ -18,7 +18,7 @@ namespace IOSEF.UI.Toolbar
                 value = SettingsManager.Instance.MouseSensitivity
             };
 
-            var applyButton = new Button("Apply", ApplySettings);
+            var applyButton = new Panel.Button("Apply", ApplySettings);
             
             subsystemPanel.Add(_mouseSensitivity);
             subsystemPanel.Add(applyButton);

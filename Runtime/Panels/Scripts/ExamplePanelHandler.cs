@@ -1,7 +1,7 @@
-using IOSEF.Components;
+using OC.Components;
 using UnityEngine;
 
-namespace IOSEF.UI.Panel
+namespace OC.UI.Panel
 {
     public class ExamplePanelHandler : CustomPanelHandler
     {

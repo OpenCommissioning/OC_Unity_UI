@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace IOSEF.UI.Interactions
+namespace OC.UI.Interactions
 {
     [RequireComponent(typeof(Camera))]
     public class CameraController : MonoBehaviour

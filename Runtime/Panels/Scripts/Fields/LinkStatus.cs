@@ -1,8 +1,8 @@
-using IOSEF.Communication;
+using OC.Communication;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace IOSEF.UI.Panel
+namespace OC.UI.Panel
 {
     public class LinkStatus : VisualElement
     {

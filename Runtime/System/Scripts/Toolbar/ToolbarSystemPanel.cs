@@ -1,7 +1,7 @@
-using IOSEF.UI.Panel;
+using OC.UI.Panel;
 using UnityEngine.UIElements;
 
-namespace IOSEF.UI.Toolbar
+namespace OC.UI.Toolbar
 {
     public abstract class ToolbarSystemPanel : ToolbarSystem
     {

@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace IOSEF.UI.Console
+namespace OC.UI.Console
 {
     public class LogList : IList
     {

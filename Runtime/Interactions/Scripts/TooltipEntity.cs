@@ -1,7 +1,7 @@
-using IOSEF.MaterialFlow;
+using OC.MaterialFlow;
 using UnityEngine;
 
-namespace IOSEF.UI.Interactions
+namespace OC.UI.Interactions
 {
     [DefaultExecutionOrder(1000)]
     public class TooltipEntity : Tooltip

@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace IOSEF.UI
+namespace OC.UI
 {
     [DefaultExecutionOrder(-500)]
     public class SettingsManager : MonoBehaviour

@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
-namespace IOSEF.UI.Interactions
+namespace OC.UI.Interactions
 {
     [AddComponentMenu("IOSEF/UI/Interactions/Point Event Handler")]
     [DisallowMultipleComponent]

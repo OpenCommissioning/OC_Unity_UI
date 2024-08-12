@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace IOSEF.UI
+namespace OC.UI
 {
     public class QuitApplication : MonoBehaviour
     {

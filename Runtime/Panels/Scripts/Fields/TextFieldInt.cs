@@ -1,7 +1,7 @@
 using System.Globalization;
 using UnityEngine.UIElements;
 
-namespace IOSEF.UI.Panel
+namespace OC.UI.Panel
 {
     public class TextFieldInt : TextField<int>
     {

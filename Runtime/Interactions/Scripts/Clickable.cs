@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
-namespace IOSEF.UI.Interactions
+namespace OC.UI.Interactions
 {
     public class Clickable : MonoBehaviour, IPointerClickHandler
     {

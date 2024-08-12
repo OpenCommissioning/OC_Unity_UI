@@ -1,12 +1,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using NaughtyAttributes;
-using IOSEF.UI.Panel;
+using OC.UI.Panel;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UIElements;
 
-namespace IOSEF.UI
+namespace OC.UI
 {
     [RequireComponent(typeof(UIDocument))]
     [DisallowMultipleComponent]
@@ -41,6 +41,8 @@ namespace IOSEF.UI
             {
                 Enable = false
             };
+            
+            _exitPopup.AddDefaultTheme();
 
             _root.Add(_exitPopup);
             _exitPopup.BringToFront();

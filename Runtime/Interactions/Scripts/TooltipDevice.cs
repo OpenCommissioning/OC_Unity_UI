@@ -1,7 +1,7 @@
-using IOSEF.Communication;
+using OC.Communication;
 using UnityEngine;
 
-namespace IOSEF.UI.Interactions
+namespace OC.UI.Interactions
 {
     [DefaultExecutionOrder(1000)]
     public class TooltipDevice : Tooltip

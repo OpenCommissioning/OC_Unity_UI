@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
 
-namespace IOSEF.UI.Panel
+namespace OC.UI.Panel
 {
     public class GenericPanelHandler : PanelHandler
     {

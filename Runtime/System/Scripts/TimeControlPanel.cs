@@ -1,9 +1,9 @@
 using System;
 using UnityEngine;
 using UnityEngine.UIElements;
-using Toggle = IOSEF.UI.Toolbar.Toggle;
+using Toggle = OC.UI.Toolbar.Toggle;
 
-namespace IOSEF.UI
+namespace OC.UI
 {
     [RequireComponent(typeof(UIDocument))]
     [DisallowMultipleComponent]
@@ -12,7 +12,7 @@ namespace IOSEF.UI
         [SerializeField]
         private Sprite _pauseIcon;
 
-        private Toggle _toggle;
+        private Toolbar.Toggle _toggle;
         private SliderInt _slider;
         private Label _sliderValue;
         private Label _timeValue;
@@ -29,7 +29,7 @@ namespace IOSEF.UI
             
             uiDocument.rootVisualElement.Add(container);
             
-            _toggle = container.Q<Toggle>();
+            _toggle = container.Q<Toolbar.Toggle>();
             _toggle.DefaultIcon = _pauseIcon;
             
             _slider = container.Q<SliderInt>();

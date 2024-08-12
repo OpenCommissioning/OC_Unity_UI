@@ -1,4 +1,4 @@
-namespace IOSEF.UI.Panel
+namespace OC.UI.Panel
 {
     public abstract class CustomPanelHandler : PanelHandler
     {

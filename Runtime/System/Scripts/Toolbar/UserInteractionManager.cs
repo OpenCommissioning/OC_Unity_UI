@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace IOSEF.UI.Toolbar
+namespace OC.UI.Toolbar
 {
     [DefaultExecutionOrder(1000)]
     public class UserInteractionManager : MonoBehaviour

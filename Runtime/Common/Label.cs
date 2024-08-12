@@ -1,14 +1,12 @@
 using TMPro;
 using UnityEngine;
 
-namespace IOSEF.UI.Interactions
+namespace OC.UI.Interactions
 {
     public class Label : MonoBehaviour
     {
         [SerializeField]
         private string _label;
-        [SerializeField]
-        private bool _autoLabel;
 
         private void Start()
         {
@@ -22,9 +20,12 @@ namespace IOSEF.UI.Interactions
 
         private void SetLabel()
         {
-            if (!_autoLabel) return;
             var textMeshPro = GetComponentInChildren<TextMeshPro>();
-            if (textMeshPro == null) return;
+            if (textMeshPro == null)
+            {
+                Logging.Logger.LogWarning("Renderer reference is null!", this);
+                return;
+            }
             textMeshPro.text = string.IsNullOrWhiteSpace(_label) ? gameObject.name : _label;
         }
     }

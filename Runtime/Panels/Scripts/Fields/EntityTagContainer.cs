@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
-using IOSEF.Data;
-using IOSEF.MaterialFlow;
+using OC.Data;
+using OC.MaterialFlow;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace IOSEF.UI.Panel
+namespace OC.UI.Panel
 {
     public class EntityTagContainer : VisualElement 
     {

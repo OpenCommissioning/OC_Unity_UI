@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace IOSEF.UI.TransformHandles
+namespace OC.UI.TransformHandles
 {
     public class RotationAxis : HandleBase
     {

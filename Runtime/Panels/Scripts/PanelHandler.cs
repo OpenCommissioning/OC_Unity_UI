@@ -1,9 +1,9 @@
-using IOSEF.UI.Interactions;
+using OC.UI.Interactions;
 using UnityEngine;
 
-namespace IOSEF.UI.Panel
+namespace OC.UI.Panel
 {
-    [AddComponentMenu("IOSEF/UI/Panel Handler")]
+    [AddComponentMenu("Open Commissioning/UI/Panel Handler")]
     [DisallowMultipleComponent]
     public class PanelHandler : Interaction
     {
@@ -16,7 +16,7 @@ namespace IOSEF.UI.Panel
         {
             if (!Target.TryGetComponent<IInteractable>(out var interactable))
             {
-                Debug.LogWarning("Can't find IInteractable on Component");
+                Debug.LogWarning("Can't find IInteractable on Component", this);
                 return;
             }
             _component = (Component)interactable;
@@ -28,17 +28,6 @@ namespace IOSEF.UI.Panel
             base.OnDestroy();
             Delete();
             OnSelectionChanged -= ShowPanel;
-        }
-
-        protected new virtual void OnValidate()
-        {
-            base.OnValidate();
-            if (!Target.TryGetComponent<IInteractable>(out var interactable))
-            {
-                Debug.LogWarning("Can't find IInteractable on Component", this);
-                return;
-            }
-            _component = (Component)interactable;
         }
 
         private void ShowPanel(bool show)

@@ -1,9 +1,9 @@
 using System;
-using IOSEF.UI.Panel;
+using OC.UI.Panel;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace IOSEF.UI
+namespace OC.UI
 {
     public class ExitPopup : VisualElement, ICloseble
     {
@@ -25,14 +25,15 @@ namespace IOSEF.UI
         public event Action OnClose;
 
         private bool _enable;
-        private const string _uxml = "UXML/popup-exit";
+        private const string Uxml = "UXML/popup-exit";
+        private const string StyleSheet = "UXML/popup-exit";
         
         public ExitPopup()
         {
             _enable = true;
-            var container = Resources.Load<VisualTreeAsset>(_uxml).Instantiate();
-            container.AddDefaultTheme();
+            var container = Resources.Load<VisualTreeAsset>(Uxml).Instantiate();
             hierarchy.Add(container);
+            container.AddDefaultTheme();
             container.Q<UnityEngine.UIElements.Button>("cancel").clicked += () => Enable = false;
             container.Q<UnityEngine.UIElements.Button>("close").clicked += () => OnClose?.Invoke();
         }

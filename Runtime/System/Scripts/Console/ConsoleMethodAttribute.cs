@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace IOSEF.UI.Console
+namespace OC.UI.Console
 {
 	[AttributeUsage( AttributeTargets.Method, Inherited = false, AllowMultiple = true )]
 	public class ConsoleMethodAttribute : Attribute

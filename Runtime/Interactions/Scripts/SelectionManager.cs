@@ -2,12 +2,12 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using IOSEF.MaterialFlow;
-using IOSEF.UI.Toolbar;
+using OC.MaterialFlow;
+using OC.UI.Toolbar;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace IOSEF.UI.Interactions
+namespace OC.UI.Interactions
 {
     [RequireComponent(typeof(MeshCollider))]
     [RequireComponent(typeof(Rigidbody))]
@@ -147,7 +147,7 @@ namespace IOSEF.UI.Interactions
             var hits = _hits.OrderBy(hit => hit.distance);
             foreach (var raycast in hits)
             {
-                if (raycast.distance < IOSEF.Utils.TOLERANCE) continue;
+                if (raycast.distance < OC.Utils.Tolerance) continue;
                 if (raycast.collider.gameObject.CompareTag("Handles"))
                 {
                     _hitHandle = true;

@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace IOSEF.UI.Toolbar
+namespace OC.UI.Toolbar
 {
     public class Toggle : BaseBoolField
     {

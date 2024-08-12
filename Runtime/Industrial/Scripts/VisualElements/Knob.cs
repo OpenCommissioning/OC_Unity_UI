@@ -1,9 +1,9 @@
 using System;
-using IOSEF.Interactions.UIElements;
+using OC.Interactions.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace IOSEF.UI.Industrial
+namespace OC.UI.Industrial
 {
     public class Knob : VisualElement
     {

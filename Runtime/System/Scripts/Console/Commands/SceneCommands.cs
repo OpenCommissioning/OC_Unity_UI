@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace IOSEF.UI.Console.Commands
+namespace OC.UI.Console.Commands
 {
 	public class SceneCommands
 	{

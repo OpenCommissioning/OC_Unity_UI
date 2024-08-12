@@ -1,8 +1,7 @@
 using UnityEngine;
 using UnityEngine.UIElements;
-using IOSEF;
 
-namespace IOSEF.UI.Panel
+namespace OC.UI.Panel
 {
     public static class PanelFactory
     {
@@ -23,13 +22,13 @@ namespace IOSEF.UI.Panel
                 Components.SensorBinary binary => Create(panelHandler, binary),
                 Components.SensorAnalog analog => Create(panelHandler, analog),
                 Components.TagReader tagReader => Create(panelHandler, tagReader),
-                Components.PayloadDataManager dataReader => Create(panelHandler, dataReader),
-                IOSEF.Interactions.Lock doorLock => Create(panelHandler, doorLock),
+                Components.DataReader dataReader => Create(panelHandler, dataReader),
+                OC.Interactions.Lock doorLock => Create(panelHandler, doorLock),
                 _ => null
             };
         }
 
-        private static Panel Create(PanelHandler panelHandler, Components.PayloadDataManager target)
+        private static Panel Create(PanelHandler panelHandler, Components.DataReader target)
         {
             var panel = new Panel(panelHandler.Target.name, true, true, true);
             panel.OnFocus += panelHandler.Focus;
@@ -271,7 +270,7 @@ namespace IOSEF.UI.Panel
             return panel;
         }
 
-        private static Panel Create(PanelHandler panelHandler, IOSEF.Interactions.Lock target)
+        private static Panel Create(PanelHandler panelHandler, OC.Interactions.Lock target)
         {
             var panel = new Panel(panelHandler.Target.name, true, true, true);
             panel.OnFocus += panelHandler.Focus;

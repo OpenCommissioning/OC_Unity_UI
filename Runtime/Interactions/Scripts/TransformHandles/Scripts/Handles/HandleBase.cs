@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace IOSEF.UI.TransformHandles
+namespace OC.UI.TransformHandles
 {
     public abstract class HandleBase : MonoBehaviour
     {

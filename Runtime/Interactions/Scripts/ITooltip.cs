@@ -1,4 +1,4 @@
-namespace IOSEF.UI.Interactions
+namespace OC.UI.Interactions
 {
     public interface ITooltip
     {

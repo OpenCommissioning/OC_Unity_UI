@@ -1,8 +1,8 @@
-using IOSEF.Data;
+using OC.Data;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace IOSEF.UI.Panel
+namespace OC.UI.Panel
 {
     public class EntryDataField : VisualElement
     {

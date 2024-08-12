@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace IOSEF.UI.Console
+namespace OC.UI.Console
 {
     public struct ConsoleItemData
     {

@@ -1,12 +1,12 @@
-using IOSEF.UI.Interactions;
 using System.Collections.Generic;
 using System.Linq;
 using NaughtyAttributes;
-using IOSEF.UI.Panel;
+using OC.UI.Interactions;
+using OC.UI.Panel;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace IOSEF.UI.Toolbar
+namespace OC.UI.Toolbar
 {
     public class HideSystem : ToolbarSystemPanel
     {

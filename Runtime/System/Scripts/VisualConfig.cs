@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace IOSEF.UI
+namespace OC.UI
 {
     [CreateAssetMenu(fileName = "VisualConfig", menuName = "IOSEF/Visual Config")]
     public class VisualConfig : ScriptableObject

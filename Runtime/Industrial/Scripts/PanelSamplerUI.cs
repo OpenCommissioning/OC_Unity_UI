@@ -1,10 +1,10 @@
 using System.Linq;
-using IOSEF.Interactions;
-using IOSEF.Interactions.UIElements;
+using OC.Interactions;
+using OC.Interactions.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace IOSEF.UI.Industrial
+namespace OC.UI.Industrial
 {
     [RequireComponent(typeof(PanelSampler))]
     public class PanelSamplerUI : MonoBehaviour, IIndustrialPanel
@@ -12,6 +12,7 @@ namespace IOSEF.UI.Industrial
         [SerializeField]
         private string _name;
 
+        public Component Component => this;
         public string Path => _panelSampler.Link.Path;
 
         private PanelSampler _panelSampler;

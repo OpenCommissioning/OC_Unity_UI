@@ -1,6 +1,6 @@
 {
-    "name": "IOSEF.UI",
-    "rootNamespace": "",
+    "name": "OC.UI",
+    "rootNamespace": "OC.UI",
     "references": [
         "GUID:47fad80190177a94f917a02743203241",
         "GUID:6055be8ebefd69e48b49212b09b47b2f",

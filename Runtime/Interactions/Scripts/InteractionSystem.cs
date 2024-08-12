@@ -1,9 +1,9 @@
-using IOSEF.MaterialFlow;
-using IOSEF.UI.Interactions;
+using OC.MaterialFlow;
+using OC.UI.Interactions;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace IOSEF.UI
+namespace OC.UI
 {
     [DefaultExecutionOrder(-100)]
     public class InteractionSystem : MonoBehaviour

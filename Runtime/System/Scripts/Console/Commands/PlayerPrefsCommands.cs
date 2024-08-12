@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace IOSEF.UI.Console.Commands
+namespace OC.UI.Console.Commands
 {
 	public class PlayerPrefsCommands
 	{

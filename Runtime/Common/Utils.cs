@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace IOSEF.UI
+namespace OC.UI
 {
     public static class Utils 
     {

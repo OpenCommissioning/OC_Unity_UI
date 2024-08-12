@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace IOSEF.UI.Interactions.SceneGizmo
+namespace OC.UI.Interactions.SceneGizmo
 {
 	public class SceneGizmoController : MonoBehaviour
 	{

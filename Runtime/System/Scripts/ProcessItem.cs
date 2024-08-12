@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace IOSEF.UI
+namespace OC.UI
 {
     public class ProcessItem : MonoBehaviour
     {

@@ -6,15 +6,32 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
-namespace IOSEF.UI.Interactions
+namespace OC.UI.Interactions
 {
     [AddComponentMenu("IOSEF/UI/Interaction")]
     [DisallowMultipleComponent]
     [RequireComponent(typeof(BoxCollider))]
     public class Interaction : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, ISelectHandler, IDeselectHandler, IPointerClickHandler, IPointerDownHandler, IPointerUpHandler
     {
-        public GameObject Target => _target == null ? gameObject : _target;
-        public InteractionMode Mode => _mode;
+        public GameObject Target
+        {
+            get
+            {
+                if (_target == null)
+                {
+                    _target = gameObject;
+                }
+
+                return _target;
+            }
+            set => _target = value;
+        }
+
+        public InteractionMode Mode
+        {
+            get => _mode;
+            set => _mode = value;
+        }
         
         public bool IsDisabled
         {
@@ -54,7 +71,7 @@ namespace IOSEF.UI.Interactions
 
         [Header("Settings")] 
         [SerializeField] 
-        private InteractionMode _mode = InteractionMode.All;
+        private InteractionMode _mode = InteractionMode.Hover | InteractionMode.Click;
         [SerializeField]
         protected GameObject _target;
 
@@ -82,16 +99,16 @@ namespace IOSEF.UI.Interactions
 
         protected void Awake()
         {
-            _renderers = Target.GetComponentsInChildren<Renderer>().ToList();
+            _renderers = GetComponentsInChildren<Renderer>().ToList();
             _collider = GetComponent<Collider>();
             _collider.isTrigger = true;
+            _collider.enabled = !_isDisabled;
             gameObject.layer = 10;
         }
 
         protected void OnValidate()
         {
-            if (_collider == null) _collider = GetComponent<Collider>();
-            _collider.enabled = !_isDisabled;
+            
         }
 
         protected void OnDestroy()

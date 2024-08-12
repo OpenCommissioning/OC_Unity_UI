@@ -1,11 +1,19 @@
-using IOSEF.UI.Interactions;
+using OC.UI.Interactions;
 using System.Collections.Generic;
 using System.Linq;
-using IOSEF.UI.Panel;
+using OC.UI.Panel;
 using UnityEngine;
 using UnityEngine.UIElements;
+using FloatField = OC.UI.Panel.FloatField;
+using IntegerField = OC.UI.Panel.IntegerField;
+using Slider = OC.UI.Panel.Slider;
+using SliderInt = OC.UI.Panel.SliderInt;
+using Vector2Field = OC.UI.Panel.Vector2Field;
+using Vector2IntField = OC.UI.Panel.Vector2IntField;
+using Vector3Field = OC.UI.Panel.Vector3Field;
+using Vector3IntField = OC.UI.Panel.Vector3IntField;
 
-namespace IOSEF.UI.Toolbar
+namespace OC.UI.Toolbar
 {
     public class FieldsTestSystem : ToolbarSystemPanel
     {
@@ -30,17 +38,17 @@ namespace IOSEF.UI.Toolbar
             subsystemPanel.Add(fields);
 
             fields.Q<ToggleSlide>().BindProperty(ToggleSlideValue);
-            fields.Q<IOSEF.UI.Panel.Toggle>().BindProperty(ToggleValue);
-            fields.Q<IOSEF.UI.Panel.BinaryStatusField>().BindProperty(BinaryStatusValue);
-            fields.Q<IOSEF.UI.Panel.StringField>().BindProperty(StringValue);
-            fields.Q<IOSEF.UI.Panel.FloatField>().BindProperty(FloatValue);
-            fields.Q<IOSEF.UI.Panel.IntegerField>().BindProperty(IntValue);
-            fields.Q<IOSEF.UI.Panel.Vector3Field>().BindProperty(Vector3Value);
-            fields.Q<IOSEF.UI.Panel.Vector3IntField>().BindProperty(Vector3IntValue);
-            fields.Q<IOSEF.UI.Panel.Vector2Field>().BindProperty(Vector2Value);
-            fields.Q<IOSEF.UI.Panel.Vector2IntField>().BindProperty(Vector2IntValue);
-            fields.Q<IOSEF.UI.Panel.SliderInt>().BindProperty(SliderIntValue);
-            fields.Q<IOSEF.UI.Panel.Slider>().BindProperty(SliderValue);
+            fields.Q<Panel.Toggle>().BindProperty(ToggleValue);
+            fields.Q<BinaryStatusField>().BindProperty(BinaryStatusValue);
+            fields.Q<StringField>().BindProperty(StringValue);
+            fields.Q<FloatField>().BindProperty(FloatValue);
+            fields.Q<IntegerField>().BindProperty(IntValue);
+            fields.Q<Vector3Field>().BindProperty(Vector3Value);
+            fields.Q<Vector3IntField>().BindProperty(Vector3IntValue);
+            fields.Q<Vector2Field>().BindProperty(Vector2Value);
+            fields.Q<Vector2IntField>().BindProperty(Vector2IntValue);
+            fields.Q<SliderInt>().BindProperty(SliderIntValue);
+            fields.Q<Slider>().BindProperty(SliderValue);
 
         }
 

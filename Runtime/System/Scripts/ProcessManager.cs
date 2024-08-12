@@ -1,7 +1,7 @@
 using System.Threading;
 using UnityEngine;
 
-namespace IOSEF.UI
+namespace OC.UI
 {
     public class ProcessManager : MonoBehaviour
     {

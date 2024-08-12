@@ -1,10 +1,11 @@
 using System.Collections.Generic;
-using IOSEF.Communication;
+using System.Linq;
+using OC.Communication;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
-namespace IOSEF.UI.Industrial
+namespace OC.UI.Industrial
 {
     [RequireComponent(typeof(UIDocument))]
     [DisallowMultipleComponent]
@@ -51,7 +52,7 @@ namespace IOSEF.UI.Industrial
             foreach (var client in clients)
             {
                 var visualElements = client.GetComponentsInChildren<IIndustrialPanel>();
-                industrialVisualElements.AddRange(visualElements);
+                industrialVisualElements.AddRange(visualElements.Where(item => item.Component.gameObject.activeInHierarchy));
             }
 
             return industrialVisualElements;

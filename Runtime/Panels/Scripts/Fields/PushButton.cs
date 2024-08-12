@@ -1,8 +1,8 @@
-using IOSEF.Interactions.UIElements;
+using OC.Interactions.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace IOSEF.UI.Panel
+namespace OC.UI.Panel
 {
     public class PushButton : Label
     {

@@ -1,4 +1,4 @@
-namespace IOSEF.UI
+namespace OC.UI
 {
     public interface IHideable
     {

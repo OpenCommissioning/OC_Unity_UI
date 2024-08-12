@@ -1,6 +1,6 @@
 using UnityEngine.UIElements;
 
-namespace IOSEF.UI
+namespace OC.UI
 {
     public interface IPopulateVisualTree
 	{

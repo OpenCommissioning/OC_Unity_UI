@@ -1,15 +1,14 @@
 using NaughtyAttributes;
-using IOSEF.UI.Console;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
-using IOSEF.UI.Panel;
-using ListView = IOSEF.UI.Panel.ListView;
-using ScrollView = IOSEF.UI.Panel.ScrollView;
+using OC.UI.Console;
+using OC.UI.Panel;
+using ListView = OC.UI.Panel.ListView;
 
-namespace IOSEF.UI.Toolbar
+namespace OC.UI.Toolbar
 {
     public class ConsoleSystem : ToolbarSystemPanel
     {
@@ -47,7 +46,7 @@ namespace IOSEF.UI.Toolbar
         private int _commandHistoryCurrentIndex;
        
         private bool _enableAutoScroll = true;
-        private ListView _listView;
+        private Panel.ListView _listView;
         private TextField _itemDetails;
         private LogList _logList;
         
@@ -110,7 +109,7 @@ namespace IOSEF.UI.Toolbar
             _warningIcon = new StyleBackground(warnSprite);
             _errorIcon = new StyleBackground(errorSprite);
 
-            _listView = new ListView();
+            _listView = new Panel.ListView();
             _listView.AddToClassList(UssConsoleListView);
             _listView.itemsSource = _logList;
             _listView.fixedItemHeight = FixedItemHeight;
@@ -121,7 +120,7 @@ namespace IOSEF.UI.Toolbar
 
             _listView.VerticalScroller.valueChanged += VerticalScrollerValueChanged;
 
-            var scrollView = new ScrollView
+            var scrollView = new Panel.ScrollView
             {
                 mode = ScrollViewMode.Vertical
             };

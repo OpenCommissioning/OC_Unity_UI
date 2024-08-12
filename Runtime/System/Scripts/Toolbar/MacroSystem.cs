@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
-using IOSEF.UI.Panel;
+using OC.UI.Panel;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace IOSEF.UI.Toolbar
+namespace OC.UI.Toolbar
 {
     public class MacroSystem : ToolbarSystemPanel
     {

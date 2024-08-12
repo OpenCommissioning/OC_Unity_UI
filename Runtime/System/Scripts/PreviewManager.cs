@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
-using IOSEF.MaterialFlow;
+using OC.MaterialFlow;
 using UnityEngine;
 
-namespace IOSEF.UI
+namespace OC.UI
 {
     public static class PreviewManager 
     {

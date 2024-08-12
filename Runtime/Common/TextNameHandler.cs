@@ -1,7 +1,7 @@
 using TMPro;
 using UnityEngine;
 
-namespace IOSEF.UI
+namespace OC.UI
 {
     [RequireComponent(typeof(TextMeshPro))]
     public class TextNameHandler : MonoBehaviour

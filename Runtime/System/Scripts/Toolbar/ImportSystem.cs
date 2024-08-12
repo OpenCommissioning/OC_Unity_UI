@@ -1,6 +1,6 @@
-using IOSEF.UI.Panel;
+using OC.UI.Panel;
 
-namespace IOSEF.UI.Toolbar
+namespace OC.UI.Toolbar
 {
     public class ImportSystem : ToolbarSystemPanel
     {
