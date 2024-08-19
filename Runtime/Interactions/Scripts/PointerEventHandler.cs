@@ -4,7 +4,7 @@ using UnityEngine.EventSystems;
 
 namespace OC.UI.Interactions
 {
-    [AddComponentMenu("IOSEF/UI/Interactions/Point Event Handler")]
+    [AddComponentMenu("Open Commissioning/UI/Point Event Handler")]
     [DisallowMultipleComponent]
     [RequireComponent(typeof(Collider))]
     public class PointerEventHandler : MonoBehaviour, IPointerClickHandler, IPointerDownHandler, IPointerUpHandler
