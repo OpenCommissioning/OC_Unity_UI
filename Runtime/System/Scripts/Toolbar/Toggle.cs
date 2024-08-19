@@ -45,32 +45,32 @@ namespace OC.UI.Toolbar
             }
         }
 
-        private const string _styleSheet = "StyleSheet/toolbar";
-        private const string _ussContainer = "toolbar-button";
-        private const string _ussIcon = "toolbar-button-icon";
-        private const string _ussLabel = "toolbar-button__label";
+        private const string STYLE_SHEET = "StyleSheet/toolbar";
+        private const string USS_CONTAINER = "toolbar-button";
+        private const string USS_ICON = "toolbar-button-icon";
+        private const string USS_LABEL = "toolbar-button__label";
 
         private readonly VisualElement _inputField;
         private Sprite _defaultIcon;
         private Sprite _activeIcon;
-        private Label _label;
+        private readonly Label _label;
 
         public Toggle() : this(null) { }
 
         public Toggle(Sprite icon, Sprite activeIcon = null) : base("")
         {
-            styleSheets.Add(Resources.Load<StyleSheet>(_styleSheet));
-            AddToClassList(_ussContainer);
+            styleSheets.Add(Resources.Load<StyleSheet>(STYLE_SHEET));
+            AddToClassList(USS_CONTAINER);
 
             _defaultIcon = icon;
             _activeIcon = activeIcon;
 
             _label = new Label();
-            _label.AddToClassList(_ussLabel);
+            _label.AddToClassList(USS_LABEL);
             Add(_label);
 
             _inputField = this.Q(className: BaseBoolField.inputUssClassName);
-            _inputField.AddToClassList(_ussIcon);
+            _inputField.AddToClassList(USS_ICON);
             if (_defaultIcon != null) DefaultIcon = _defaultIcon;
             RegisterCallback<ChangeEvent<bool>>(evt => SetIconActive(evt.newValue));
         }

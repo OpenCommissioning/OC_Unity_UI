@@ -7,17 +7,17 @@ namespace OC.UI.Panel
     {
         public new class UxmlFactory : UxmlFactory<Slider, UxmlTraits> { }
 
-        private const string _styleSheet = "StyleSheet/panel-field";
-        private const string _ussContainer = "panel-field-container";
-        private const string _ussSlider = "panel-field-slider";
+        private const string STYLE_SHEET = "StyleSheet/panel-field";
+        private const string USS_CONTAINER = "panel-field-container";
+        private const string USS_SLIDER = "panel-field-slider";
 
         public Slider() : this(""){}
         
         public Slider(string label) : base(label)
         {
-            styleSheets.Add(Resources.Load<StyleSheet>(_styleSheet));
-            AddToClassList(_ussContainer);
-            AddToClassList(_ussSlider);
+            styleSheets.Add(Resources.Load<StyleSheet>(STYLE_SHEET));
+            AddToClassList(USS_CONTAINER);
+            AddToClassList(USS_SLIDER);
         }
 
         public Slider(string label, Property<float> property) : this(label)

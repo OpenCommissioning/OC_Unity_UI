@@ -24,11 +24,11 @@ namespace OC.UI.Panel
             set => _label.text = value.ToUpper();
         }
         
-        private const string Uss = "StyleSheet/panel-field";
-        private const string UssContainer = "panel-field-container";
-        private const string UssGroup = "panel-field-group";
-        private const string UssGroupHeader = "panel-field-group-header";
-        private const string UssGroupHeaderOptions = "panel-field-group-header_options";
+        private const string USS = "StyleSheet/panel-field";
+        private const string USS_CONTAINER = "panel-field-container";
+        private const string USS_GROUP = "panel-field-group";
+        private const string USS_GROUP_HEADER = "panel-field-group-header";
+        private const string USS_GROUP_HEADER_OPTIONS = "panel-field-group-header_options";
 
         private bool _collapsed;
         private readonly Label _label;
@@ -40,9 +40,9 @@ namespace OC.UI.Panel
         
         public GroupContainer(string label)
         {
-            styleSheets.Add(Resources.Load<StyleSheet>(Uss));
-            AddToClassList(UssContainer);
-            AddToClassList(UssGroup);
+            styleSheets.Add(Resources.Load<StyleSheet>(USS));
+            AddToClassList(USS_CONTAINER);
+            AddToClassList(USS_GROUP);
 
             var header = new VisualElement()
             {
@@ -54,8 +54,8 @@ namespace OC.UI.Panel
                 name = "headerOptions"
             };
             
-            header.AddToClassList(UssGroupHeader);
-            _headerOptions.AddToClassList(UssGroupHeaderOptions);
+            header.AddToClassList(USS_GROUP_HEADER);
+            _headerOptions.AddToClassList(USS_GROUP_HEADER_OPTIONS);
 
             _label = new Label();
             if (!string.IsNullOrEmpty(label)) _label.text = label.ToUpper();

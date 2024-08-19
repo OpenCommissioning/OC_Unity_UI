@@ -52,7 +52,7 @@ namespace OC.UI
         private bool UIFieldSelected()
         {
             if (_eventSystem.currentSelectedGameObject == null) return false;
-            return _eventSystem.currentSelectedGameObject.TryGetComponent<PanelEventHandler>(out var handler);
+            return _eventSystem.currentSelectedGameObject.TryGetComponent<PanelEventHandler>(out var _);
         }
 
         public void Register(ICloseble panel)

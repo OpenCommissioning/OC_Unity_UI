@@ -13,7 +13,7 @@ namespace OC.UI.TransformHandles
         [SerializeField]
         private Quaternion _startRotation;
 
-        public override void Interact(Vector3 p_previousPosition)
+        public override void Interact(Vector3 previousPosition)
         {
             Ray cameraRay = Camera.main.ScreenPointToRay(Input.mousePosition);
 

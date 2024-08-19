@@ -7,12 +7,12 @@ namespace OC.UI.Panel
     {
         public new class UxmlFactory : UxmlFactory<StringField, UxmlTraits> { }
 
-        private const string Uss = "StyleSheet/panel-field";
-        private const string UssContainer = "panel-field-container";
-        private const string UssFieldString = "panel-field-string";
-        private const string UssStringFieldAlt = "panel-field-stringfield_alt";
-        private const string UssTextInputReadOnly = "panel-field-container_readonly";
-        private const string UssUnityTextInput = "unity-text-input";
+        private const string USS = "StyleSheet/panel-field";
+        private const string USS_CONTAINER = "panel-field-container";
+        private const string USS_FIELD_STRING = "panel-field-string";
+        private const string USS_STRING_FIELD_ALT = "panel-field-stringfield_alt";
+        private const string USS_TEXT_INPUT_READ_ONLY = "panel-field-container_readonly";
+        private const string USS_UNITY_TEXT_INPUT = "unity-text-input";
         
         public sealed override string value
         {
@@ -24,11 +24,11 @@ namespace OC.UI.Panel
 
         public StringField(string label, bool isReadOnly = false) : base(label)
         {
-            styleSheets.Add(Resources.Load<StyleSheet>(Uss));
-            AddToClassList(UssContainer);
-            AddToClassList(UssFieldString);
+            styleSheets.Add(Resources.Load<StyleSheet>(USS));
+            AddToClassList(USS_CONTAINER);
+            AddToClassList(USS_FIELD_STRING);
 
-            onIsReadOnlyChanged += readOnly => EnableInClassList(UssTextInputReadOnly, readOnly);
+            onIsReadOnlyChanged += readOnly => EnableInClassList(USS_TEXT_INPUT_READ_ONLY, readOnly);
             multiline = true;
             this.isReadOnly = isReadOnly;
         }
@@ -50,12 +50,12 @@ namespace OC.UI.Panel
         
         public void ToggleStringFieldAltStyle(bool toggle)
         {
-            EnableInClassList(UssStringFieldAlt, toggle);
+            EnableInClassList(USS_STRING_FIELD_ALT, toggle);
         }
 
         public void SetTextInputAlign(TextAnchor anchor)
         {
-            this.Q(UssUnityTextInput).style.unityTextAlign = new StyleEnum<TextAnchor>(anchor);
+            this.Q(USS_UNITY_TEXT_INPUT).style.unityTextAlign = new StyleEnum<TextAnchor>(anchor);
         }
     }
 }

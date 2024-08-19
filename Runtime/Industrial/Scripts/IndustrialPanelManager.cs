@@ -16,16 +16,16 @@ namespace OC.UI.Industrial
         private Button _button;
         private List<IIndustrialPanel> _industrialComponents;
         
-        private const string StyleSheet = "StyleSheet/industrial-sidebar";
-        private const string UssContainer = "industrial-sidebar-container";
+        private const string STYLE_SHEET = "StyleSheet/industrial-sidebar";
+        private const string USS_CONTAINER = "industrial-sidebar-container";
 
         private void Start()
         {
             var uiDocument = GetComponent<UIDocument>();
             _sidebar = new VisualElement();
             _sidebar.AddDefaultTheme();
-            _sidebar.styleSheets.Add(Resources.Load<StyleSheet>(StyleSheet));
-            _sidebar.AddToClassList(UssContainer);
+            _sidebar.styleSheets.Add(Resources.Load<StyleSheet>(STYLE_SHEET));
+            _sidebar.AddToClassList(USS_CONTAINER);
             uiDocument.rootVisualElement.Add(_sidebar);
             
             _industrialComponents = FindAllComponentsInScene();

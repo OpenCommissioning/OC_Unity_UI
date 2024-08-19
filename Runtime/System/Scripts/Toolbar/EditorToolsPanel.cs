@@ -48,8 +48,8 @@ namespace OC.UI.Toolbar
         private List<Toggle> _selectionGroup;
 
         private VisualElement _toolbar;
-        private const string Uxml = "UXML/toolbar_editorTools";
-        private const string StyleSheet = "StyleSheet/toolbar";
+        private const string UXML = "UXML/toolbar_editorTools";
+        private const string STYLE_SHEET = "StyleSheet/toolbar";
 
         private void Awake()
         {
@@ -60,9 +60,9 @@ namespace OC.UI.Toolbar
         private void Start()
         {
             var uiDocument = GetComponent<UIDocument>();
-            _toolbar = Resources.Load<VisualTreeAsset>(Uxml).Instantiate().Q("toolbar");
+            _toolbar = Resources.Load<VisualTreeAsset>(UXML).Instantiate().Q("toolbar");
             _toolbar.AddDefaultTheme();
-            _toolbar.styleSheets.Add(Resources.Load<StyleSheet>(StyleSheet));
+            _toolbar.styleSheets.Add(Resources.Load<StyleSheet>(STYLE_SHEET));
             uiDocument.rootVisualElement.Add(_toolbar);
 
             _view = _toolbar.Q<Toggle>("view");

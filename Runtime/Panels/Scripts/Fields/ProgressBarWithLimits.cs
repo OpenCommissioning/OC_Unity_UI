@@ -56,11 +56,11 @@ namespace OC.UI.Panel
                 _min = value;
                 if (_min)
                 {
-                    _indicatorMin.AddToClassList(UssBoxIndicatorActive);
+                    _indicatorMin.AddToClassList(USS_BOX_INDICATOR_ACTIVE);
                 }
                 else
                 {
-                    _indicatorMin.RemoveFromClassList(UssBoxIndicatorActive);
+                    _indicatorMin.RemoveFromClassList(USS_BOX_INDICATOR_ACTIVE);
                 }
             }
         }
@@ -74,11 +74,11 @@ namespace OC.UI.Panel
                 _max = value;
                 if (_max)
                 {
-                    _indicatorMax.AddToClassList(UssBoxIndicatorActive);
+                    _indicatorMax.AddToClassList(USS_BOX_INDICATOR_ACTIVE);
                 }
                 else
                 {
-                    _indicatorMax.RemoveFromClassList(UssBoxIndicatorActive);
+                    _indicatorMax.RemoveFromClassList(USS_BOX_INDICATOR_ACTIVE);
                 }
             }
         }
@@ -94,26 +94,26 @@ namespace OC.UI.Panel
         private bool _min;
         private bool _max;
         
-        private const string Uss = "StyleSheet/panel-field";
-        private const string UssContainer = "panel-field-container";
-        private const string UssProgressBarField = "panel-field-progress-bar";
-        private const string UssBoxIndicator = "panel-field-progress-bar_indicator";
-        private const string UssBoxIndicatorActive = "panel-field-progress-bar_indicator-active";
+        private const string USS = "StyleSheet/panel-field";
+        private const string USS_CONTAINER = "panel-field-container";
+        private const string USS_PROGRESS_BAR_FIELD = "panel-field-progress-bar";
+        private const string USS_BOX_INDICATOR = "panel-field-progress-bar_indicator";
+        private const string USS_BOX_INDICATOR_ACTIVE = "panel-field-progress-bar_indicator-active";
 
 
         public ProgressBarWithLimits()
         {
-            styleSheets.Add(Resources.Load<StyleSheet>(Uss));
-            AddToClassList(UssContainer);
-            AddToClassList(UssProgressBarField);
+            styleSheets.Add(Resources.Load<StyleSheet>(USS));
+            AddToClassList(USS_CONTAINER);
+            AddToClassList(USS_PROGRESS_BAR_FIELD);
             
             _progressBar = this.Q<VisualElement>(className: progressUssClassName);
             _background = this.Q<VisualElement>(className: backgroundUssClassName);
 
             _indicatorMin = new VisualElement();
-            _indicatorMin.AddToClassList(UssBoxIndicator);
+            _indicatorMin.AddToClassList(USS_BOX_INDICATOR);
             _indicatorMax = new VisualElement();
-            _indicatorMax.AddToClassList(UssBoxIndicator);
+            _indicatorMax.AddToClassList(USS_BOX_INDICATOR);
             
             var container = this.Q<VisualElement>(className: containerUssClassName);
             container.style.flexDirection = new StyleEnum<FlexDirection>(FlexDirection.Row);

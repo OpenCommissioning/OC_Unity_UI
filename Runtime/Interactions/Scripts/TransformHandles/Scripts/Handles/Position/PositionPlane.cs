@@ -27,7 +27,7 @@ namespace OC.UI.TransformHandles
 
             transform.localPosition = (axis1 + axis2) * 0.25f;
         }
-        public override void StartInteraction(Vector3 p_hitPoint)
+        public override void StartInteraction(Vector3 point)
         {
             Vector3 rperp = _parentTransformHandle.HandleRotation == HandleRotation.Local ? _parentTransformHandle.transform.rotation * _perpendicularAxis : _perpendicularAxis;
 
@@ -43,7 +43,7 @@ namespace OC.UI.TransformHandles
                 _targetStartPositions.Add(target.position);
             }
         }
-        public override void Interact(Vector3 p_previousPosition)
+        public override void Interact(Vector3 previousPosition)
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             float d = 0.0f;

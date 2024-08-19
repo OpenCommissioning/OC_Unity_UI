@@ -42,10 +42,6 @@ namespace OC.UI
             _isToolValid = true;
         }
 
-        private void OnDestroy()
-        {
-        }
-
         private void LateUpdate()
         {
             DeleteAction();

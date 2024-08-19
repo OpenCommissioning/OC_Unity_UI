@@ -7,14 +7,14 @@ namespace OC.UI.Industrial
 {
     public class TabMenu : VisualElement
     {
-        private const string _styleSheet = "StyleSheet/industrial-tabs";
-        private const string _ussTabMenu = "tab-menu";
-        private const string _ussTabBarContainer = "tab-bar-container";
-        private const string _ussTabBar = "tab-bar";
-        private const string _ussTabLabel = "tab-label";
-        private const string _ussTabContent = "tab-content";
-        private const string _ussTabSlected = "tab-selected";
-        private const string _ussTabContentUnselected = "tab-content-unselected";
+        private const string STYLE_SHEET = "StyleSheet/industrial-tabs";
+        private const string USS_TAB_MENU = "tab-menu";
+        private const string USS_TAB_BAR_CONTAINER = "tab-bar-container";
+        private const string USS_TAB_BAR = "tab-bar";
+        private const string USS_TAB_LABEL = "tab-label";
+        private const string USS_TAB_CONTENT = "tab-content";
+        private const string USS_TAB_SLECTED = "tab-selected";
+        private const string USS_TAB_CONTENT_UNSELECTED = "tab-content-unselected";
 
         private readonly VisualElement _tabBar;
         private readonly VisualElement _tabsContainer;
@@ -23,15 +23,15 @@ namespace OC.UI.Industrial
 
         public TabMenu()
         {
-            styleSheets.Add(Resources.Load<StyleSheet>(_styleSheet));
-            AddToClassList(_ussTabMenu);
+            styleSheets.Add(Resources.Load<StyleSheet>(STYLE_SHEET));
+            AddToClassList(USS_TAB_MENU);
 
             var tabsContainer = new VisualElement();
-            tabsContainer.AddToClassList(_ussTabBarContainer);
+            tabsContainer.AddToClassList(USS_TAB_BAR_CONTAINER);
 
             _tabBar = new VisualElement();
             
-            _tabBar.AddToClassList(_ussTabBar);
+            _tabBar.AddToClassList(USS_TAB_BAR);
             tabsContainer.Add(_tabBar);
             
             _tabsContainer = new VisualElement();
@@ -55,7 +55,7 @@ namespace OC.UI.Industrial
         private VisualElement CreateTab(string tabName)
         {
             var label = new Label(tabName.ToUpper());
-            label.AddToClassList(_ussTabLabel);
+            label.AddToClassList(USS_TAB_LABEL);
             _labels.Add(label);
             _tabBar.Add(label);
             
@@ -63,7 +63,7 @@ namespace OC.UI.Industrial
             {
                 name = tabName
             };
-            tab.AddToClassList(_ussTabContent);
+            tab.AddToClassList(USS_TAB_CONTENT);
             _tabs.Add(tab);
             _tabsContainer.Add(tab);
 
@@ -74,18 +74,18 @@ namespace OC.UI.Industrial
 
         private void ChangeTabState(VisualElement label, VisualElement tab)
         {
-            var isSelected = label.ClassListContains(_ussTabSlected);
+            var isSelected = label.ClassListContains(USS_TAB_SLECTED);
             UnselectAll();
             
             if (!isSelected)
             {
-                label.AddToClassList(_ussTabSlected);
-                tab.RemoveFromClassList(_ussTabContentUnselected);
+                label.AddToClassList(USS_TAB_SLECTED);
+                tab.RemoveFromClassList(USS_TAB_CONTENT_UNSELECTED);
             }
             else
             {
-                label.RemoveFromClassList(_ussTabSlected);
-                tab.AddToClassList(_ussTabContentUnselected);
+                label.RemoveFromClassList(USS_TAB_SLECTED);
+                tab.AddToClassList(USS_TAB_CONTENT_UNSELECTED);
             }
         }
 
@@ -93,13 +93,13 @@ namespace OC.UI.Industrial
         {
             if (select)
             {
-                _labels[index].AddToClassList(_ussTabSlected);
-                _tabs[index].RemoveFromClassList(_ussTabContentUnselected);
+                _labels[index].AddToClassList(USS_TAB_SLECTED);
+                _tabs[index].RemoveFromClassList(USS_TAB_CONTENT_UNSELECTED);
             }
             else
             {
-                _labels[index].RemoveFromClassList(_ussTabSlected);
-                _tabs[index].AddToClassList(_ussTabContentUnselected);
+                _labels[index].RemoveFromClassList(USS_TAB_SLECTED);
+                _tabs[index].AddToClassList(USS_TAB_CONTENT_UNSELECTED);
             }
         }
 

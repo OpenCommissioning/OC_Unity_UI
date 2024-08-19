@@ -94,8 +94,8 @@ namespace OC.UI.Interactions
 
         private Collider _collider;
         private List<Renderer> _renderers;
-        private const uint LayermaskHover = 2;
-        private const uint LayermaskSelection = 4;
+        private const uint LAYERMASK_HOVER = 2;
+        private const uint LAYERMASK_SELECTION = 4;
 
         protected void Awake()
         {
@@ -106,6 +106,7 @@ namespace OC.UI.Interactions
             gameObject.layer = 10;
         }
 
+        // ReSharper disable once Unity.RedundantEventFunction
         protected void OnValidate()
         {
             
@@ -131,13 +132,13 @@ namespace OC.UI.Interactions
 
             if (_isSelected)
             {
-                SetRenderLayerMask(LayermaskSelection);
+                SetRenderLayerMask(LAYERMASK_SELECTION);
                 return;
             }
 
             if (_isHovered)
             {
-                SetRenderLayerMask(LayermaskHover);
+                SetRenderLayerMask(LAYERMASK_HOVER);
                 return;
             }
             

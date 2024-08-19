@@ -9,14 +9,14 @@ namespace OC.UI.Panel
 
         public new class UxmlTraits : BaseFieldTraits<bool, UxmlBoolAttributeDescription> { }
 
-        private new const string ussClassName = "panel-field-toggle_slide";
-        private new const string inputUssClassName = "panel-field-toggle_slide__input";
+        private const string USS_CLASS_NAME = "panel-field-toggle_slide";
+        private const string INPUT_USS_CLASS_NAME = "panel-field-toggle_slide__input";
         
-        private const string _styleSheet = "StyleSheet/panel-field";
-        private const string _ussContainer = "panel-field-container";
-        private const string _ussInputKnob = "panel-field-toggle_slide__input-knob";
-        private const string _ussInputChecked = "panel-field-toggle_slide__input--checked";
-        private const string _ussLabel = "panel-field-label";
+        private const string STYLE_SHEET = "StyleSheet/panel-field";
+        private const string USS_CONTAINER = "panel-field-container";
+        private const string USS_INPUT_KNOB = "panel-field-toggle_slide__input-knob";
+        private const string USS_INPUT_CHECKED = "panel-field-toggle_slide__input--checked";
+        private const string USS_LABEL = "panel-field-label";
         private bool _isEnabled;
 
         public bool IsEnabled
@@ -43,17 +43,17 @@ namespace OC.UI.Panel
 
         public ToggleSlide(string label) : base(label, null)
         {
-            styleSheets.Add(Resources.Load<StyleSheet>(_styleSheet));
-            AddToClassList(ussClassName);
-            AddToClassList(_ussContainer);
-            labelElement.AddToClassList(_ussLabel);
+            styleSheets.Add(Resources.Load<StyleSheet>(STYLE_SHEET));
+            AddToClassList(USS_CLASS_NAME);
+            AddToClassList(USS_CONTAINER);
+            labelElement.AddToClassList(USS_LABEL);
 
             _inputField = this.Q(className: BaseField<bool>.inputUssClassName);
-            _inputField.AddToClassList(inputUssClassName);
+            _inputField.AddToClassList(INPUT_USS_CLASS_NAME);
             Add(_inputField);
 
             var knob = new VisualElement();
-            knob.AddToClassList(_ussInputKnob);
+            knob.AddToClassList(USS_INPUT_KNOB);
             _inputField.Add(knob);
 
             RegisterCallback<ClickEvent>(OnClick);
@@ -104,7 +104,7 @@ namespace OC.UI.Panel
         {
             base.SetValueWithoutNotify(newValue);
             if (!IsEnabled) return;
-            _inputField.EnableInClassList(_ussInputChecked, newValue);
+            _inputField.EnableInClassList(USS_INPUT_CHECKED, newValue);
         }
     }
 }

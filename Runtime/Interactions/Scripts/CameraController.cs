@@ -55,11 +55,11 @@ namespace OC.UI.Interactions
         [SerializeField]
         private GameObject _focusTarget;
 
-        private const float RotationSpeed = 0.5f;
-        private const float MoveSpeed = 1f;
-        private const float ScrollSpeed = 0.04f;
-        private const float FlyAcceleration = 2f;
-        private const float DefaultDistance = 3f;
+        private const float ROTATION_SPEED = 0.5f;
+        private const float MOVE_SPEED = 1f;
+        private const float SCROLL_SPEED = 0.04f;
+        private const float FLY_ACCELERATION = 2f;
+        private const float DEFAULT_DISTANCE = 3f;
         
         private readonly Property<CameraMode> _mode = new (CameraMode.None);
         private Camera _camera;
@@ -95,7 +95,7 @@ namespace OC.UI.Interactions
             _transform = transform;
             _camera = GetComponent<Camera>();
 
-            _distance = DefaultDistance;
+            _distance = DEFAULT_DISTANCE;
             _rotation = transform.rotation;
             _pivot = _transform.position + _rotation * Vector3.forward * _distance;
             
@@ -186,9 +186,9 @@ namespace OC.UI.Interactions
 
         private void RefreshSettings()
         {
-            _rotationSpeed = RotationSpeed * _mouseSensitivity;
-            _moveSpeed = MoveSpeed * _moveSensitivity;
-            _scrollSpeed = ScrollSpeed * _scrollSensitivity;
+            _rotationSpeed = ROTATION_SPEED * _mouseSensitivity;
+            _moveSpeed = MOVE_SPEED * _moveSensitivity;
+            _scrollSpeed = SCROLL_SPEED * _scrollSensitivity;
         }
 
         private void SetTransform()
@@ -216,7 +216,7 @@ namespace OC.UI.Interactions
             //_flySpeed.speed = 4;
             //_flySpeed.target = _motionDirection.normalized * (_flyTargetSpeed * speedModifier);
             
-            _flySpeed = Vector3.MoveTowards(_flySpeed, _motionDirection.normalized * speed, FlyAcceleration);
+            _flySpeed = Vector3.MoveTowards(_flySpeed, _motionDirection.normalized * speed, FLY_ACCELERATION);
             return _flySpeed * GetDeltaTime();
         }
         
@@ -350,12 +350,12 @@ namespace OC.UI.Interactions
             if (useBounds)
             {
                 var bounds = GetBoundingBoxOfGameObject(target);
-                _distance = bounds.extents.magnitude * DefaultDistance + _camera.nearClipPlane;
+                _distance = bounds.extents.magnitude * DEFAULT_DISTANCE + _camera.nearClipPlane;
                 _pivot = bounds.center;
             }
             else
             {
-                _distance = DefaultDistance;
+                _distance = DEFAULT_DISTANCE;
                 _pivot = target.transform.position;
             }
         }

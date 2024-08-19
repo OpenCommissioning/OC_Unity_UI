@@ -6,7 +6,6 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using OC.UI.Console;
 using OC.UI.Panel;
-using ListView = OC.UI.Panel.ListView;
 
 namespace OC.UI.Toolbar
 {
@@ -20,27 +19,27 @@ namespace OC.UI.Toolbar
         [SerializeField]
         private bool _showErrorLogs = true;
         
-        private const int LogBufferCapacity = 3000;
-        private const int CommandBufferCapacity = 100;
-        private const int FixedItemHeight = 45;
+        private const int LOG_BUFFER_CAPACITY = 3000;
+        private const int COMMAND_BUFFER_CAPACITY = 100;
+        private const int FIXED_ITEM_HEIGHT = 45;
         
-        private const string InfoIconResource = "Icons/d_ConsoleInfoIcon@2x";
-        private const string WarningIconResource = "Icons/d_ConsoleWarnIcon@2x";
-        private const string ErrorIconResource = "Icons/d_ConsoleErrorIcon@2x";
-        private const string StyleResource = "StyleSheet/console";
-        private const string UssConsoleListView = "console-list-view";
-        private const string UssConsoleDetailsScrollView = "console-details__scroll-view";
-        private const string UssConsoleCommandPopup = "console-command-popup";
-        private const string UssConsoleCommandPopupCommandPreview = "console-command-popup__preview";
-        private const string UssConsoleCommandInput = "console-command__input";
-        private const string UssConsoleSearch = "console-search";
-        private const string UssConsoleDetailsLabel = "console-details__label";
-        private const string UssConsoleButtonContainer = "console-button-container";
-        private const string UssConsoleFloatingPanel = "console-floating-panel";
-        private const string UssConsoleClearButton = "console-clear-button";
+        private const string INFO_ICON_RESOURCE = "Icons/d_ConsoleInfoIcon@2x";
+        private const string WARNING_ICON_RESOURCE = "Icons/d_ConsoleWarnIcon@2x";
+        private const string ERROR_ICON_RESOURCE = "Icons/d_ConsoleErrorIcon@2x";
+        private const string STYLE_RESOURCE = "StyleSheet/console";
+        private const string USS_CONSOLE_LIST_VIEW = "console-list-view";
+        private const string USS_CONSOLE_DETAILS_SCROLL_VIEW = "console-details__scroll-view";
+        private const string USS_CONSOLE_COMMAND_POPUP = "console-command-popup";
+        private const string USS_CONSOLE_COMMAND_POPUP_COMMAND_PREVIEW = "console-command-popup__preview";
+        private const string USS_CONSOLE_COMMAND_INPUT = "console-command__input";
+        private const string USS_CONSOLE_SEARCH = "console-search";
+        private const string USS_CONSOLE_DETAILS_LABEL = "console-details__label";
+        private const string USS_CONSOLE_BUTTON_CONTAINER = "console-button-container";
+        private const string USS_CONSOLE_FLOATING_PANEL = "console-floating-panel";
+        private const string USS_CONSOLE_CLEAR_BUTTON = "console-clear-button";
         
         private readonly bool _showNamespacenameInCommandPreview = true;
-        private readonly List<string> _commandHistory = new(CommandBufferCapacity);
+        private readonly List<string> _commandHistory = new(COMMAND_BUFFER_CAPACITY);
         
         private string _commandInputFieldAutoCompleteBase;
         private int _commandHistoryCurrentIndex;
@@ -91,7 +90,7 @@ namespace OC.UI.Toolbar
         [Button]
         public void LogMax()
         {
-            for (int i = 0; i < LogBufferCapacity; i++)
+            for (int i = 0; i < LOG_BUFFER_CAPACITY; i++)
             {
                 Debug.Log(i);
             }
@@ -99,20 +98,20 @@ namespace OC.UI.Toolbar
 
         protected override void AddContent(SubsystemPanel panel)
         {
-            panel.styleSheets.Add(Resources.Load<StyleSheet>(StyleResource));
+            panel.styleSheets.Add(Resources.Load<StyleSheet>(STYLE_RESOURCE));
 
-            var infoSprite = Resources.Load<Sprite>(InfoIconResource);
-            var warnSprite = Resources.Load<Sprite>(WarningIconResource);
-            var errorSprite = Resources.Load<Sprite>(ErrorIconResource);
+            var infoSprite = Resources.Load<Sprite>(INFO_ICON_RESOURCE);
+            var warnSprite = Resources.Load<Sprite>(WARNING_ICON_RESOURCE);
+            var errorSprite = Resources.Load<Sprite>(ERROR_ICON_RESOURCE);
 
             _infoIcon = new StyleBackground(infoSprite);
             _warningIcon = new StyleBackground(warnSprite);
             _errorIcon = new StyleBackground(errorSprite);
 
             _listView = new Panel.ListView();
-            _listView.AddToClassList(UssConsoleListView);
+            _listView.AddToClassList(USS_CONSOLE_LIST_VIEW);
             _listView.itemsSource = _logList;
-            _listView.fixedItemHeight = FixedItemHeight;
+            _listView.fixedItemHeight = FIXED_ITEM_HEIGHT;
             _listView.makeItem += MakeConsoleLogItem;
             _listView.bindItem += BindConsoleLogItem;
             _listView.showAlternatingRowBackgrounds = AlternatingRowBackground.ContentOnly;
@@ -124,32 +123,32 @@ namespace OC.UI.Toolbar
             {
                 mode = ScrollViewMode.Vertical
             };
-            scrollView.AddToClassList(UssConsoleDetailsScrollView);
+            scrollView.AddToClassList(USS_CONSOLE_DETAILS_SCROLL_VIEW);
 
             _itemDetails = new TextField
             {
                 isReadOnly = true,
                 multiline = true
             };
-            _itemDetails.AddToClassList(UssConsoleDetailsLabel);
+            _itemDetails.AddToClassList(USS_CONSOLE_DETAILS_LABEL);
             _itemDetails.RegisterCallback<MouseDownEvent>(OnDetailsMouseDown);
             scrollView.Add(_itemDetails);
 
             var buttonContainer = new VisualElement();
-            buttonContainer.AddToClassList(UssConsoleButtonContainer);
+            buttonContainer.AddToClassList(USS_CONSOLE_BUTTON_CONTAINER);
             
             var clearButton = new Panel.Button("clear", ClearListView);
-            clearButton.AddToClassList(UssConsoleClearButton);
+            clearButton.AddToClassList(USS_CONSOLE_CLEAR_BUTTON);
             buttonContainer.Add(clearButton);
 
             _searchField = new StringField("Filter:");
-            _searchField.AddToClassList(UssConsoleSearch);
+            _searchField.AddToClassList(USS_CONSOLE_SEARCH);
             _searchField.RegisterValueChangedCallback(OnSearchFieldChange);
             _searchField.ToggleStringFieldAltStyle(true);
             buttonContainer.Add(_searchField);
 
             _commandField = new StringField();
-            _commandField.AddToClassList(UssConsoleCommandInput);
+            _commandField.AddToClassList(USS_CONSOLE_COMMAND_INPUT);
             _commandField.SetTextInputAlign(TextAnchor.MiddleLeft);
             _commandField.RegisterCallback<KeyDownEvent>(OnCommandFieldKeyDown);
             _commandField.RegisterValueChangedCallback(OnCommandFielfValueChange);
@@ -158,7 +157,7 @@ namespace OC.UI.Toolbar
             
 
             _commandPreviewPopup = new VisualElement();
-            _commandPreviewPopup.AddToClassList(UssConsoleCommandPopup);
+            _commandPreviewPopup.AddToClassList(USS_CONSOLE_COMMAND_POPUP);
             _mathingCommandsForPopup = new List<ConsoleMethodInfo>();
 
             CommandInputDefault();
@@ -188,7 +187,7 @@ namespace OC.UI.Toolbar
             panel.Add(scrollView);
             panel.Add(_commandField);
             panel.Add(_commandPreviewPopup);
-            panel.AddToClassList(UssConsoleFloatingPanel);
+            panel.AddToClassList(USS_CONSOLE_FLOATING_PANEL);
             panel.OnEnableChanged += OnEnableChangeAction;
 
             RefreshListView();
@@ -359,7 +358,7 @@ namespace OC.UI.Toolbar
                         }
                     }
                     var commandPreview = new VisualElement();
-                    commandPreview.AddToClassList(UssConsoleCommandPopupCommandPreview);
+                    commandPreview.AddToClassList(USS_CONSOLE_COMMAND_POPUP_COMMAND_PREVIEW);
 
                     var commandTextLabel = new Label(commandText);
                     var commandAssembly = new Label(methodInfo.assembly)
@@ -501,7 +500,7 @@ namespace OC.UI.Toolbar
                 Details = condition + "\n" + stackTrace
             };
 
-            if (_logList.Count == LogBufferCapacity)
+            if (_logList.Count == LOG_BUFFER_CAPACITY)
             {
                 _logList.RemoveAt(0);
             }

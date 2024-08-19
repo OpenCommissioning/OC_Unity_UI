@@ -8,11 +8,11 @@ namespace OC.UI.Panel
         public new class UxmlFactory : UxmlFactory<ToggleIcon, UxmlTraits> { }
         public new class UxmlTraits : BaseFieldTraits<bool, UxmlBoolAttributeDescription> { }
 
-        private const string StyleSheet = "StyleSheet/panel-field";
-        private const string USSContainer = "panel-field-container";
-        private const string USSToggle = "panel-field-toggle";
-        private const string USSLabel = "panel-field-label";
-        private const string USSIcon = "panel-field-icon";
+        private const string STYLE_SHEET = "StyleSheet/panel-field";
+        private const string USS_CONTAINER = "panel-field-container";
+        private const string USS_TOGGLE = "panel-field-toggle";
+        private const string USS_LABEL = "panel-field-label";
+        private const string USS_ICON = "panel-field-icon";
 
         private readonly VisualElement _icon;
         private readonly StyleBackground _defaultIcon;
@@ -34,10 +34,10 @@ namespace OC.UI.Panel
 
         public ToggleIcon(string label, Sprite defaultIcon, Sprite activeIcton, Color defaultColor, Color activeColor) : base(label)
         {
-            styleSheets.Add(Resources.Load<StyleSheet>(StyleSheet));
-            AddToClassList(USSContainer);
-            AddToClassList(USSToggle);
-            labelElement.AddToClassList(USSLabel);
+            styleSheets.Add(Resources.Load<StyleSheet>(STYLE_SHEET));
+            AddToClassList(USS_CONTAINER);
+            AddToClassList(USS_TOGGLE);
+            labelElement.AddToClassList(USS_LABEL);
 
             focusable = false;
 
@@ -47,7 +47,7 @@ namespace OC.UI.Panel
             _activeColor = new StyleColor(activeColor);
 
             _icon = this.Q<VisualElement>("unity-checkmark");
-            _icon.AddToClassList(USSIcon);
+            _icon.AddToClassList(USS_ICON);
             _icon.style.backgroundImage = _defaultIcon;
         }
 

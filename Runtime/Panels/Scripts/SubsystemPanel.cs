@@ -21,10 +21,10 @@ namespace OC.UI.Panel
 
         private bool _enable;
 
-        private const string Uxml = "UXML/panel_subsystem";
-        private const string StyleSheet = "StyleSheet/panel";
-        private const string UssContainer = "panel-container";
-        private const string UssContainerSybsystem = "panel-container_subsystem";
+        private const string UXML = "UXML/panel_subsystem";
+        private const string STYLE_SHEET = "StyleSheet/panel";
+        private const string USS_CONTAINER = "panel-container";
+        private const string USS_CONTAINER_SYBSYSTEM = "panel-container_subsystem";
         
         private readonly VisualElement _content;
         
@@ -32,11 +32,11 @@ namespace OC.UI.Panel
         {
             Enable = true;
             this.AddDefaultTheme();
-            styleSheets.Add(Resources.Load<StyleSheet>(StyleSheet));
-            AddToClassList(UssContainer);
-            AddToClassList(UssContainerSybsystem);
+            styleSheets.Add(Resources.Load<StyleSheet>(STYLE_SHEET));
+            AddToClassList(USS_CONTAINER);
+            AddToClassList(USS_CONTAINER_SYBSYSTEM);
             
-            var container = Resources.Load<VisualTreeAsset>(Uxml).Instantiate();
+            var container = Resources.Load<VisualTreeAsset>(UXML).Instantiate();
             var header = container.Q("header");
             _content = container.Q("content");
             

@@ -7,25 +7,25 @@ namespace OC.UI.Panel
     {
         public new class UxmlFactory : UxmlFactory<Vector3Field, UxmlTraits> { }
 
-        private const string _styleSheet = "StyleSheet/panel-field";
-        private const string _ussContainer = "panel-field-container";
-        private const string _ussVector = "panel-field-vector";
-        private const string _ussVectorInputField = "panel-field-vector__input-field";
-        private const string _ussTextInputReadOnly = "panel-field-container_readonly";
+        private const string STYLE_SHEET = "StyleSheet/panel-field";
+        private const string USS_CONTAINER = "panel-field-container";
+        private const string USS_VECTOR = "panel-field-vector";
+        private const string USS_VECTOR_INPUT_FIELD = "panel-field-vector__input-field";
+        private const string USS_TEXT_INPUT_READ_ONLY = "panel-field-container_readonly";
 
         public Vector3Field() : this(""){}
 
         public Vector3Field(string label, bool isReadOnly = false) : base(label)
         {
-            styleSheets.Add(Resources.Load<StyleSheet>(_styleSheet));
-            AddToClassList(_ussContainer);
-            AddToClassList(_ussVector);
+            styleSheets.Add(Resources.Load<StyleSheet>(STYLE_SHEET));
+            AddToClassList(USS_CONTAINER);
+            AddToClassList(USS_VECTOR);
 
             foreach (UnityEngine.UIElements.FloatField floatField in this.Query<UnityEngine.UIElements.FloatField>().ToList())
             {
-                floatField.AddToClassList(_ussContainer);
-                floatField.AddToClassList(_ussVectorInputField);
-                floatField.EnableInClassList(_ussTextInputReadOnly, isReadOnly);
+                floatField.AddToClassList(USS_CONTAINER);
+                floatField.AddToClassList(USS_VECTOR_INPUT_FIELD);
+                floatField.EnableInClassList(USS_TEXT_INPUT_READ_ONLY, isReadOnly);
                 floatField.isReadOnly = isReadOnly;
             }
         }

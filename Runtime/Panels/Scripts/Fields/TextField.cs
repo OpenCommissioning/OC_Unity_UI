@@ -25,19 +25,19 @@ namespace OC.UI.Panel
         private T _validValue;
         private string _text;
 
-        private const string _styleSheet = "StyleSheet/panel-field";
-        private const string _ussContainer = "panel-field-container";
-        private const string _ussLabel = "panel-field-label";
-        private const string _ussInputText = "panel-field-text_input";
+        private const string STYLE_SHEET = "StyleSheet/panel-field";
+        private const string USS_CONTAINER = "panel-field-container";
+        private const string USS_LABEL = "panel-field-label";
+        private const string USS_INPUT_TEXT = "panel-field-text_input";
         
 
         protected TextField(Property<T> property, string label, bool isReadOnly) : base(label)
         {
-            styleSheets.Add(Resources.Load<StyleSheet>(_styleSheet));
-            AddToClassList(_ussContainer);
+            styleSheets.Add(Resources.Load<StyleSheet>(STYLE_SHEET));
+            AddToClassList(USS_CONTAINER);
             
-            labelElement.AddToClassList(_ussLabel);
-            textInputBase.AddToClassList(_ussInputText);
+            labelElement.AddToClassList(USS_LABEL);
+            textInputBase.AddToClassList(USS_INPUT_TEXT);
 
             this.isReadOnly = isReadOnly;
             isDelayed = true;

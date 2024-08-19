@@ -24,7 +24,7 @@ namespace OC.UI.TransformHandles
             Vector3 axisHitPoint = _axisRay.GetPoint(closestPoint);
             _interactionOffset = _startPosition - axisHitPoint;
         }
-        public override void Interact(Vector3 p_previousPosition)
+        public override void Interact(Vector3 previousPosition)
         {
             Ray cameraRay = Camera.main.ScreenPointToRay(Input.mousePosition);
             float clostestPoint = HandleMathUtils.ClosestPointOnRay(_axisRay, cameraRay);

@@ -7,25 +7,25 @@ namespace OC.UI.Panel
     {
         public new class UxmlFactory : UxmlFactory<Vector3IntField, UxmlTraits> { }
 
-        private const string _styleSheet = "StyleSheet/panel-field";
-        private const string _ussContainer = "panel-field-container";
-        private const string _ussVector = "panel-field-vector";
-        private const string _ussVectorInputField = "panel-field-vector__input-field";
-        private const string _ussTextInputReadOnly = "panel-field-container_readonly";
+        private const string STYLE_SHEET = "StyleSheet/panel-field";
+        private const string USS_CONTAINER = "panel-field-container";
+        private const string USS_VECTOR = "panel-field-vector";
+        private const string USS_VECTOR_INPUT_FIELD = "panel-field-vector__input-field";
+        private const string USS_TEXT_INPUT_READ_ONLY = "panel-field-container_readonly";
 
         public Vector3IntField() : this(""){}
 
         public Vector3IntField(string label, bool isReadOnly = false) : base(label)
         {
-            styleSheets.Add(Resources.Load<StyleSheet>(_styleSheet));
-            AddToClassList(_ussContainer);
-            AddToClassList(_ussVector);
+            styleSheets.Add(Resources.Load<StyleSheet>(STYLE_SHEET));
+            AddToClassList(USS_CONTAINER);
+            AddToClassList(USS_VECTOR);
 
             foreach (UnityEngine.UIElements.IntegerField intField in this.Query<UnityEngine.UIElements.IntegerField>().ToList())
             {
-                intField.AddToClassList(_ussContainer);
-                intField.AddToClassList(_ussVectorInputField);
-                intField.EnableInClassList(_ussTextInputReadOnly, isReadOnly);
+                intField.AddToClassList(USS_CONTAINER);
+                intField.AddToClassList(USS_VECTOR_INPUT_FIELD);
+                intField.EnableInClassList(USS_TEXT_INPUT_READ_ONLY, isReadOnly);
                 intField.isReadOnly = isReadOnly;
             }
         }

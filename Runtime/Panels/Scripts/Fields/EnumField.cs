@@ -7,15 +7,15 @@ namespace OC.UI.Panel
     {
         public new class UxmlFactory : UxmlFactory<EnumField, UxmlTraits> { }
 
-        private const string _styleSheet = "StyleSheet/panel-field";
-        private const string _ussContainer = "panel-field-container";
+        private const string STYLE_SHEET = "StyleSheet/panel-field";
+        private const string USS_CONTAINER = "panel-field-container";
 
         public EnumField() : this(""){}
         
         public EnumField(string label) : base(label)
         {
-            styleSheets.Add(Resources.Load<StyleSheet>(_styleSheet));
-            AddToClassList(_ussContainer);
+            styleSheets.Add(Resources.Load<StyleSheet>(STYLE_SHEET));
+            AddToClassList(USS_CONTAINER);
         }
     }
 }

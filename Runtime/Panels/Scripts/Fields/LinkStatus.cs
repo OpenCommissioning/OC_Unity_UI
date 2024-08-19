@@ -6,9 +6,9 @@ namespace OC.UI.Panel
 {
     public class LinkStatus : VisualElement
     {
-        private const string Uss = "StyleSheet/panel-field";
-        private const string UssBinaryStatus = "panel-field-binary-status_checkbox";
-        private const string UssBoxIndicatorActive = "panel-field-progress-bar_indicator-active";
+        private const string USS = "StyleSheet/panel-field";
+        private const string USS_BINARY_STATUS = "panel-field-binary-status_checkbox";
+        private const string USS_BOX_INDICATOR_ACTIVE = "panel-field-progress-bar_indicator-active";
 
         public bool Status
         {
@@ -19,11 +19,11 @@ namespace OC.UI.Panel
                 _status = value;
                 if (_status)
                 {
-                    _indicator.AddToClassList(UssBoxIndicatorActive);
+                    _indicator.AddToClassList(USS_BOX_INDICATOR_ACTIVE);
                 }
                 else
                 {
-                    _indicator.RemoveFromClassList(UssBoxIndicatorActive);
+                    _indicator.RemoveFromClassList(USS_BOX_INDICATOR_ACTIVE);
                 }
             }
         }
@@ -33,12 +33,12 @@ namespace OC.UI.Panel
         
         public LinkStatus(Link link)
         {
-            styleSheets.Add(Resources.Load<StyleSheet>(Uss));
+            styleSheets.Add(Resources.Load<StyleSheet>(USS));
             
             var group = new GroupContainer("Communication");
             _indicator = new VisualElement();
             _indicator.AddDefaultTheme();
-            _indicator.AddToClassList(UssBinaryStatus);
+            _indicator.AddToClassList(USS_BINARY_STATUS);
             group.AddToHeader(_indicator);
 
             var stringFieldType = new StringField("", link.Type);

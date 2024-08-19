@@ -7,17 +7,17 @@ namespace OC.UI.Panel
     {
         public new class UxmlFactory : UxmlFactory<FloatField, UxmlTraits> { }
 
-        private const string _styleSheet = "StyleSheet/panel-field";
-        private const string _ussContainer = "panel-field-container";
-        private const string _ussTextInputReadOnly = "panel-field-container_readonly";
+        private const string STYLE_SHEET = "StyleSheet/panel-field";
+        private const string USS_CONTAINER = "panel-field-container";
+        private const string USS_TEXT_INPUT_READ_ONLY = "panel-field-container_readonly";
 
         public FloatField() : this(""){}
 
         public FloatField(string label, bool isReadOnly = false) : base(label)
         {
-            styleSheets.Add(Resources.Load<StyleSheet>(_styleSheet));
-            AddToClassList(_ussContainer);
-            onIsReadOnlyChanged += value => EnableInClassList(_ussTextInputReadOnly, value);
+            styleSheets.Add(Resources.Load<StyleSheet>(STYLE_SHEET));
+            AddToClassList(USS_CONTAINER);
+            onIsReadOnlyChanged += readOnly => EnableInClassList(USS_TEXT_INPUT_READ_ONLY, readOnly);
             this.isReadOnly = isReadOnly;
             formatString = "f3";
         }

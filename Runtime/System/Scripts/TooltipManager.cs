@@ -18,7 +18,7 @@ public class TooltipManager : MonoBehaviour
     private Label _name;
     private Label _description;
     
-    private const string Uss = "StyleSheet/tooltip";
+    private const string USS = "StyleSheet/tooltip";
 
     private void Awake()
     {
@@ -38,7 +38,7 @@ public class TooltipManager : MonoBehaviour
 
         _container = new VisualElement();
         _container.AddDefaultTheme();
-        _container.styleSheets.Add(Resources.Load<StyleSheet>(Uss));
+        _container.styleSheets.Add(Resources.Load<StyleSheet>(USS));
         _container.AddToClassList("container");
         
         _name = new Label();

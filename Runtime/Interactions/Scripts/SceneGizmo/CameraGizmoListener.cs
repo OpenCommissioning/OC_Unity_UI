@@ -6,14 +6,14 @@ namespace OC.UI.Interactions.SceneGizmo
 {
     public class CameraGizmoListener : MonoBehaviour
     {
-        private float _cameraAdjustmentSpeed = 3f;
-        private float _projectionTransitionSpeed = 2f;
+        private readonly float _cameraAdjustmentSpeed = 3f;
+        private readonly float _projectionTransitionSpeed = 2f;
         private Camera _mainCamera;
 
         private IEnumerator _cameraRotateCoroutine;
         private IEnumerator _projectionChangeCoroutine;
 
-        public UnityEvent onCameraRotated;
+        public UnityEvent OnCameraRotated;
 
         private void Awake()
         {
@@ -51,7 +51,7 @@ namespace OC.UI.Interactions.SceneGizmo
             _projectionChangeCoroutine = SwitchProjection(_mainCamera);
 
             StartCoroutine(_projectionChangeCoroutine);
-            StartCoroutine(SwitchProjection(SceneGizmoRenderer.Instance.controller._gizmoCamera));
+            StartCoroutine(SwitchProjection(SceneGizmoRenderer.Instance.Controller._gizmoCamera));
         }
 
         public void RotateCameraInDirection(Vector3 direction)
@@ -64,18 +64,18 @@ namespace OC.UI.Interactions.SceneGizmo
         }
 
         // Credit: https://forum.unity.com/threads/smooth-transition-between-perspective-and-orthographic-modes.32765/#post-212814
-        private IEnumerator SwitchProjection(Camera camera)
+        private IEnumerator SwitchProjection(Camera cam)
         {
-            bool isOrthographic = camera.orthographic;
+            bool isOrthographic = cam.orthographic;
 
-            Matrix4x4 dest, src = camera.projectionMatrix;
+            Matrix4x4 dest, src = cam.projectionMatrix;
             if (isOrthographic)
-                dest = Matrix4x4.Perspective(camera.fieldOfView, camera.aspect, camera.nearClipPlane, camera.farClipPlane);
+                dest = Matrix4x4.Perspective(cam.fieldOfView, cam.aspect, cam.nearClipPlane, cam.farClipPlane);
             else
             {
-                float orthographicSize = camera.orthographicSize;
-                float aspect = camera.aspect;
-                dest = Matrix4x4.Ortho(-orthographicSize * aspect, orthographicSize * aspect, -orthographicSize, orthographicSize, camera.nearClipPlane, camera.farClipPlane);
+                float orthographicSize = cam.orthographicSize;
+                float aspect = cam.aspect;
+                dest = Matrix4x4.Ortho(-orthographicSize * aspect, orthographicSize * aspect, -orthographicSize, orthographicSize, cam.nearClipPlane, cam.farClipPlane);
             }
 
             for (float t = 0f; t < 1f; t += Time.unscaledDeltaTime * _projectionTransitionSpeed)
@@ -85,12 +85,12 @@ namespace OC.UI.Interactions.SceneGizmo
                 for (int i = 0; i < 16; i++)
                     matrix[i] = Mathf.LerpUnclamped(src[i], dest[i], lerpModifier);
 
-                camera.projectionMatrix = matrix;
+                cam.projectionMatrix = matrix;
                 yield return null;
             }
 
-            camera.orthographic = !isOrthographic;
-            camera.ResetProjectionMatrix();
+            cam.orthographic = !isOrthographic;
+            cam.ResetProjectionMatrix();
 
             _projectionChangeCoroutine = null;
         }
@@ -133,7 +133,7 @@ namespace OC.UI.Interactions.SceneGizmo
 
             transform.localRotation = targetRotation;
             _cameraRotateCoroutine = null;
-            onCameraRotated?.Invoke();
+            OnCameraRotated?.Invoke();
         }
     }
 }

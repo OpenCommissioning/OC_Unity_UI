@@ -7,17 +7,17 @@ namespace OC.UI.Panel
     {
         public new class UxmlFactory : UxmlFactory<Toggle, UxmlTraits> { }
 
-        private const string _styleSheet = "StyleSheet/panel-field";
-        private const string _ussContainer = "panel-field-container";
-        private const string _ussToggleCheckbox = "panel-field-toggle";
+        private const string STYLE_SHEET = "StyleSheet/panel-field";
+        private const string USS_CONTAINER = "panel-field-container";
+        private const string USS_TOGGLE_CHECKBOX = "panel-field-toggle";
 
         public Toggle() : this("") {}
 
         public Toggle(string label) : base(label)
         {
-            styleSheets.Add(Resources.Load<StyleSheet>(_styleSheet));
-            AddToClassList(_ussContainer);
-            AddToClassList(_ussToggleCheckbox);
+            styleSheets.Add(Resources.Load<StyleSheet>(STYLE_SHEET));
+            AddToClassList(USS_CONTAINER);
+            AddToClassList(USS_TOGGLE_CHECKBOX);
         }
 
         public Toggle(string label, Property<bool> property) : this(label) 

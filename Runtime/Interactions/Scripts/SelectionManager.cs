@@ -147,8 +147,8 @@ namespace OC.UI.Interactions
             var hits = _hits.OrderBy(hit => hit.distance);
             foreach (var raycast in hits)
             {
-                if (raycast.distance < OC.Utils.Tolerance) continue;
-                if (raycast.collider.gameObject.CompareTag("Handles"))
+                if (raycast.distance < OC.Utils.TOLERANCE) continue;
+                if (raycast.collider.gameObject.CompareTag($"Handles"))
                 {
                     _hitHandle = true;
                     continue;

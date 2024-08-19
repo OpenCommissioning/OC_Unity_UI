@@ -24,11 +24,11 @@ namespace OC.UI.Panel
             }
         }
         
-        private const string Uss = "StyleSheet/panel-field";
-        private const string UssContainer = "panel-field-container";
-        private const string UssButton = "panel-field-button";
-        private const string UssUnityButton = "unity-button";
-        private const string UssButtonActive = "panel-field-button_active";
+        private const string USS = "StyleSheet/panel-field";
+        private const string USS_CONTAINER = "panel-field-container";
+        private const string USS_BUTTON = "panel-field-button";
+        private const string USS_UNITY_BUTTON = "unity-button";
+        private const string USS_BUTTON_ACTIVE = "panel-field-button_active";
 
         private bool _value;
         private readonly IProperty<bool> _property;
@@ -36,10 +36,10 @@ namespace OC.UI.Panel
         public ToggleButton()
         {
             this.AddDefaultTheme();
-            styleSheets.Add(Resources.Load<StyleSheet>(Uss));
-            AddToClassList(UssContainer);
-            AddToClassList(UssButton);
-            AddToClassList(UssUnityButton);
+            styleSheets.Add(Resources.Load<StyleSheet>(USS));
+            AddToClassList(USS_CONTAINER);
+            AddToClassList(USS_BUTTON);
+            AddToClassList(USS_UNITY_BUTTON);
         }
         
         public ToggleButton(string label, IProperty<bool> property, IProperty<bool> enable) : this()
@@ -60,7 +60,7 @@ namespace OC.UI.Panel
         private void SetValueWithoutNotify(bool value)
         {
             _value = value;
-            EnableInClassList(UssButtonActive, value);
+            EnableInClassList(USS_BUTTON_ACTIVE, value);
         }
         
         private void OnMouseDownEvent(MouseDownEvent evt)

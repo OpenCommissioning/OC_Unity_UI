@@ -9,8 +9,8 @@ namespace OC.UI.Interactions
         private List<Renderer> _renderers;
         private List<Material> _originalMaterials;
         private List<MaterialPropertyBlock> _originalPropertyBlocks;
-        private static readonly int COLOR = Shader.PropertyToID("_BaseColor");
-        private static readonly int EMISSION = Shader.PropertyToID("_EmissionColor");
+        private static readonly int Color = Shader.PropertyToID("_BaseColor");
+        private static readonly int Emission = Shader.PropertyToID("_EmissionColor");
         
         protected void OnEnable()
         {
@@ -47,7 +47,7 @@ namespace OC.UI.Interactions
                     var property = new MaterialPropertyBlock();
                     item.GetPropertyBlock(property,i);
                     color.a = alpha;
-                    property.SetColor(COLOR, color);
+                    property.SetColor(Color, color);
                     item.SetPropertyBlock(property,i);
                 }
             }

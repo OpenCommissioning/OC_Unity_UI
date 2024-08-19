@@ -22,8 +22,8 @@ namespace OC.UI.Panel
             set => SetValueWithoutNotify(value);
         }
 
-        private const string Uss = "StyleSheet/panel-field";
-        private const string UssEntryDataField = "panel-field-entrydata";
+        private const string USS = "StyleSheet/panel-field";
+        private const string USS_ENTRY_DATA_FIELD = "panel-field-entrydata";
 
         private readonly StringField _stringField;
         private EntryData _entryData;
@@ -31,8 +31,8 @@ namespace OC.UI.Panel
 
         public EntryDataField(EntryData entryData)
         {
-            styleSheets.Add(Resources.Load<StyleSheet>(Uss));
-            AddToClassList(UssEntryDataField);
+            styleSheets.Add(Resources.Load<StyleSheet>(USS));
+            AddToClassList(USS_ENTRY_DATA_FIELD);
 
             _entryData = entryData;
             

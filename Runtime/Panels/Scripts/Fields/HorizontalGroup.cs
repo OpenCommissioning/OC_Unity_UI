@@ -5,14 +5,14 @@ namespace OC.UI.Panel
 {
     public class HorizontalGroup : VisualElement
     {
-        private const string Uss = "StyleSheet/panel-field";
-        private const string UssContainer = "panel-field-group_horizontal";
+        private const string USS = "StyleSheet/panel-field";
+        private const string USS_CONTAINER = "panel-field-group_horizontal";
         
         public HorizontalGroup()
         {
             this.AddDefaultTheme();
-            styleSheets.Add(Resources.Load<StyleSheet>(Uss));
-            AddToClassList(UssContainer);
+            styleSheets.Add(Resources.Load<StyleSheet>(USS));
+            AddToClassList(USS_CONTAINER);
 
             style.flexDirection = new StyleEnum<FlexDirection>(FlexDirection.Row);
         }

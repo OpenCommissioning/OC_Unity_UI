@@ -9,7 +9,7 @@ namespace OC.UI.Panel
 {
     public class EntityTagContainer : VisualElement 
     {
-        private const string Uss = "StyleSheet/panel-field";
+        private const string USS = "StyleSheet/panel-field";
 
         private readonly PayloadTag _entityTag;
         private readonly int _directoryIndex;
@@ -19,7 +19,7 @@ namespace OC.UI.Panel
 
         public EntityTagContainer(PayloadTag entityTag, int directoryIndex)
         {
-            styleSheets.Add(Resources.Load<StyleSheet>(Uss));
+            styleSheets.Add(Resources.Load<StyleSheet>(USS));
 
             _entityTag = entityTag;
             _directoryIndex = directoryIndex;

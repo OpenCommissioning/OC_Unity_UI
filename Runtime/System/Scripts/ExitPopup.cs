@@ -25,13 +25,13 @@ namespace OC.UI
         public event Action OnClose;
 
         private bool _enable;
-        private const string Uxml = "UXML/popup-exit";
-        private const string StyleSheet = "UXML/popup-exit";
+        private const string UXML = "UXML/popup-exit";
+        private const string STYLE_SHEET = "UXML/popup-exit";
         
         public ExitPopup()
         {
             _enable = true;
-            var container = Resources.Load<VisualTreeAsset>(Uxml).Instantiate();
+            var container = Resources.Load<VisualTreeAsset>(UXML).Instantiate();
             hierarchy.Add(container);
             container.AddDefaultTheme();
             container.Q<UnityEngine.UIElements.Button>("cancel").clicked += () => Enable = false;

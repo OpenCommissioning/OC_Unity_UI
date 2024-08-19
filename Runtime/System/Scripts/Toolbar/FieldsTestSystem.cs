@@ -1,6 +1,3 @@
-using OC.UI.Interactions;
-using System.Collections.Generic;
-using System.Linq;
 using OC.UI.Panel;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -17,7 +14,7 @@ namespace OC.UI.Toolbar
 {
     public class FieldsTestSystem : ToolbarSystemPanel
     {
-        private const string _uxml = "UXML/panel-field";
+        private const string UXML = "UXML/panel-field";
 
         public Property<bool> ToggleSlideValue = false;
         public Property<bool> ToggleValue = false;
@@ -34,7 +31,7 @@ namespace OC.UI.Toolbar
 
         protected override void AddContent(SubsystemPanel subsystemPanel)
         {
-            var fields = Resources.Load<VisualTreeAsset>(_uxml).Instantiate();
+            var fields = Resources.Load<VisualTreeAsset>(UXML).Instantiate();
             subsystemPanel.Add(fields);
 
             fields.Q<ToggleSlide>().BindProperty(ToggleSlideValue);
@@ -49,7 +46,6 @@ namespace OC.UI.Toolbar
             fields.Q<Vector2IntField>().BindProperty(Vector2IntValue);
             fields.Q<SliderInt>().BindProperty(SliderIntValue);
             fields.Q<Slider>().BindProperty(SliderValue);
-
         }
 
         private void OnValidate()

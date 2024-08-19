@@ -1,12 +1,11 @@
 using System.Collections.Generic;
 using System.Reflection;
-using UnityEngine;
 
 namespace OC.UI.Panel
 {
     public class GenericPanelHandler : PanelHandler
     {
-        public List<FieldBinding> Bindings = new List<FieldBinding>();
+        public List<FieldBinding> Bindings = new ();
 
         public IList<string> PossibleBindings => _possibleBindings;
 

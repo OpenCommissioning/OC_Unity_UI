@@ -16,30 +16,30 @@ public class GenericPanelTestInteraction : MonoBehaviour, IInteractable
     public Property<bool> ToggleSlide  { get; set; }
     public Property<string> StringField  { get; set; }
 
-    public IProperty<float> FloatReadOnly => _float_ro;
-    public IProperty<int> IntegerReadOnly => _integer_ro;
-    public IProperty<uint> UIntegerReadOnly => _uinteger_ro;
-    public IProperty<long> LongReadOnly => _long_ro;
-    public IProperty<ulong> ULongReadOnly => _ulong_ro;
-    public IProperty<Vector2> Vector2ReadOnly => _vector2_ro;
-    public IProperty<Vector2Int> Vector2IntReadOnly => _vector2int_ro;
-    public IProperty<Vector3> Vector3ReadOnly => _vector3_ro;
-    public IProperty<Vector3Int> Vector3IntReadOnly => _vector3int_ro;
-    public IProperty<bool> BoolReadOnly => _binarystatus_ro;
-    public IProperty<string> StringFieldReadOnly => _stringfield_ro;
+    public IProperty<float> FloatReadOnly => _floatRO;
+    public IProperty<int> IntegerReadOnly => _integerRO;
+    public IProperty<uint> UIntegerReadOnly => _uintegerRO;
+    public IProperty<long> LongReadOnly => _longRO;
+    public IProperty<ulong> ULongReadOnly => _ulongRO;
+    public IProperty<Vector2> Vector2ReadOnly => _vector2RO;
+    public IProperty<Vector2Int> Vector2IntReadOnly => _vector2IntRO;
+    public IProperty<Vector3> Vector3ReadOnly => _vector3RO;
+    public IProperty<Vector3Int> Vector3IntReadOnly => _vector3IntRO;
+    public IProperty<bool> BoolReadOnly => _binarystatusRO;
+    public IProperty<string> StringFieldReadOnly => _stringfieldRO;
 
-    private Property<float> _float_ro;
-    private Property<int> _integer_ro;
-    private Property<uint> _uinteger_ro;
-    private Property<long> _long_ro;
-    private Property<ulong> _ulong_ro;
-    private Property<Vector2> _vector2_ro;
-    private Property<Vector2Int> _vector2int_ro;
-    private Property<Vector3> _vector3_ro;
-    private Property<Vector3Int> _vector3int_ro;
-    private Property<bool> _binarystatus_ro;
-    private Property<bool> _toggleslide_ro;
-    private Property<string> _stringfield_ro;
+    private Property<float> _floatRO;
+    private Property<int> _integerRO;
+    private Property<uint> _uintegerRO;
+    private Property<long> _longRO;
+    private Property<ulong> _ulongRO;
+    private Property<Vector2> _vector2RO;
+    private Property<Vector2Int> _vector2IntRO;
+    private Property<Vector3> _vector3RO;
+    private Property<Vector3Int> _vector3IntRO;
+    private Property<bool> _binarystatusRO;
+    private Property<bool> _toggleslideRO;
+    private Property<string> _stringfieldRO;
 
     private void Start()
     {
@@ -56,16 +56,16 @@ public class GenericPanelTestInteraction : MonoBehaviour, IInteractable
         ToggleSlide = new Property<bool>();
         StringField = new Property<string>();
 
-        _float_ro = new Property<float>();
-        _integer_ro = new Property<int>();
-        _uinteger_ro = new Property<uint>();
-        _long_ro = new Property<long>();
-        _ulong_ro = new Property<ulong>();
-        _vector2_ro = new Property<Vector2>();
-        _vector2int_ro = new Property<Vector2Int>();
-        _vector3_ro = new Property<Vector3>();
-        _vector3int_ro = new Property<Vector3Int>();
-        _binarystatus_ro = new Property<bool>();
-        _stringfield_ro = new Property<string>();
+        _floatRO = new Property<float>();
+        _integerRO = new Property<int>();
+        _uintegerRO = new Property<uint>();
+        _longRO = new Property<long>();
+        _ulongRO = new Property<ulong>();
+        _vector2RO = new Property<Vector2>();
+        _vector2IntRO = new Property<Vector2Int>();
+        _vector3RO = new Property<Vector3>();
+        _vector3IntRO = new Property<Vector3Int>();
+        _binarystatusRO = new Property<bool>();
+        _stringfieldRO = new Property<string>();
     }
 }

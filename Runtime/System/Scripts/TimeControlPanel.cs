@@ -1,7 +1,6 @@
 using System;
 using UnityEngine;
 using UnityEngine.UIElements;
-using Toggle = OC.UI.Toolbar.Toggle;
 
 namespace OC.UI
 {
@@ -17,15 +16,15 @@ namespace OC.UI
         private Label _sliderValue;
         private Label _timeValue;
         
-        private const string Uxml = "UXML/time_control";
-        private const string StyleSheet = "StyleSheet/time_control";
+        private const string UXML = "UXML/time_control";
+        private const string STYLE_SHEET = "StyleSheet/time_control";
         
         private void Start()
         {
             var uiDocument = GetComponent<UIDocument>();
-            var container = Resources.Load<VisualTreeAsset>(Uxml).Instantiate().Q("container");
+            var container = Resources.Load<VisualTreeAsset>(UXML).Instantiate().Q("container");
             container.AddDefaultTheme();
-            container.styleSheets.Add(Resources.Load<StyleSheet>(StyleSheet));
+            container.styleSheets.Add(Resources.Load<StyleSheet>(STYLE_SHEET));
             
             uiDocument.rootVisualElement.Add(container);
             

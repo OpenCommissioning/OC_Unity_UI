@@ -7,9 +7,9 @@ namespace OC.UI.Toolbar
     {
         protected override void AddContent(SubsystemPanel subsystemPanel)
         {
-            foreach (Camera camera in FindObjectsByType<Camera>(FindObjectsSortMode.InstanceID))
+            foreach (var cam in FindObjectsByType<Camera>(FindObjectsSortMode.InstanceID))
             {
-                subsystemPanel.Add(new ToggleSlide(camera.name));
+                subsystemPanel.Add(new ToggleSlide(cam.name));
             }
         }
     }

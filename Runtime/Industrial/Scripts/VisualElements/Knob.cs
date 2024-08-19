@@ -49,8 +49,8 @@ namespace OC.UI.Industrial
         
         private readonly MouseEvents _mouseEvents;
 
-        private const string _uxml = "UXML/industrial-knob";
-        private const string _ussKnobActive = "knob-active";
+        private const string UXML = "UXML/industrial-knob";
+        private const string USS_KNOB_ACTIVE = "knob-active";
         
         private readonly VisualElement _lamp;
         private readonly VisualElement _knob;
@@ -62,7 +62,7 @@ namespace OC.UI.Industrial
             var container = new VisualElement();
             if (template == null)
             {
-                Resources.Load<VisualTreeAsset>(_uxml).CloneTree(container);
+                Resources.Load<VisualTreeAsset>(UXML).CloneTree(container);
             }
             else
             {
@@ -97,11 +97,11 @@ namespace OC.UI.Industrial
         {
             if (active)
             {
-                _knob.AddToClassList(_ussKnobActive);
+                _knob.AddToClassList(USS_KNOB_ACTIVE);
             }
             else
             {
-                _knob.RemoveFromClassList(_ussKnobActive);
+                _knob.RemoveFromClassList(USS_KNOB_ACTIVE);
             }
         }
 

@@ -14,22 +14,22 @@ namespace OC.UI.TransformHandles
         protected Material _material;
         protected Vector3 _hitPoint;
         [SerializeField]
-        protected bool _isInteracting = false;
+        protected bool _isInteracting;
 
         [SerializeField]
         public Color _defaultColor;
-        public void SetColor(Color p_color)
+        public void SetColor(Color color)
         {
-            foreach (Renderer renderer in GetComponentsInChildren<Renderer>())
+            foreach (var item in GetComponentsInChildren<Renderer>())
             {
-                renderer.material.color = p_color;
+                item.material.color = color;
             }
         }
-        public virtual void StartInteraction(Vector3 p_hitPoint)
+        public virtual void StartInteraction(Vector3 hitPoint)
         {
             _isInteracting = true;
         }
-        public virtual void Interact(Vector3 p_previousPosition)
+        public virtual void Interact(Vector3 previousPosition)
         {
         }
 

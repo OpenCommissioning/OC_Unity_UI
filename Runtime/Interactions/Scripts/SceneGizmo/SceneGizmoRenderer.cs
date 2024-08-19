@@ -12,11 +12,11 @@ namespace OC.UI.Interactions.SceneGizmo
         private RectTransform _imageHolderTR;
 
         [SerializeField]
-        public SceneGizmoController controller;
+        public SceneGizmoController Controller;
 
         [SerializeField]
-        private bool highlightHoveredComponents = true;
-        private PointerEventData hoveringPointer;
+        private bool _highlightHoveredComponents = true;
+        private PointerEventData _hoveringPointer;
 
         [SerializeField]
         private UnityEvent<GizmoComponent> _onComponentClicked;
@@ -28,25 +28,25 @@ namespace OC.UI.Interactions.SceneGizmo
             if (Instance == null) Instance = this;
 
             _imageHolderTR = (RectTransform)_imageHolder.transform;
-            _imageHolder.texture = controller.TargetTexture;
+            _imageHolder.texture = Controller.TargetTexture;
         }
 
         private void OnEnable()
         {
-            if (controller != null && !controller.Equals(null))
-                controller.gameObject.SetActive(true);
+            if (Controller != null && !Controller.Equals(null))
+                Controller.gameObject.SetActive(true);
         }
 
         private void OnDisable()
         {
-            if (controller != null && !controller.Equals(null))
-                controller.gameObject.SetActive(false);
+            if (Controller != null && !Controller.Equals(null))
+                Controller.gameObject.SetActive(false);
         }
 
         private void Update()
         {
-            if (hoveringPointer != null)
-                controller.OnPointerHover(GetNormalizedPointerPosition(hoveringPointer));
+            if (_hoveringPointer != null)
+                Controller.OnPointerHover(GetNormalizedPointerPosition(_hoveringPointer));
         }
 
         public void OnPointerClick(PointerEventData eventData)
@@ -54,7 +54,7 @@ namespace OC.UI.Interactions.SceneGizmo
             if (eventData.dragging)
                 return;
 
-            GizmoComponent hitComponent = controller.Raycast(GetNormalizedPointerPosition(eventData));
+            GizmoComponent hitComponent = Controller.Raycast(GetNormalizedPointerPosition(eventData));
             if (hitComponent != GizmoComponent.None)
                 _onComponentClicked.Invoke(hitComponent);
         }
@@ -74,16 +74,16 @@ namespace OC.UI.Interactions.SceneGizmo
 
         public void OnPointerEnter(PointerEventData eventData)
         {
-            if (highlightHoveredComponents)
-                hoveringPointer = eventData;
+            if (_highlightHoveredComponents)
+                _hoveringPointer = eventData;
         }
 
         public void OnPointerExit(PointerEventData eventData)
         {
-            if (hoveringPointer != null)
+            if (_hoveringPointer != null)
             {
-                controller.OnPointerHover(new Vector3(-10f, -10f, 0f));
-                hoveringPointer = null;
+                Controller.OnPointerHover(new Vector3(-10f, -10f, 0f));
+                _hoveringPointer = null;
             }
         }
     }

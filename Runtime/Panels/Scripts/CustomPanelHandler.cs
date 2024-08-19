@@ -7,8 +7,8 @@ namespace OC.UI.Panel
             if (Component == null) return;
 
             _panel = new Panel(Target.name, true, true, true);
-            _panel.OnFocus += base.Focus;
-            _panel.OnClose += base.Delete;
+            _panel.OnFocus += Focus;
+            _panel.OnClose += Delete;
             CreateContent();
         }
 

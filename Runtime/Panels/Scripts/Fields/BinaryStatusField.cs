@@ -10,7 +10,7 @@ namespace OC.UI.Panel
 
         public new class UxmlTraits : BaseField<bool>.UxmlTraits
         {
-            UxmlBoolAttributeDescription _value =
+            readonly UxmlBoolAttributeDescription _value =
                 new UxmlBoolAttributeDescription { name = "Value", defaultValue = false };
 
             public override IEnumerable<UxmlChildElementDescription> uxmlChildElementsDescription
@@ -21,26 +21,24 @@ namespace OC.UI.Panel
             public override void Init(VisualElement ve, IUxmlAttributes bag, CreationContext cc)
             {
                 base.Init(ve, bag, cc);
-                var ate = ve as BinaryStatusField;
-
-                ate.value = _value.GetValueFromBag(bag, cc);
+                if (ve is BinaryStatusField ate) ate.value = _value.GetValueFromBag(bag, cc);
             }
         }
 
-        private VisualElement _checkMark;
-        private const string _styleSheet = "StyleSheet/panel-field";
-        private const string _ussContainer = "panel-field-container";
-        private const string _ussBinaryStatusField = "panel-field-binary-status";
-        private const string _ussBinaryStatusFieldCheckbox = "panel-field-binary-status_checkbox";
-        private const string _ussBinaryStatusFieldCheckboxChecked = "panel-field-binary-status_checkbox__checked";
+        private readonly VisualElement _checkMark;
+        private const string STYLE_SHEET = "StyleSheet/panel-field";
+        private const string USS_CONTAINER = "panel-field-container";
+        private const string USS_BINARY_STATUS_FIELD = "panel-field-binary-status";
+        private const string USS_BINARY_STATUS_FIELD_CHECKBOX = "panel-field-binary-status_checkbox";
+        private const string USS_BINARY_STATUS_FIELD_CHECKBOX_CHECKED = "panel-field-binary-status_checkbox__checked";
 
         public BinaryStatusField() : this("") { }
 
-        public BinaryStatusField(string label) : base(label, (VisualElement)null)
+        public BinaryStatusField(string label) : base(label, null)
         {
-            styleSheets.Add(Resources.Load<StyleSheet>(_styleSheet));
-            AddToClassList(_ussContainer);
-            AddToClassList(_ussBinaryStatusField);
+            styleSheets.Add(Resources.Load<StyleSheet>(STYLE_SHEET));
+            AddToClassList(USS_CONTAINER);
+            AddToClassList(USS_BINARY_STATUS_FIELD);
 
             _checkMark = new VisualElement
             {
@@ -48,7 +46,7 @@ namespace OC.UI.Panel
                 pickingMode = PickingMode.Ignore
             };
 
-            _checkMark.AddToClassList(_ussBinaryStatusFieldCheckbox);
+            _checkMark.AddToClassList(USS_BINARY_STATUS_FIELD_CHECKBOX);
 
             hierarchy.Add(_checkMark);
         }
@@ -66,7 +64,7 @@ namespace OC.UI.Panel
         public sealed override void SetValueWithoutNotify(bool newValue)
         {
             base.SetValueWithoutNotify(newValue);
-            _checkMark.EnableInClassList(_ussBinaryStatusFieldCheckboxChecked, newValue);
+            _checkMark.EnableInClassList(USS_BINARY_STATUS_FIELD_CHECKBOX_CHECKED, newValue);
         }
     }
 }

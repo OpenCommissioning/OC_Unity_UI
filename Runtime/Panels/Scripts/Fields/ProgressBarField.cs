@@ -3,20 +3,20 @@ using UnityEngine.UIElements;
 
 namespace OC.UI.Panel
 {
-    public class ProgressBarField : UnityEngine.UIElements.ProgressBar
+    public class ProgressBarField : ProgressBar
     {
         public new class UxmlFactory : UxmlFactory<ProgressBarField, UxmlTraits> { }
 
         public new class UxmlTraits : UnityEngine.UIElements.ProgressBar.UxmlTraits { }
 
 
-        private const string _styleSheet = "StyleSheet/panel-field";
-        private const string _ussProgressBarField = "panel-field-progress-bar";
+        private const string STYLE_SHEET = "StyleSheet/panel-field";
+        private const string USS_PROGRESS_BAR_FIELD = "panel-field-progress-bar";
 
         public ProgressBarField() : base()
         {
-            styleSheets.Add(Resources.Load<StyleSheet>(_styleSheet));
-            AddToClassList(_ussProgressBarField);
+            styleSheets.Add(Resources.Load<StyleSheet>(STYLE_SHEET));
+            AddToClassList(USS_PROGRESS_BAR_FIELD);
         }
 
         public ProgressBarField(string title, IProperty<float> property, float low = 0, float high = 1) : this(title, low, high)

@@ -26,11 +26,11 @@ namespace OC.UI.Panel
             }
         }
 
-        private const string Uxml = "UXML/panel_component";
-        private const string Uss = "StyleSheet/panel";
-        private const string UssContainer = "panel-container";
-        private const string UssButtonActive = "panel-header-button-active";
-        private const string UssComponentPanel = "component-panel";
+        private const string UXML = "UXML/panel_component";
+        private const string USS = "StyleSheet/panel";
+        private const string USS_CONTAINER = "panel-container";
+        private const string USS_BUTTON_ACTIVE = "panel-header-button-active";
+        private const string USS_COMPONENT_PANEL = "component-panel";
 
         private readonly VisualElement _content;
         private readonly UnityEngine.UIElements.Button _focusButton;
@@ -45,12 +45,12 @@ namespace OC.UI.Panel
 
         public Panel(string label, bool canClose = true, bool canPinned = false, bool canFocus = false)
         {
-            styleSheets.Add(Resources.Load<StyleSheet>(Uss));
+            styleSheets.Add(Resources.Load<StyleSheet>(USS));
             this.AddDefaultTheme();
-            AddToClassList(UssComponentPanel);
-            AddToClassList(UssContainer);
+            AddToClassList(USS_COMPONENT_PANEL);
+            AddToClassList(USS_CONTAINER);
 
-            var template = Resources.Load<VisualTreeAsset>(Uxml).CloneTree();
+            var template = Resources.Load<VisualTreeAsset>(UXML).CloneTree();
             var header = template.Q("header");
             _content = template.Q("content");
             
@@ -81,7 +81,7 @@ namespace OC.UI.Panel
         private void PinOnclicked()
         {
             _isPinned = !_isPinned;
-            _pinButton.EnableInClassList(UssButtonActive, _isPinned);
+            _pinButton.EnableInClassList(USS_BUTTON_ACTIVE, _isPinned);
         }
 
         public new void Add(VisualElement visualElement)
