@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -35,6 +36,8 @@ namespace OC.UI.Panel
                 }
             }
         }
+
+        public event Action<bool> OnValueChanged;
 
 
         private readonly VisualElement _inputField;
@@ -98,6 +101,7 @@ namespace OC.UI.Panel
         private void ToggleValue()
         {
             value = !value;
+            OnValueChanged?.Invoke(value);
         }
 
         public sealed override void SetValueWithoutNotify(bool newValue)

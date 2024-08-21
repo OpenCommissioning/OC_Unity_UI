@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Cinemachine;
 using UnityEngine;
 
 namespace OC.UI.Interactions
 {
-    [RequireComponent(typeof(Camera))]
     public class CameraController : MonoBehaviour
     {
         public bool IsBusy => _mode != CameraMode.None;
@@ -93,7 +93,8 @@ namespace OC.UI.Interactions
             RefreshSettings();
             
             _transform = transform;
-            _camera = GetComponent<Camera>();
+            var cameraBrain = CinemachineCore.Instance.GetActiveBrain(0);
+            _camera = cameraBrain.GetComponent<Camera>();
 
             _distance = DEFAULT_DISTANCE;
             _rotation = transform.rotation;

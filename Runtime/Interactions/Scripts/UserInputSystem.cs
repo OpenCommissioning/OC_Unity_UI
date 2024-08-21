@@ -1,4 +1,5 @@
 using System.Linq;
+using Cinemachine;
 using OC.UI.TransformHandles;
 using UnityEngine;
 
@@ -10,7 +11,6 @@ namespace OC.UI.Interactions
 
         public bool IsPointerOverScreen => Utils.IsPointerOverScreen(Input.mousePosition);
 
-        private CameraController _cameraController;
         private bool _isValid;
         private bool _holdInput;
 
@@ -20,24 +20,9 @@ namespace OC.UI.Interactions
             else if (Instance != this) Destroy(gameObject);
         }
 
-        private void Start()
-        {
-            if (Camera.main != null)
-            {
-                if (Camera.main.TryGetComponent(out _cameraController))
-                {
-                    _isValid = true;
-                }
-                else
-                {
-                    Debug.LogError("MovableCamera can't be found! Add MovableCamera to main camera object", this);
-                }
-            }
-        }
-
         private void Update()
         {
-            if (!_isValid) return;
+            //if (!_isValid) return;
 
             if (Input.GetKeyDown(KeyCode.Escape))
             {
@@ -50,13 +35,16 @@ namespace OC.UI.Interactions
                     UIManager.Instance.CloseLast();
                 }
             }
-
-            CameraUserInputs();
-
-            if (_cameraController.IsBusy)
+            
+            if (CinemachineCore.Instance.GetActiveBrain(0).ActiveVirtualCamera.VirtualCameraGameObject.TryGetComponent(out CameraController cameraController))
             {
-                SelectionManager.Instance.ResetHit();
-                return;
+                CameraUserInputs(cameraController);
+                
+                if (cameraController.IsBusy)
+                {
+                    SelectionManager.Instance.ResetHit();
+                    return;
+                }
             }
 
             SelectionUserInputs();
@@ -85,40 +73,40 @@ namespace OC.UI.Interactions
             //}
         }
 
-        private void CameraUserInputs()
+        private void CameraUserInputs(CameraController cameraController)
         {
             if (!IsPointerOverScreen)
             {
-                _cameraController.Mode = CameraController.CameraMode.None;
+                cameraController.Mode = CameraController.CameraMode.None;
                 return;
             }
 
             if (Input.GetKeyUp(KeyCode.Mouse1) || Input.GetKeyUp(KeyCode.Mouse2))
             {
-                _cameraController.Mode = CameraController.CameraMode.None;
+                cameraController.Mode = CameraController.CameraMode.None;
                 return;
             }
 
-            if (_cameraController.Mode == CameraController.CameraMode.Orbit)
+            if (cameraController.Mode == CameraController.CameraMode.Orbit)
             {
                 if (Input.GetKeyUp(KeyCode.Mouse0))
                 {
-                    _cameraController.Mode = CameraController.CameraMode.None;
+                    cameraController.Mode = CameraController.CameraMode.None;
                     return;
                 }
 
                 if (!Input.GetKey(KeyCode.LeftAlt))
                 {
-                    _cameraController.Mode = CameraController.CameraMode.None;
+                    cameraController.Mode = CameraController.CameraMode.None;
                     return;
                 }
             }
 
-            if (_cameraController.Mode == CameraController.CameraMode.Zoom)
+            if (cameraController.Mode == CameraController.CameraMode.Zoom)
             {
                 if (Input.mouseScrollDelta.y == 0)
                 {
-                    _cameraController.Mode = CameraController.CameraMode.None;
+                    cameraController.Mode = CameraController.CameraMode.None;
                     return;
                 }
             }
@@ -127,32 +115,32 @@ namespace OC.UI.Interactions
             {
                 if (Input.GetKeyDown(KeyCode.Mouse1))
                 {
-                    _cameraController.Mode = CameraController.CameraMode.FPS;
+                    cameraController.Mode = CameraController.CameraMode.FPS;
                     return;
                 }
 
                 if (Input.GetKeyDown(KeyCode.Mouse2))
                 {
-                    _cameraController.Mode = CameraController.CameraMode.Pan;
+                    cameraController.Mode = CameraController.CameraMode.Pan;
                     return;
                 }
 
                 if (Input.GetKeyDown(KeyCode.Mouse0) && Input.GetKey(KeyCode.LeftAlt))
                 {
-                    _cameraController.Mode = CameraController.CameraMode.Orbit;
+                    cameraController.Mode = CameraController.CameraMode.Orbit;
                     return;
                 }
 
                 if (Input.mouseScrollDelta.y != 0)
                 {
-                    _cameraController.Zoom();
+                    cameraController.Zoom();
                     return;
                 }
             }
 
             if (Input.GetKeyDown(KeyCode.F) && !UIManager.Instance.IsUIFieldSelected)
             {
-                _cameraController.Focus();
+                cameraController.Focus();
             }
         }
     }
