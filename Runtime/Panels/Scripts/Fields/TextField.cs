@@ -44,7 +44,7 @@ namespace OC.UI.Panel
 
             if (property == null) return;
             RegisterCallback<ChangeEvent<string>>(evt => ValidateInput(property, evt.newValue));
-            property.ValueChanged += i => ValidValue = i;
+            property.OnValueChanged += i => ValidValue = i;
             SetValueWithoutNotify(property.Value.ToString());
         }
 

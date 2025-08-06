@@ -42,7 +42,7 @@ namespace OC.UI.Panel
             group.AddToHeader(_indicator);
 
             var stringFieldType = new StringField("", link.Type);
-            var stringFieldPath = new StringField("", link.Path);
+            var stringFieldPath = new StringField("", link.ClientPath);
 
             stringFieldType.SetTextInputAlign(TextAnchor.MiddleLeft);
             stringFieldPath.SetTextInputAlign(TextAnchor.MiddleLeft);
@@ -51,9 +51,9 @@ namespace OC.UI.Panel
             group.Add(stringFieldPath);
             Add(group);
 
-            link.IsConnected.ValueChanged += value => Status = value;
+            link.Connected.OnValueChanged += value => Status = value;
 
-            Status = link.IsConnected.Value;
+            Status = link.Connected.Value;
         }
     }
 }

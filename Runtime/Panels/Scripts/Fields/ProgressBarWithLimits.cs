@@ -130,7 +130,7 @@ namespace OC.UI.Panel
             lowValue = low;
             highValue = high;
 
-            property.ValueChanged += OnPropertyValueChanged;
+            property.OnValueChanged += OnPropertyValueChanged;
             OnPropertyValueChanged(property.Value);
         }
 

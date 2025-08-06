@@ -50,8 +50,8 @@ namespace OC.UI
                 TimeManager.Instance.TimeScale.Value = evt.newValue;
             });
 
-            TimeManager.Instance.TimeScale.ValueChanged += value => OnTimeScaleChanged((int)value);
-            TimeManager.Instance.Pause.ValueChanged += value => _toggle.SetValueWithoutNotify(value);
+            TimeManager.Instance.TimeScale.OnValueChanged += value => OnTimeScaleChanged((int)value);
+            TimeManager.Instance.Pause.OnValueChanged += value => _toggle.SetValueWithoutNotify(value);
             TimeManager.Instance.OnSecondTick += OnSecondTick;
         }
 

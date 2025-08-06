@@ -111,6 +111,12 @@ namespace OC.UI.Interactions
         {
             
         }
+        
+        public void Reset()
+        {
+            BoundBoxColliderSize();
+            gameObject.layer = (int)DefaultLayers.Interactions;
+        }
 
         protected void OnDestroy()
         {
@@ -204,6 +210,15 @@ namespace OC.UI.Interactions
         {
             if (_isDisabled) return;
             if (_mode.HasFlag(InteractionMode.PoiterUp)) OnPointerUpEvent?.Invoke();
+        }
+        
+        [ContextMenu("Bound Box Collider Size", false, 100)]
+        public void BoundBoxColliderSize()
+        {
+            if (OC.Utils.TryBoundBoxColliderSize(gameObject, out var boxCollider))
+            {
+                boxCollider.isTrigger = true;
+            }
         }
     }
 }

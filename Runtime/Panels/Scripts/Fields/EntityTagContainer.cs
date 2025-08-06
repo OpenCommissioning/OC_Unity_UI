@@ -41,7 +41,7 @@ namespace OC.UI.Panel
             Add(new Button("Read", ReadData));
 
             OverrideOnValueChanged(false);
-            _override.ValueChanged += OverrideOnValueChanged;
+            _override.OnValueChanged += OverrideOnValueChanged;
         }
 
         private void OverrideOnValueChanged(bool value)

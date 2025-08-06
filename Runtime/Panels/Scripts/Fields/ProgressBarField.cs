@@ -22,14 +22,14 @@ namespace OC.UI.Panel
         public ProgressBarField(string title, IProperty<float> property, float low = 0, float high = 1) : this(title, low, high)
         {
             value = property.Value;
-            property.ValueChanged += value => SetValueWithoutNotify(value);
+            property.OnValueChanged += value => SetValueWithoutNotify(value);
             this.RegisterValueChangedCallback(evt => property.Value = evt.newValue);
         }
 
         public ProgressBarField(string title, IPropertyReadOnly<float> property, float low = 0, float high = 1) : this(title, low, high)
         {
             value = property.Value;
-            property.ValueChanged += Property_ValueChanged;
+            property.OnValueChanged += Property_ValueChanged;
         }
 
         private void Property_ValueChanged(float value)
@@ -40,14 +40,14 @@ namespace OC.UI.Panel
         public ProgressBarField(string title, IProperty<float> property, Vector2 limits) : this(title, limits)
         {
             value = property.Value;
-            property.ValueChanged += value => SetValueWithoutNotify(value);
+            property.OnValueChanged += value => SetValueWithoutNotify(value);
             this.RegisterValueChangedCallback(evt => property.Value = evt.newValue);
         }
 
         public ProgressBarField(string title, IPropertyReadOnly<float> property, Vector2 limits) : this(title, limits)
         {
             value = property.Value;
-            property.ValueChanged += value => SetValueWithoutNotify(value);
+            property.OnValueChanged += value => SetValueWithoutNotify(value);
         }
 
         private ProgressBarField(string title) : this()

@@ -13,7 +13,7 @@ namespace OC.UI.Industrial
         private string _name;
 
         public Component Component => this;
-        public string Path => _panelSampler.Link.Path;
+        public string Path => _panelSampler.Link.ClientPath;
 
         private PanelSampler _panelSampler;
 

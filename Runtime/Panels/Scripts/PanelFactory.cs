@@ -355,7 +355,7 @@ namespace OC.UI.Panel
         {
             if (!entity.TryGetComponent(out MaterialFlow.PayloadTag entityTag)) return;
 
-            foreach (var directoryId in entityTag.DirecotryId)
+            foreach (var directoryId in entityTag.DirectoryId)
             {
                 panel.Add(new EntityTagContainer(entityTag, directoryId));
             }

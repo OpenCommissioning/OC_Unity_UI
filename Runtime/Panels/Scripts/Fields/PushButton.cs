@@ -57,8 +57,8 @@ namespace OC.UI.Panel
             _mouseEvents.Up += () => property.Value = false;
             _mouseEvents.Down += () => property.Value = true;
             
-            property.ValueChanged += SetValueWithoutNotify;
-            enable.ValueChanged += SetEnabled;
+            property.OnValueChanged += SetValueWithoutNotify;
+            enable.OnValueChanged += SetEnabled;
 
             Value = property.Value;
             SetEnabled(enable.Value);

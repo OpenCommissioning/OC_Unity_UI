@@ -9,7 +9,7 @@ public static class BaseFieldExtension
         if (field.userData != null) field.UnbindProperty();
 
         field.value = property.Value;
-        property.ValueChanged += OnPropertyValueChange(field);
+        property.OnValueChanged += OnPropertyValueChange(field);
         field.RegisterValueChangedCallback(OnFieldValueChange);
         field.userData = property;
     }
@@ -18,13 +18,13 @@ public static class BaseFieldExtension
         if (field.userData != null) field.UnbindProperty();
 
         field.value = property.Value;
-        property.ValueChanged += OnPropertyValueChange(field);
+        property.OnValueChanged += OnPropertyValueChange(field);
         field.userData = property;
     }
 
     public static void UnbindProperty<T>(this BaseField<T> field)
     {
-        (field.userData as Property<T>).ValueChanged -= OnPropertyValueChange(field);
+        (field.userData as Property<T>).OnValueChanged -= OnPropertyValueChange(field);
         field.UnregisterValueChangedCallback(OnFieldValueChange);
         field.userData = null;
     }

@@ -16,18 +16,18 @@ namespace OC.UI.Toolbar
     {
         private const string UXML = "UXML/panel-field";
 
-        public Property<bool> ToggleSlideValue = false;
-        public Property<bool> ToggleValue = false;
-        public Property<bool> BinaryStatusValue = true;
-        public Property<string> StringValue = "test";
-        public Property<float> FloatValue = 0.3f;
-        public Property<int> IntValue = 12;
+        public Property<bool> ToggleSlideValue = new(false);
+        public Property<bool> ToggleValue = new(false);
+        public Property<bool> BinaryStatusValue = new(true);
+        public Property<string> StringValue = new("test");
+        public Property<float> FloatValue = new(0.3f);
+        public Property<int> IntValue = new(12);
         public Property<Vector3> Vector3Value;
         public Property<Vector3Int> Vector3IntValue;
         public Property<Vector2> Vector2Value;
         public Property<Vector2Int> Vector2IntValue;
-        public Property<int> SliderIntValue = 12;
-        public Property<float> SliderValue = 0.3f;
+        public Property<int> SliderIntValue = new (12);
+        public Property<float> SliderValue = new (0.3f);
 
         protected override void AddContent(SubsystemPanel subsystemPanel)
         {

@@ -48,8 +48,8 @@ namespace OC.UI.Panel
 
             _property = property;
             
-            _property.ValueChanged += SetValueWithoutNotify;
-            enable.ValueChanged += SetEnabled;
+            _property.OnValueChanged += SetValueWithoutNotify;
+            enable.OnValueChanged += SetEnabled;
 
             RegisterCallback<MouseDownEvent>(OnMouseDownEvent);
             

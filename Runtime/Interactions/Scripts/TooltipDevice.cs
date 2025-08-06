@@ -11,7 +11,7 @@ namespace OC.UI.Interactions
             if (_interaction.Target.TryGetComponent(out IDevice device))
             {
                 _name = device.Component.name;
-                _description = device.Link.Path;
+                _description = device.Link.ClientPath;
             }
             else
             {

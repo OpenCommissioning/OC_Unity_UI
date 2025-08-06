@@ -74,7 +74,7 @@ namespace OC.UI.Panel
         public ToggleSlide(string label, IProperty<bool> property, IProperty<bool> enable) : this(label, property)
         {
             IsEnabled = enable.Value;
-            enable.ValueChanged += value => IsEnabled = value;
+            enable.OnValueChanged += value => IsEnabled = value;
         }
 
         private static void OnClick(ClickEvent evt)
