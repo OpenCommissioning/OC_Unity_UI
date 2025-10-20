@@ -106,14 +106,14 @@ namespace OC.UI.Interactions
             
             SettingsManager.Instance.OnSettingsChanged.AddListener(RefreshSettings);
             SelectionManager.Instance.OnSelectionChanged += OnSelectionChanged;
-            _mode.ValueChanged += OnModeChanged;
+            _mode.OnValueChanged += OnModeChanged;
         }
 
         private void OnDisable()
         {
             SettingsManager.Instance.OnSettingsChanged.RemoveListener(RefreshSettings);
             SelectionManager.Instance.OnSelectionChanged -= OnSelectionChanged;
-            _mode.ValueChanged -= OnModeChanged;
+            _mode.OnValueChanged -= OnModeChanged;
         }
 
         private void OnSelectionChanged(List<Interaction> selectedInteractions)
