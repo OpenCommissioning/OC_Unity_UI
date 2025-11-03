@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/OpenCommissioning/OC_Unity_UI/compare/v1.0.0...v1.0.1) (2025-11-03)
+
+
+### Bug Fixes
+
+* assembly references ([b216112](https://github.com/OpenCommissioning/OC_Unity_UI/commit/b216112820c43fe894c9fcf35a27dea25bedfc35))
+
 # 1.0.0 (2025-11-03)
 
 
