@@ -1,13 +1,13 @@
 {
-    "name": "OC.UI",
-    "rootNamespace": "OC.UI",
+    "name": "OC.UI.Editor",
+    "rootNamespace": "OC.UI.Editor",
     "references": [
-        "OC",
-        "Unity.TextMeshPro",
-        "NaughtyAttributes.Core",
-        "Cinemachine"
+        "GUID:47fad80190177a94f917a02743203241",
+        "GUID:2708f8c223aa5b04a854ea08489de9fe"
     ],
-    "includePlatforms": [],
+    "includePlatforms": [
+        "Editor"
+    ],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,
