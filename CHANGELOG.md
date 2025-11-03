@@ -1,3 +1,10 @@
+## [1.0.2](https://github.com/OpenCommissioning/OC_Unity_UI/compare/v1.0.1...v1.0.2) (2025-11-03)
+
+
+### Bug Fixes
+
+* namespace ([85eba46](https://github.com/OpenCommissioning/OC_Unity_UI/commit/85eba466048aa1f0dfaf5cf284cf9aaefd40b5a6))
+
 ## [1.0.1](https://github.com/OpenCommissioning/OC_Unity_UI/compare/v1.0.0...v1.0.1) (2025-11-03)
 
 
