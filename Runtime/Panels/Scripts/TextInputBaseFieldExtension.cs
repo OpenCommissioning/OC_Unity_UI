@@ -1,12 +1,15 @@
 using OC;
 using UnityEngine.UIElements;
 
-public static class TextInputBaseFieldExtension
+namespace OC.UI.Panel
 {
-    public static void BindReadOnlyProperty<T>(this TextInputBaseField<T> field, IProperty<bool> readOnlyProperty)
+    public static class TextInputBaseFieldExtension
     {
-        field.isReadOnly = !readOnlyProperty.Value;
-        readOnlyProperty.OnValueChanged += value => field.isReadOnly = !value;
+        public static void BindReadOnlyProperty<T>(this TextInputBaseField<T> field, IProperty<bool> readOnlyProperty)
+        {
+            field.isReadOnly = !readOnlyProperty.Value;
+            readOnlyProperty.OnValueChanged += value => field.isReadOnly = !value;
 
+        }
     }
 }
