@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Cinemachine;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace OC.UI.Interactions
 {
@@ -85,8 +86,18 @@ namespace OC.UI.Interactions
         private Texture2D _zoomIcon;
         private Texture2D _fpsIcon;
 
-        private bool _pan;
-        private Vector3 _lastMousePosition;
+        [Header("Testing")]
+        [SerializeField] private bool _isPointerOverUI = false;
+        [SerializeField] private bool _pan;
+        [SerializeField] private bool _sprint = false;
+        [SerializeField] private bool _fps;
+        [SerializeField] private Vector3 _moveInput;
+        [SerializeField] private Vector2 _lookInput;
+        [SerializeField] private Vector2 _zoomInput;
+        [SerializeField] private Vector3 _lastMousePosition;
+
+        [Header("Debug")]
+        [SerializeField] private bool _debug = false;
 
         private void Start()
         {
@@ -130,6 +141,7 @@ namespace OC.UI.Interactions
         private void OnModeChanged(CameraMode mode)
         {
             SetCursor(mode);
+            if (_debug) Debug.Log($"Camera Mode changed to: {mode}");
         }
 
         private void OnValidate()
@@ -152,7 +164,12 @@ namespace OC.UI.Interactions
             _motionDirection = Vector3.zero;
 
             if (_mode.Value != CameraMode.Pan) _pan = false;
-            
+
+            if (!Utils.IsPointerOverScreen(Mouse.current.position.ReadValue()))
+            {
+                _mode.Value = CameraMode.None;
+            }
+
             switch (_mode.Value)
             {
                 case CameraMode.None:
@@ -172,8 +189,105 @@ namespace OC.UI.Interactions
                 default:
                     throw new ArgumentOutOfRangeException();
             }
-            
+
             SetTransform();
+            SetPointerPosition();
+        }
+        
+        public void OnMove(InputAction.CallbackContext context)
+        {
+            //Debug.Log($"Move value: {context.ReadValue<Vector2>()}");
+            if (!_fps)
+            {
+                _moveInput = Vector2.zero;
+                return;
+            }
+
+            _moveInput = context.ReadValue<Vector3>();
+        }
+
+        public void OnLook(InputAction.CallbackContext context)
+        {
+            if (!_fps)
+            {
+                _lookInput = Vector2.zero;
+                return;
+            }
+
+            _lookInput = context.ReadValue<Vector2>();
+        }
+
+        public void OnFPS(InputAction.CallbackContext context)
+        {
+            if (ContextPerformedAndNotOverUI(context))
+            {
+                _fps = true;
+                _mode.Value = CameraMode.FPS;
+            }
+            else
+            {
+                _fps = false;
+                _mode.Value = CameraMode.None;
+            }
+        }
+
+        public void OnPan(InputAction.CallbackContext context)
+        {
+            if (ContextPerformedAndNotOverUI(context))
+            {
+                _mode.Value = CameraMode.Pan;
+            }
+            else
+            {
+                _mode.Value = CameraMode.None;
+            }
+        }
+        
+        public void OnZoom(InputAction.CallbackContext context)
+        {
+            if (ContextPerformedAndNotOverUI(context))
+            {
+                _mode.Value = CameraMode.Zoom;
+            }
+            else
+            {
+                _mode.Value = CameraMode.None;
+            }
+
+            _zoomInput = context.ReadValue<Vector2>();
+        }
+
+        public void OnFocus(InputAction.CallbackContext context)
+        {
+            if (_debug) Debug.Log($"Focus value: {context.performed}");
+            
+            // TO DO: proper implementation
+        }
+
+        public void OnOrbit(InputAction.CallbackContext context)
+        {
+            if (_debug) Debug.Log($"Orbit value: {context.performed}");
+
+            if (ContextPerformedAndNotOverUI(context))
+            {
+                _mode.Value = CameraMode.Orbit;
+            }
+            else
+            {
+                _mode.Value = CameraMode.None;
+            }
+        }
+
+        public void OnSprint(InputAction.CallbackContext context)
+        {
+            if (context.performed)
+            {
+                _sprint = true;
+            }
+            else
+            {
+                _sprint = false;
+            }
         }
 
         private void OnDrawGizmos()
@@ -207,7 +321,7 @@ namespace OC.UI.Interactions
             _isMoving = _motionDirection.sqrMagnitude > 0;
             var speedModifier = 1;
 
-            if (Input.GetKey(KeyCode.LeftShift))
+            if (_sprint)
             {
                 speedModifier *= 5;
             }
@@ -223,7 +337,7 @@ namespace OC.UI.Interactions
         
         private void FPS()
         {
-            var delta = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
+            var delta = _lookInput;
             delta *= _rotationSpeed;
             
             // The reason we calculate the camera position from the pivot, rotation and distance,
@@ -241,17 +355,17 @@ namespace OC.UI.Interactions
 
             _pivot = position + rotation * Vector3.forward * _distance;
 
-            if (Input.GetKey(KeyCode.E) && !Input.GetKey(KeyCode.Q))
+            if (_moveInput.z > 0)
             {
                 _motionDirection = Vector3.up;
             }
-            else if (!Input.GetKey(KeyCode.E) && Input.GetKey(KeyCode.Q))
+            else if (_moveInput.z < 0)
             {
                 _motionDirection = Vector3.down;
             }
 
-            _motionDirection += _rotation * Vector3.forward * Input.GetAxisRaw("Vertical");
-            _motionDirection += _rotation * Vector3.right * Input.GetAxisRaw("Horizontal");
+            _motionDirection += _rotation * Vector3.forward * _moveInput.y;
+            _motionDirection += _rotation * Vector3.right * _moveInput.x;
             _pivot += GetMovementDirection();
         }
 
@@ -294,7 +408,7 @@ namespace OC.UI.Interactions
             {
                 _lastMousePosition = Input.mousePosition;
                 var worldDelta = pointOnDragPlane - lastPointOnDragPlane;
-                if (Input.GetKey(KeyCode.LeftShift))
+                if (_sprint)
                 {
                     worldDelta *= 4;
                 }
@@ -305,7 +419,7 @@ namespace OC.UI.Interactions
 
         public void Zoom()
         {
-            _distance -= Input.mouseScrollDelta.y * _scrollSpeed;
+            _distance -= _zoomInput.y * _scrollSpeed;
             _distance = Mathf.Min(_distance, 150f);
             
             if (_distance < 0.1f)
@@ -371,9 +485,19 @@ namespace OC.UI.Interactions
             return bounds;
         }
 
+        private bool ContextPerformedAndNotOverUI(InputAction.CallbackContext context)
+        {
+            return context.performed && !_isPointerOverUI;
+        }
+        
+        private void SetPointerPosition()
+        {
+            _isPointerOverUI = UIManager.Instance.IsPointerOverUI;
+        }
+
         private enum UpdateLoop
         {
-            Update, 
+            Update,
             FixedUpdate
         }
         
