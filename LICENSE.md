@@ -1,55 +1,29 @@
-Custom Internal Use Software License Agreement
-Effective Date: 2025
-Licensor: Spiratec AG ("Licensor")
-Licensee: Open Commissioning License ("Licensee")
-Software: Open Commissioning UI Unity Package ("Software")
+BSD 3-Clause License
 
-1. Grant of License
-Subject to the terms of this Agreement, Licensor grants to Licensee a non-exclusive, non-transferable, non-sublicensable, and revocable license to use the Software exclusively within projects developed by or in cooperation with Spiratec AG (“Authorized Projects”).
+Copyright (c) 2024, SpiraTec AG
+All rights reserved.
 
-2. Permitted Use
-Licensee may:
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
 
-Integrate the Software into Unity projects solely within the scope of Authorized Projects.
+* Redistributions of source code must retain the above copyright notice, this
+  list of conditions and the following disclaimer.
 
-Modify the Software for internal use within such projects.
+* Redistributions in binary form must reproduce the above copyright notice,
+  this list of conditions and the following disclaimer in the documentation
+  and/or other materials provided with the distribution.
 
-Use the Software on an unlimited number of internal workstations, provided all use remains within the scope of this license.
+* Neither the name of the copyright holder nor the names of its
+  contributors may be used to endorse or promote products derived from
+  this software without specific prior written permission.
 
-3. Prohibited Use
-Licensee shall not:
-
-Use the Software in any project not developed by or with Spiratec AG.
-
-Distribute, sublicense, sell, rent, lease, or otherwise make the Software available to third parties.
-
-Use the Software to create derivative works for use outside of Authorized Projects.
-
-Reverse engineer, decompile, or disassemble the Software unless explicitly permitted by applicable law.
-
-4. Ownership and Intellectual Property
-Licensor retains all rights, title, and interest in and to the Software, including all intellectual property rights. This Agreement does not grant Licensee any ownership of the Software.
-
-5. Confidentiality
-Licensee agrees to treat the Software as confidential and shall not disclose any part of the Software to any third party without Licensor's prior written consent.
-
-6. Term and Termination
-This License is effective from the Effective Date and shall continue until:
-
-Terminated by either party with 30 days' written notice.
-
-Automatically terminated if Licensee breaches any terms of this Agreement.
-
-Upon termination, Licensee shall cease all use of the Software and destroy all copies in its possession.
-
-7. No Warranty
-The Software is provided “as is”, without warranty of any kind, express or implied. Licensor disclaims all warranties, including but not limited to merchantability, fitness for a particular purpose, and non-infringement.
-
-8. Limitation of Liability
-In no event shall Licensor be liable for any indirect, incidental, special, or consequential damages, or loss of profits, even if advised of the possibility of such damages.
-
-9. Governing Law
-This Agreement shall be governed by and construed in accordance with the laws of [Insert Jurisdiction, e.g., "Germany"].
-
-10. Entire Agreement
-This Agreement constitutes the entire understanding between the parties concerning the subject matter and supersedes all prior agreements or understandings.
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
