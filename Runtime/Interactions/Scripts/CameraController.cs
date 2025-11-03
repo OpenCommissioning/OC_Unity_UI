@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Cinemachine;
+using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -104,7 +104,7 @@ namespace OC.UI.Interactions
             RefreshSettings();
             
             _transform = transform;
-            var cameraBrain = CinemachineCore.Instance.GetActiveBrain(0);
+            var cameraBrain = CinemachineBrain.GetActiveBrain(0);
             _camera = cameraBrain.GetComponent<Camera>();
 
             _distance = DEFAULT_DISTANCE;
@@ -196,7 +196,6 @@ namespace OC.UI.Interactions
         
         public void OnMove(InputAction.CallbackContext context)
         {
-            //Debug.Log($"Move value: {context.ReadValue<Vector2>()}");
             if (!_fps)
             {
                 _moveInput = Vector2.zero;
@@ -432,7 +431,7 @@ namespace OC.UI.Interactions
 
         private void Orbit()
         {
-            var delta = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
+            var delta = new Vector2(_lookInput.x, _lookInput.y);
             if (delta.sqrMagnitude < Mathf.Epsilon) return;
             delta *= _rotationSpeed;
             
