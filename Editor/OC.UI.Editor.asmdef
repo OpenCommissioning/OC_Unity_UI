@@ -2,8 +2,8 @@
     "name": "OC.UI.Editor",
     "rootNamespace": "OC.UI.Editor",
     "references": [
-        "GUID:47fad80190177a94f917a02743203241",
-        "GUID:2708f8c223aa5b04a854ea08489de9fe"
+        "OC",
+        "OC.UI"
     ],
     "includePlatforms": [
         "Editor"
