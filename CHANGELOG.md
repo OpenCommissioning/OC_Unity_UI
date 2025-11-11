@@ -1,3 +1,10 @@
+## [1.0.5](https://github.com/OpenCommissioning/OC_Unity_UI/compare/v1.0.4...v1.0.5) (2025-11-11)
+
+
+### Bug Fixes
+
+* license change ([73fd8e8](https://github.com/OpenCommissioning/OC_Unity_UI/commit/73fd8e83166443f52ed1ae63b536c7cdd1af3c6e))
+
 ## [1.0.4](https://github.com/OpenCommissioning/OC_Unity_UI/compare/v1.0.3...v1.0.4) (2025-11-04)
 
 
