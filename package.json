@@ -4,16 +4,12 @@
   "displayName": "Open Commissioning UI",
   "description": "Open Commissioning UI",
   "unity": "2022.3",
-  "documentationUrl": "",
-  "changelogUrl": "",
-  "licensesUrl": "",
+  "documentationUrl": "https://github.com/OpenCommissioning/OC_Unity_UI/blob/upm/README.md",
+  "changelogUrl": "https://github.com/OpenCommissioning/OC_Unity_UI/blob/upm/CHANGELOG.md",
+  "licensesUrl": "https://github.com/OpenCommissioning/OC_Unity_UI/blob/upm/LICENSE.md",    
   "author": {
-    "name": "Open Commissioning Devs",
-    "email": [
-      "michael.kasseckert@spiratec.com",
-      "viktor.gaponenko@spiratec.com",
-      "moritz.langer@spiratec.com.com"
-    ],
+    "name": "Open Commissioning",
+    "email": "opencommissioning@spiratec.com",
     "url": "https://www.spiratec.com/de/kontakt/"
   },
   "samples": [
