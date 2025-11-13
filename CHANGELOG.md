@@ -1,3 +1,10 @@
+## [1.0.7](https://github.com/OpenCommissioning/OC_Unity_UI/compare/v1.0.6...v1.0.7) (2025-11-13)
+
+
+### Bug Fixes
+
+* package json ([11b21e6](https://github.com/OpenCommissioning/OC_Unity_UI/commit/11b21e6328bd2acccaeae3ed9d2563a3c7b5a9f6))
+
 ## [1.0.6](https://github.com/OpenCommissioning/OC_Unity_UI/compare/v1.0.5...v1.0.6) (2025-11-13)
 
 
