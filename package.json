@@ -1,6 +1,6 @@
 {
   "name": "com.open-commissioning.ui",
-  "version": "1.0.0",
+  "version": "1.0.6",
   "displayName": "Open Commissioning UI",
   "description": "Open Commissioning UI",
   "unity": "2022.3",
@@ -12,16 +12,16 @@
     "email": "opencommissioning@spiratec.com",
     "url": "https://www.spiratec.com/de/kontakt/"
   },
-    "samples": [
-        {
-            "displayName": "Demo",
-            "description": "Demo scenes with basic components",
-            "path": "Samples~/Demo"
-        },
-        {
-            "displayName": "Environment",
-            "description": "Base environment",
-            "path": "Samples~/Environment"
-        }
-    ]
+  "samples": [
+    {
+      "displayName": "Demo",
+      "description": "Demo scenes with basic components",
+      "path": "Samples~/Demo"
+    },
+    {
+      "displayName": "Environment",
+      "description": "Base environment",
+      "path": "Samples~/Environment"
+    }
+  ]
 }
