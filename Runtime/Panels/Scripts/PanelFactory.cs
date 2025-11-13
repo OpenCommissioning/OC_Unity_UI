@@ -33,12 +33,18 @@ namespace OC.UI.Panel
             var panel = new Panel(panelHandler.Target.name, true, true, true);
             panel.OnFocus += panelHandler.Focus;
             panel.OnClose += panelHandler.Delete;
-
+            
             var groupStatus = new GroupContainer("Status");
             groupStatus.Add(new BinaryStatusField("Collision", target.Collision));
-            groupStatus.Add(new StringField("Value", target.TargetData));
+            groupStatus.Add(new StringField("RawValue", target.RawData));
+            
+            var groupControl = new GroupContainer("Control");
+            groupControl.Add(new StringField("TargetValue", target.TargetData));
+            groupControl.Add(new Button("Write", target.Write));
+            groupControl.Add(new Button("Read", target.Read));
             
             panel.Add(groupStatus);
+            panel.Add(groupControl);
             
             return panel;
         }
