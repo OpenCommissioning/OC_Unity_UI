@@ -1,3 +1,10 @@
+## [1.0.6](https://github.com/OpenCommissioning/OC_Unity_UI/compare/v1.0.5...v1.0.6) (2025-11-13)
+
+
+### Bug Fixes
+
+* PayloadDataReader UI ([b423a04](https://github.com/OpenCommissioning/OC_Unity_UI/commit/b423a0498174af7a3494037db97a2b6cf99d6c42))
+
 ## [1.0.5](https://github.com/OpenCommissioning/OC_Unity_UI/compare/v1.0.4...v1.0.5) (2025-11-11)
 
 
