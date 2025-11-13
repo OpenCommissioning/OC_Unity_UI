@@ -14,6 +14,7 @@ namespace OC.UI.Toolbar
         protected override void AddContent(SubsystemPanel subsystemPanel)
         {
             _cameras = FindObjectsByType<CinemachineVirtualCamera>(FindObjectsSortMode.InstanceID).ToList();
+            _cameras = _cameras.OrderByDescending(i => i.Priority).ToList();
 
             for (var i = 0; i < _cameras.Count; i++)
             {
@@ -27,18 +28,18 @@ namespace OC.UI.Toolbar
                 subsystemPanel.Add(toggle);
             }
 
-            DisalbeAll();
+            DisableAll();
             SetVirtualCameraState(0, true);
         }
 
         private void SetVirtualCameraState(int index, bool enable)
         {
-            DisalbeAll();
+            DisableAll();
             _toggles[index].SetValueWithoutNotify(true);
             _cameras[index].Priority = enable ? 10 : 0;
         }
 
-        private void DisalbeAll()
+        private void DisableAll()
         {
             foreach (var virtualCamera in _cameras)
             {

@@ -1,3 +1,4 @@
+using Cinemachine;
 using OC.UI.Interactions;
 using UnityEngine;
 
@@ -60,9 +61,10 @@ namespace OC.UI.Panel
 
         public void Focus()
         {
-            if (Camera.main == null) return;
-            var movableCamera = Camera.main.gameObject.GetComponent<CameraController>();
-            movableCamera.FocusOn(Target.gameObject, true);
+            if (CinemachineCore.Instance.GetActiveBrain(0).ActiveVirtualCamera.VirtualCameraGameObject.TryGetComponent(out CameraController cameraController))
+            {
+                cameraController.FocusOn(Target.gameObject, true);
+            }
         }
     }
 }
