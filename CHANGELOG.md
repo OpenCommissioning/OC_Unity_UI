@@ -1,3 +1,10 @@
+## [1.0.8](https://github.com/OpenCommissioning/OC_Unity_UI/compare/v1.0.7...v1.0.8) (2025-11-13)
+
+
+### Bug Fixes
+
+* camera focus ([1e0a79f](https://github.com/OpenCommissioning/OC_Unity_UI/commit/1e0a79f5026403da4fd725714a9dad5ea21e25d8))
+
 ## [1.0.7](https://github.com/OpenCommissioning/OC_Unity_UI/compare/v1.0.6...v1.0.7) (2025-11-13)
 
 
