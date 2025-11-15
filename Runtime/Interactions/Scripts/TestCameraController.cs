@@ -21,6 +21,7 @@ namespace OC.UI.Interactions
         [SerializeField] private bool _debug = false;
         [SerializeField] private bool _isPointerOverUI = false;
         [SerializeField] private Transform _pivot;
+        [SerializeField] private Transform _followTarget;
         [SerializeField] private float _distance = 5f;
 
         private CursorHandler _cursorHandler;
@@ -42,7 +43,7 @@ namespace OC.UI.Interactions
         {
             if (ContextPerformedAndNotOverUI(context))
             {
-                SetFPSFollowTarget();
+                SetFollowTarget();
                 _fpsCamera.Priority = 2;
                 _cameraMode.Value = CameraMode.FPS;
             }
@@ -57,7 +58,7 @@ namespace OC.UI.Interactions
         {
             if (ContextStartedAndNotOverUI(context))
             {
-                SetOrbitPivot();
+                SetPivot();
             }
             if (ContextPerformedAndNotOverUI(context))
             {
@@ -112,14 +113,14 @@ namespace OC.UI.Interactions
             }
         }
 
-        private void SetFPSFollowTarget()
+        private void SetFollowTarget()
         {
             ICinemachineCamera activeCam = CinemachineBrain.GetActiveBrain(0).ActiveVirtualCamera;
             Vector3 camPosition = activeCam.State.RawPosition;
-            _fpsCamera.Target.TrackingTarget.position = camPosition;
+            _followTarget.position = camPosition;
         }
 
-        private void SetOrbitPivot()
+        private void SetPivot()
         {
             ICinemachineCamera activeCam = CinemachineBrain.GetActiveBrain(0).ActiveVirtualCamera;
             Vector3 camPosition = activeCam.State.RawPosition;
@@ -132,15 +133,6 @@ namespace OC.UI.Interactions
 
             _pivot.position = teleportPosition;
         }
-        
-        private void SetPivot()
-        {
-            ICinemachineCamera activeCam = CinemachineBrain.GetActiveBrain(0).ActiveVirtualCamera;
-            Vector3 camPosition = activeCam.State.RawPosition;
-            Vector3 camForward = activeCam.State.GetFinalOrientation() * Vector3.forward;
-
-            _orbitCamera.Target.TrackingTarget.position = camPosition + camForward * 5;
-        }
 
         private bool ContextPerformedAndNotOverUI(InputAction.CallbackContext context)
         {
@@ -150,11 +142,6 @@ namespace OC.UI.Interactions
         private bool ContextStartedAndNotOverUI(InputAction.CallbackContext context)
         {
             return context.started && !_isPointerOverUI;
-        }
-
-        private void SetPointerPosition()
-        {
-            _isPointerOverUI = UIManager.Instance.IsPointerOverUI;
         }
     }
 
