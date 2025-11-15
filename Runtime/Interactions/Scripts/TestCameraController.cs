@@ -98,18 +98,36 @@ namespace OC.UI.Interactions
 
             if (ContextStartedAndNotOverUI(context))
             {
-                SetOrbitPivot();
+                SetPivot();
+                // Disable orbit input while zooming
+                var axisControllers = _orbitCamera.GetComponent<CinemachineInputAxisController>().Controllers;
+                foreach(var controller in axisControllers)
+                {
+                    if(controller.Name == "Look Orbit X" || controller.Name == "Look Orbit Y")
+                    {
+                        controller.Enabled = false;
+                    }
+                }
             }
             if (ContextPerformedAndNotOverUI(context))
             {
                 _orbitCamera.Priority = 2;
                 _cameraMode.Value = CameraMode.Zoom;
             }
-            else
+            else if(context.canceled)
             {
                 _distance = _orbitCamera.GetComponent<CinemachineOrbitalFollow>().RadialAxis.Value * _orbitCamera.GetComponent<CinemachineOrbitalFollow>().Radius;
                 _orbitCamera.Priority = 1;
                 _cameraMode.Value = CameraMode.None;
+                // Enable orbit input while zooming
+                var axisControllers = _orbitCamera.GetComponent<CinemachineInputAxisController>().Controllers;
+                foreach(var controller in axisControllers)
+                {
+                    if(controller.Name == "Look Orbit X" || controller.Name == "Look Orbit Y")
+                    {
+                        controller.Enabled = true;
+                    }
+                }
             }
         }
 
