@@ -47,15 +47,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 817ecc2928f837b4aa8a08d6752902de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _link:
-    _enable: 0
-    _isConnected:
-      _value: 0
-    _type: 
-    _parent: {fileID: 0}
-    _attributes: []
-    _name: 
-    _path: 
   _override:
     _value: 0
   _value:
@@ -63,6 +54,19 @@ MonoBehaviour:
   _color:
     _value: {r: 0, g: 1, b: 1, a: 1}
   _colorChangers: []
+  _link:
+    Control: 0
+    Status: 0
+    _enable: 0
+    _connected:
+      _value: 0
+    _name: 
+    _scenePath: 
+    _clientPath: 
+    _type: 
+    _parent: {fileID: 0}
+    _attributes: []
+    _variablesDescription: []
   OnValueChanged:
     m_PersistentCalls:
       m_Calls:
@@ -540,15 +544,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 817ecc2928f837b4aa8a08d6752902de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _link:
-    _enable: 0
-    _isConnected:
-      _value: 0
-    _type: 
-    _parent: {fileID: 0}
-    _attributes: []
-    _name: 
-    _path: 
   _override:
     _value: 0
   _value:
@@ -556,6 +551,19 @@ MonoBehaviour:
   _color:
     _value: {r: 0, g: 1, b: 1, a: 1}
   _colorChangers: []
+  _link:
+    Control: 0
+    Status: 0
+    _enable: 0
+    _connected:
+      _value: 0
+    _name: 
+    _scenePath: 
+    _clientPath: 
+    _type: 
+    _parent: {fileID: 0}
+    _attributes: []
+    _variablesDescription: []
   OnValueChanged:
     m_PersistentCalls:
       m_Calls:
@@ -799,15 +807,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 817ecc2928f837b4aa8a08d6752902de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _link:
-    _enable: 0
-    _isConnected:
-      _value: 0
-    _type: 
-    _parent: {fileID: 0}
-    _attributes: []
-    _name: 
-    _path: 
   _override:
     _value: 0
   _value:
@@ -815,6 +814,19 @@ MonoBehaviour:
   _color:
     _value: {r: 0, g: 1, b: 1, a: 1}
   _colorChangers: []
+  _link:
+    Control: 0
+    Status: 0
+    _enable: 0
+    _connected:
+      _value: 0
+    _name: 
+    _scenePath: 
+    _clientPath: 
+    _type: 
+    _parent: {fileID: 0}
+    _attributes: []
+    _variablesDescription: []
   OnValueChanged:
     m_PersistentCalls:
       m_Calls:
