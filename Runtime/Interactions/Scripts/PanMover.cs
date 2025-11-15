@@ -40,8 +40,9 @@ namespace OC.UI
         
         private void Pan()
         {
-            var movement = _trackingTarget.rotation * new Vector3(Horizontal.Value, Vertical.Value, 0);
-            _trackingTarget.SetPositionAndRotation(_trackingTarget.position + 1 * Time.deltaTime * movement, _cam.State.RawOrientation);
+            var position = _cam.transform.right * (Horizontal.Value * .1f);
+            position += _cam.transform.up * (Vertical.Value * .1f);
+            _trackingTarget.transform.position += position * Time.deltaTime;
         }
     }
 }

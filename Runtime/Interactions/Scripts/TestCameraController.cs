@@ -77,15 +77,14 @@ namespace OC.UI.Interactions
         {
             if (ContextStartedAndNotOverUI(context))
             {
-                SetOrbitPivot();
+                SetFollowTarget();
             }
             if (ContextPerformedAndNotOverUI(context))
             {
-                _panCamera.GetComponent<CinemachineFollow>().FollowOffset.z = - _distance;
                 _panCamera.Priority = 2;
                 _cameraMode.Value = CameraMode.Pan;
             }
-            else
+            else if(context.canceled)
             {
                 _panCamera.Priority = 1;
                 _cameraMode.Value = CameraMode.None;
