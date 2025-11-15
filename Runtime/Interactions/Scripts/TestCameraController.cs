@@ -47,7 +47,7 @@ namespace OC.UI.Interactions
                 _fpsCamera.Priority = 2;
                 _cameraMode.Value = CameraMode.FPS;
             }
-            else
+            else if(context.canceled)
             {
                 _fpsCamera.Priority = 1;
                 _cameraMode.Value = CameraMode.None;
@@ -66,7 +66,7 @@ namespace OC.UI.Interactions
                 _orbitCamera.Priority = 2;
                 _cameraMode.Value = CameraMode.Orbit;
             }
-            else
+            else if(context.canceled)
             {
                 _orbitCamera.Priority = 1;
                 _cameraMode.Value = CameraMode.None;
