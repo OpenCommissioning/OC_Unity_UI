@@ -23,24 +23,18 @@ namespace OC.UI.Interactions
         [SerializeField] private Transform _pivot;
         [SerializeField] private float _distance = 5f;
 
-        private Texture2D _panIcon;
-        private Texture2D _orbitIcon;
-        private Texture2D _zoomIcon;
-        private Texture2D _fpsIcon;
+        private CursorHandler _cursorHandler;
 
 
         private void Start()
         {
-            _panIcon = Resources.Load<Texture2D>("Cursors/Pan");
-            _orbitIcon = Resources.Load<Texture2D>("Cursors/Orbit");
-            _fpsIcon = Resources.Load<Texture2D>("Cursors/FPS");
-
+            _cursorHandler = new CursorHandler();
             _cameraMode.OnValueChanged += OnModeChanged;
         }
         
         private void OnModeChanged(CameraMode mode)
         {
-            SetCursor(mode);
+            _cursorHandler.SetCursor(mode);
             if (_debug) Debug.Log($"Camera Mode changed to: {mode}");
         }
 
@@ -160,32 +154,9 @@ namespace OC.UI.Interactions
         {
             _isPointerOverUI = UIManager.Instance.IsPointerOverUI;
         }
+    }
 
-        private void SetCursor(CameraMode type)
-        {
-            switch (type)
-            {
-                case CameraMode.None:
-                    Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
-                    break;
-                case CameraMode.Pan:
-                    Cursor.SetCursor(_panIcon, Vector2.zero, CursorMode.Auto);
-                    break;
-                case CameraMode.Orbit:
-                    Cursor.SetCursor(_orbitIcon, Vector2.zero, CursorMode.Auto);
-                    break;
-                case CameraMode.Zoom:
-                    Cursor.SetCursor(_zoomIcon, Vector2.zero, CursorMode.Auto);
-                    break;
-                case CameraMode.FPS:
-                    Cursor.SetCursor(_fpsIcon, Vector2.zero, CursorMode.Auto);
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(type), type, null);
-            }
-        }
-        
-        public enum CameraMode
+    public enum CameraMode
         {
             None,
             FPS,
@@ -193,5 +164,4 @@ namespace OC.UI.Interactions
             Orbit,
             Zoom
         }
-    }
 }
