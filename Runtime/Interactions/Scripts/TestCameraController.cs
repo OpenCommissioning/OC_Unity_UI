@@ -93,6 +93,8 @@ namespace OC.UI.Interactions
         
         public void OnZoom(InputAction.CallbackContext context)
         {
+            if(!UserInputSystem.Instance.IsPointerOverScreen) return;
+
             if (ContextStartedAndNotOverUI(context))
             {
                 SetOrbitPivot();
