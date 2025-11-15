@@ -1,13 +1,14 @@
 using System.Linq;
-using Cinemachine;
+using Unity.Cinemachine;
 using OC.UI.TransformHandles;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace OC.UI.Interactions
 {
     public class UserInputSystem : MonoBehaviour
     {
-        public static UserInputSystem Instance;
+        //public static UserInputSystem Instance;
 
         public bool IsPointerOverScreen => Utils.IsPointerOverScreen(Input.mousePosition);
 
@@ -16,8 +17,8 @@ namespace OC.UI.Interactions
 
         private void Awake()
         {
-            if (Instance == null) Instance = this;
-            else if (Instance != this) Destroy(gameObject);
+            // if (Instance == null) Instance = this;
+            // else if (Instance != this) Destroy(gameObject);
         }
 
         private void Update()
@@ -35,17 +36,19 @@ namespace OC.UI.Interactions
                     UIManager.Instance.CloseLast();
                 }
             }
-            
-            if (CinemachineCore.Instance.GetActiveBrain(0).ActiveVirtualCamera.VirtualCameraGameObject.TryGetComponent(out CameraController cameraController))
-            {
-                CameraUserInputs(cameraController);
+
+            // var cam = CinemachineBrain.GetActiveBrain(0).ActiveVirtualCamera;
+
+            // if (cam is MonoBehaviour camBehaviour && camBehaviour.TryGetComponent(out CameraController cameraController))
+            // {
+            //     CameraUserInputs(cameraController);
                 
-                if (cameraController.IsBusy)
-                {
-                    SelectionManager.Instance.ResetHit();
-                    return;
-                }
-            }
+            //     if (cameraController.IsBusy)
+            //     {
+            //         SelectionManager.Instance.ResetHit();
+            //         return;
+            //     }
+            // }
 
             SelectionUserInputs();
 

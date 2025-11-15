@@ -207,7 +207,7 @@ namespace OC.UI.Interactions
 
         public void OnLook(InputAction.CallbackContext context)
         {
-            if (!_fps)
+            if (_mode.Value != CameraMode.FPS && _mode.Value != CameraMode.Orbit)
             {
                 _lookInput = Vector2.zero;
                 return;
@@ -259,8 +259,11 @@ namespace OC.UI.Interactions
         public void OnFocus(InputAction.CallbackContext context)
         {
             if (_debug) Debug.Log($"Focus value: {context.performed}");
-            
-            // TO DO: proper implementation
+
+            if (context.performed)
+            {
+                Focus();
+            }
         }
 
         public void OnOrbit(InputAction.CallbackContext context)
