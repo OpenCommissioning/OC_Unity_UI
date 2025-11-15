@@ -6,20 +6,13 @@ using UnityEngine.InputSystem;
 
 namespace OC.UI.Interactions
 {
-    public class UserInputSystem : MonoBehaviour
+    public class UserInputSystem : MonoBehaviourSingleton<UserInputSystem>
     {
-        //public static UserInputSystem Instance;
-
-        public bool IsPointerOverScreen => Utils.IsPointerOverScreen(Input.mousePosition);
+        public bool IsPointerOverScreen => Utils.IsPointerOverScreen(Mouse.current.position.value);
 
         private bool _isValid;
         private bool _holdInput;
 
-        private void Awake()
-        {
-            // if (Instance == null) Instance = this;
-            // else if (Instance != this) Destroy(gameObject);
-        }
 
         private void Update()
         {
