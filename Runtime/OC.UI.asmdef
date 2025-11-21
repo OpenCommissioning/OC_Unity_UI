@@ -19,6 +19,12 @@
     "precompiledReferences": [],
     "autoReferenced": true,
     "defineConstraints": [],
-    "versionDefines": [],
+    "versionDefines": [
+        {
+            "name": "com.unity.cinememachine",
+            "expression": "[3.0,3.1.5]",
+            "define": "CINEMACHINE_3_0_OR_NEWER"
+        }
+    ],
     "noEngineReferences": false
 }
