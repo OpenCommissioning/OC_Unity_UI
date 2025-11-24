@@ -11,7 +11,9 @@ namespace OC.UI.Interactions
         [SerializeField] private Property<CameraMode> _mode = new (CameraMode.None);
 
         [Header("Camera Controllers")]
-        [SerializeField] private List<CameraControllerBase> _cameraControllerList;
+        [SerializeField] private OrbitCameraController _orbitCameraController;
+        [SerializeField] private PanCameraController _panCameraController;
+        [SerializeField] private FPSCameraController _fpsCameraController;
 
         [Header("Testing")]
         [SerializeField] private bool _debug = false;
@@ -39,18 +41,17 @@ namespace OC.UI.Interactions
 
         private void OnCameraActivated(ICinemachineCamera.ActivationEventParams args)
         {
-            string camName = args.IncomingCamera.Name;
-            var controller = _cameraControllerList.FirstOrDefault(c => c.Camera != null && c.Camera.Name == camName);
+            var cam = args.IncomingCamera;
             
-            switch(controller)
+            switch(cam)
             {
-                case PanCameraController:
+                case CinemachineCamera c when ReferenceEquals(c, _panCameraController.Camera):
                     _mode.Value = CameraMode.Pan;
                     break;
-                case OrbitCameraController:
+                case CinemachineCamera c when ReferenceEquals(c, _orbitCameraController.Camera):
                     _mode.Value = CameraMode.Orbit;
                     break;
-                case FPSCameraController:
+                case CinemachineCamera c when ReferenceEquals(c, _fpsCameraController.Camera):
                     _mode.Value = CameraMode.FPS;
                     break;
                 default:
