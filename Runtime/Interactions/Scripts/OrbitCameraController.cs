@@ -18,9 +18,9 @@ namespace OC.UI.Interactions
         private InputAction _zoomAction;
         private InputAction _focusAction;
 
-        private const float DEFAULT_DISTANCE = 1f;
+        private const float DEFAULT_DISTANCE = 3f;
 
-        private float _distance = 1f;
+        private float _distanceToPivot = 1f;
         private bool _isFocused = false;
         private GameObject _focusTarget;
         
@@ -95,7 +95,7 @@ namespace OC.UI.Interactions
         private void OnZoomCanceled(InputAction.CallbackContext context)
         {
             var orbitalFollowComponent = _camera.GetComponent<CinemachineOrbitalFollow>();
-            _distance = orbitalFollowComponent.RadialAxis.Value * orbitalFollowComponent.Radius;
+            _distanceToPivot = orbitalFollowComponent.RadialAxis.Value * orbitalFollowComponent.Radius;
 
             Disable();
 
@@ -133,15 +133,15 @@ namespace OC.UI.Interactions
             if (useBounds)
             {
                 var bounds = GetBoundingBoxOfGameObject(target);
-                _distance = bounds.extents.magnitude * DEFAULT_DISTANCE + _camera.Lens.NearClipPlane;
+                _distanceToPivot = bounds.extents.magnitude * DEFAULT_DISTANCE + _camera.Lens.NearClipPlane;
                 ChangeTargetPosition(bounds.center);
-                SetOrbitalFollowDistance(_distance);
+                SetOrbitalFollowDistance(_distanceToPivot);
             }
             else
             {
-                _distance = DEFAULT_DISTANCE;
+                _distanceToPivot = DEFAULT_DISTANCE;
                 ChangeTargetPosition(target.transform.position);
-                SetOrbitalFollowDistance(_distance);
+                SetOrbitalFollowDistance(_distanceToPivot);
             }
             
             StopAllCoroutines();
@@ -163,7 +163,7 @@ namespace OC.UI.Interactions
             var orbitalFollowComponent = _camera.GetComponent<CinemachineOrbitalFollow>();
             orbitalFollowComponent.RadialAxis.Value = distance;
             orbitalFollowComponent.Radius = DEFAULT_DISTANCE;
-            _distance = orbitalFollowComponent.RadialAxis.Value * orbitalFollowComponent.Radius;
+            _distanceToPivot = orbitalFollowComponent.RadialAxis.Value * orbitalFollowComponent.Radius;
         }
 
         private void SetAxisControllerState(string name, bool value)
@@ -209,7 +209,7 @@ namespace OC.UI.Interactions
             ICinemachineCamera activeCam = CinemachineBrain.GetActiveBrain(0).ActiveVirtualCamera;
             Vector3 camPosition = activeCam.State.RawPosition;
             Vector3 camForward = activeCam.State.GetFinalOrientation() * Vector3.forward;
-            Vector3 teleportPosition = camPosition + camForward * _distance;
+            Vector3 teleportPosition = camPosition + camForward * _distanceToPivot;
 
             _camera.PreviousStateIsValid = false;
             _camera.Target.TrackingTarget.position = teleportPosition;
