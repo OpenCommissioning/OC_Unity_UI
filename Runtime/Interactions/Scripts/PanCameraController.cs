@@ -9,6 +9,8 @@ namespace OC.UI.Interactions
         [SerializeField] private InputActionProperty _panActionProperty;
 
         private InputAction _panAction;
+
+        private float _panInputGain = 0f;
         
 
         private void Start()
@@ -42,6 +44,7 @@ namespace OC.UI.Interactions
 
         private void OnPan(InputAction.CallbackContext context)
         {
+            SetPanInputGain();
             Enable();
         }
 
@@ -55,6 +58,17 @@ namespace OC.UI.Interactions
             ICinemachineCamera activeCam = CinemachineBrain.GetActiveBrain(0).ActiveVirtualCamera;
             Vector3 camPosition = activeCam.State.RawPosition;
             _camera.Target.TrackingTarget.position = camPosition;
+        }
+
+        private void SetPanInputGain()
+        {
+            _panInputGain = GetInputGainFromPivotDistance();
+            _inputAxisController.Controllers.ForEach(controller => {controller.Input.Gain = -_panInputGain;});
+        }
+
+        private float GetInputGainFromPivotDistance()
+        {
+            return _navigationController.DistanceToPivot;
         }
     }
 }

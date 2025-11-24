@@ -10,6 +10,8 @@ namespace OC.UI.Interactions
 {
     public class OrbitCameraController : CameraControllerBase
     {
+        public float DistanceToPivot => _distanceToPivot;
+        
         [SerializeField] private InputActionProperty _orbitActionProperty;
         [SerializeField] private InputActionProperty _zoomActionProperty;
         [SerializeField] private InputActionProperty _focusActionProperty;

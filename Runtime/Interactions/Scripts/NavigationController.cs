@@ -7,6 +7,8 @@ namespace OC.UI.Interactions
 {
     public class NavigationController : MonoBehaviour
     {
+        public float DistanceToPivot => _orbitCameraController.DistanceToPivot;
+
         [Header("State")]
         [SerializeField] private Property<CameraMode> _mode = new (CameraMode.None);
 
