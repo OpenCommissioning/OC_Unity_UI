@@ -108,9 +108,9 @@ namespace OC.UI.Interactions
 
             Disable();
 
-            // Enable orbit input when not zooming
-            SetAxisControllerState("Look Orbit X", true);
-            SetAxisControllerState("Look Orbit Y", true);
+            // Wait for zoom cooldown and then enable input for orbit --> otherwise 
+            StopAllCoroutines();
+            StartCoroutine(WaitForZoomCooldown());
         }
 
         private void OnFocusStarted(InputAction.CallbackContext context)
@@ -157,6 +157,16 @@ namespace OC.UI.Interactions
             StartCoroutine(WaitForCameraBlend(CinemachineCore.FindPotentialTargetBrain(_camera)));
 
             // Enable orbit input when focused
+            SetAxisControllerState("Look Orbit X", true);
+            SetAxisControllerState("Look Orbit Y", true);
+        }
+
+        private IEnumerator WaitForZoomCooldown()
+        {
+            yield return new WaitForSeconds(0.1f);
+            _isZooming = false;
+
+            // Enable orbit input when not zooming
             SetAxisControllerState("Look Orbit X", true);
             SetAxisControllerState("Look Orbit Y", true);
         }
