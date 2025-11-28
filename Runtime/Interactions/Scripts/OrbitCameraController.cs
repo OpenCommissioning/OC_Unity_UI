@@ -177,13 +177,7 @@ namespace OC.UI.Interactions
 
         private void SetAxisControllerState(string name, bool value)
         {
-            foreach(var controller in _inputAxisController.Controllers)
-            {
-                if(controller.Name == name)
-                {
-                    controller.Enabled = value;
-                }
-            }
+            _inputAxisController.GetController(name).Enabled = value;
         }
 
         private void OnSelectionChanged(List<Interaction> selectedInteractions)
