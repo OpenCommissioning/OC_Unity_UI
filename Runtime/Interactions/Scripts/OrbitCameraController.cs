@@ -11,6 +11,8 @@ namespace OC.UI.Interactions
     public class OrbitCameraController : CameraControllerBase
     {
         public float DistanceToPivot => _distanceToPivot;
+        public bool IsZooming => _isZooming;
+        public bool IsOrbiting => _isOrbiting; 
         
         [SerializeField] private InputActionProperty _orbitActionProperty;
         [SerializeField] private InputActionProperty _zoomActionProperty;
@@ -24,6 +26,8 @@ namespace OC.UI.Interactions
 
         private float _distanceToPivot = 1f;
         private bool _isFocused = false;
+        private bool _isZooming = false;
+        private bool _isOrbiting = false;
         private GameObject _focusTarget;
         
 
@@ -74,11 +78,13 @@ namespace OC.UI.Interactions
 
         private void OnOrbitStarted(InputAction.CallbackContext context)
         {
+            _isOrbiting = true;
             Enable();
         }
 
         private void OnOrbitCanceled(InputAction.CallbackContext context)
         {
+            _isOrbiting = false;
             Disable();
         }
 
@@ -91,6 +97,7 @@ namespace OC.UI.Interactions
             SetAxisControllerState("Look Orbit X", false);
             SetAxisControllerState("Look Orbit Y", false);
 
+            _isZooming = true;
             Enable();
         }
 

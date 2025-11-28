@@ -7,7 +7,6 @@ namespace OC.UI.Interactions
     {
         private Texture2D _panIcon;
         private Texture2D _orbitIcon;
-        private Texture2D _zoomIcon;
         private Texture2D _fpsIcon;
 
         public CursorHandler()
@@ -36,7 +35,7 @@ namespace OC.UI.Interactions
                     Cursor.SetCursor(_orbitIcon, Vector2.zero, CursorMode.Auto);
                     break;
                 case CameraMode.Zoom:
-                    Cursor.SetCursor(_zoomIcon, Vector2.zero, CursorMode.Auto);
+                    Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
                     break;
                 case CameraMode.FPS:
                     Cursor.SetCursor(_fpsIcon, Vector2.zero, CursorMode.Auto);
