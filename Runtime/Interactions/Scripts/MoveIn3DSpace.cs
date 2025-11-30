@@ -19,10 +19,10 @@ namespace OC.UI
         [SerializeField] private float _sprintSpeed = 4;
 
         [Header("Input Axes")]
-        public InputAxis Horizontal = InputAxis.DefaultMomentary;
-        public InputAxis Vertical = InputAxis.DefaultMomentary;
-        public InputAxis Perpendicular = InputAxis.DefaultMomentary;
-        public InputAxis Sprint = InputAxis.DefaultMomentary;
+        private InputAxis Horizontal = InputAxis.DefaultMomentary;
+        private InputAxis Vertical = InputAxis.DefaultMomentary;
+        private InputAxis Perpendicular = InputAxis.DefaultMomentary;
+        private InputAxis Sprint = InputAxis.DefaultMomentary;
 
         private bool _isSprinting;
 
