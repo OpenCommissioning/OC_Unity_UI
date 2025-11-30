@@ -4,9 +4,10 @@ using UnityEngine;
 
 namespace OC.UI.Interactions
 {
-    public class NavigationController : MonoBehaviour
+    public class CameraControllerMaster : MonoBehaviour
     {
-        public bool Enabled => _defaultCamera.Priority == 1;
+        public bool IsBusy => _mode != CameraMode.None;
+        public bool Enabled => _defaultCamera.Priority != 0;
         public float DistanceToPivot => _orbitCameraController.DistanceToPivot;
         public CinemachineBrain Brain => CinemachineCore.FindPotentialTargetBrain(_defaultCamera);
         public IPropertyReadOnly<float> RotationGain => _rotationGain;
@@ -46,6 +47,9 @@ namespace OC.UI.Interactions
         [Header("State")]
         [SerializeField] private Property<CameraMode> _mode = new (CameraMode.None);
 
+        [Header("Defaul Camera")]
+        [SerializeField] private CinemachineCamera _defaultCamera;
+
         [Header("Camera Controllers")]
         [SerializeField] private OrbitCameraController _orbitCameraController;
         [SerializeField] private PanCameraController _panCameraController;
@@ -62,12 +66,10 @@ namespace OC.UI.Interactions
         [SerializeField] 
         private int _scrollSensitivity = 5;
 
-        [Header("Testing")]
-        [SerializeField] private bool _debug = false;
 
-        private const float ROTATION_GAIN_DEFAULT = 0.5f;
-        private const float SCROLL_GAIN_DEFAULT = 0.02f;
-        private const float MOVE_SPEED_DEFAULT = 1f;
+        private const float ROTATION_GAIN_DEFAULT = 0.15f;
+        private const float SCROLL_GAIN_DEFAULT = 0.004f;
+        private const float MOVE_SPEED_DEFAULT = 0.5f;
 
         [SerializeField] private Property<float> _rotationGain = new(0f);
         [SerializeField] private Property<float> _scrollGain = new(0f);
@@ -132,6 +134,25 @@ namespace OC.UI.Interactions
                     _mode.Value = CameraMode.None;
                     break;
             }
+        }
+
+        public void Prioritize()
+        {
+            StopAllCoroutines();
+            StartCoroutine(PrioritizeCoroutine());
+        }
+
+        public void Priority(int priority)
+        {
+            _defaultCamera.Priority = priority;
+        }
+
+        private IEnumerator PrioritizeCoroutine()
+        {
+            _defaultCamera.BlendHint = CinemachineCore.BlendHints.CylindricalPosition;
+            _defaultCamera.Priority = 1;
+            yield return new WaitUntil(() => !Brain.IsBlending);
+            _defaultCamera.BlendHint = CinemachineCore.BlendHints.InheritPosition;
         }
     }
 

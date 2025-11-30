@@ -68,7 +68,7 @@ namespace OC.UI.Interactions
 
         private float GetInputGainFromPivotDistance()
         {
-            return _navigationController.DistanceToPivot;
+            return _controllerMaster.DistanceToPivot/50;
         }
     }
 }

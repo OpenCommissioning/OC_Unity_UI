@@ -12,7 +12,7 @@ namespace OC.UI.Interactions
 
         protected CinemachineCamera _camera;
         protected CinemachineInputAxisController _inputAxisController;
-        protected NavigationController _navigationController;
+        protected CameraControllerMaster _controllerMaster;
         
 
         protected void Awake()
@@ -20,16 +20,18 @@ namespace OC.UI.Interactions
             _camera = GetComponent<CinemachineCamera>();   
             _camera.enabled = _cameraEnabledAtStart; 
             _inputAxisController = GetComponent<CinemachineInputAxisController>();
-            _navigationController = GetComponentInParent<NavigationController>();
+            _controllerMaster = GetComponentInParent<CameraControllerMaster>();
         }
 
         public virtual void Enable()
         {
+            if(!_controllerMaster.Enabled) return;
             _camera.enabled = true;
         }
 
         public virtual void Disable()
         {
+            if(!_controllerMaster.Enabled) return;
             _camera.enabled = false;
         }
     }
