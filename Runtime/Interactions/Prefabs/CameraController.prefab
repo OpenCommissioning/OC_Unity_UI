@@ -74,14 +74,14 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2135075322593533119}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f9dfa5b682dcd46bda6128250e975f58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Priority:
     Enabled: 1
-    m_Value: 1
+    m_Value: 2
   OutputChannel: 1
   StandbyUpdate: 2
   m_StreamingVersion: 20241001
@@ -178,10 +178,10 @@ MonoBehaviour:
       Input:
         InputAction: {fileID: -5630151704836100654, guid: 5801e2976a5a8cb48be3333ec7c1c733,
           type: 3}
-        Gain: -5
+        Gain: -0.5
         LegacyInput: 
         LegacyGain: 1
-        CancelDeltaTime: 0
+        CancelDeltaTime: 1
       InputValue: 0
       Driver:
         AccelTime: 0
@@ -192,10 +192,10 @@ MonoBehaviour:
       Input:
         InputAction: {fileID: -5630151704836100654, guid: 5801e2976a5a8cb48be3333ec7c1c733,
           type: 3}
-        Gain: -5
+        Gain: -0.5
         LegacyInput: 
         LegacyGain: 1
-        CancelDeltaTime: 0
+        CancelDeltaTime: 1
       InputValue: 0
       Driver:
         AccelTime: 0
@@ -237,7 +237,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2603611278282194718}
-  - component: {fileID: 456007632435933986}
+  - component: {fileID: 6623424858871604627}
   m_Layer: 0
   m_Name: CameraController
   m_TagString: Untagged
@@ -262,7 +262,7 @@ Transform:
   - {fileID: 2435795756017113847}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &456007632435933986
+--- !u!114 &6623424858871604627
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -271,22 +271,25 @@ MonoBehaviour:
   m_GameObject: {fileID: 2765020037067839535}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c286331b7dd6396409af96ad3d73d2a6, type: 3}
+  m_Script: {fileID: 11500000, guid: ba481732736f325478bb7517a9435025, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _mode:
     _value: 0
-  _cameraControllerList:
-  - {fileID: 1971398325601572488}
-  - {fileID: 1925543119240584906}
-  - {fileID: 2174563796420938754}
-  _focusTarget: {fileID: 0}
+  _defaultCamera: {fileID: 4837580615399096299}
+  _orbitCameraController: {fileID: 1925543119240584906}
+  _panCameraController: {fileID: 2174563796420938754}
+  _fpsCameraController: {fileID: 1971398325601572488}
+  _mouseSensitivity: 5
+  _moveSensitivity: 5
+  _scrollSensitivity: 5
   _debug: 0
-  _isPointerOverUI: 0
-  _isFocused: 0
-  _pivot: {fileID: 0}
-  _followTarget: {fileID: 0}
-  _distance: 5
+  _rotationGain:
+    _value: 0.75
+  _scrollGain:
+    _value: 0.020000001
+  _moveSpeed:
+    _value: 2.5
 --- !u!1 &3397471295749206164
 GameObject:
   m_ObjectHideFlags: 0
@@ -429,14 +432,14 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6065747206016461813}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f9dfa5b682dcd46bda6128250e975f58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Priority:
     Enabled: 1
-    m_Value: 1
+    m_Value: 2
   OutputChannel: 1
   StandbyUpdate: 2
   m_StreamingVersion: 20241001
@@ -519,9 +522,9 @@ MonoBehaviour:
       Time: 2
     Restrictions: 0
   RadialAxis:
-    Value: 1
-    Center: 1
-    Range: {x: 0.01, y: 10}
+    Value: 3
+    Center: 3
+    Range: {x: 0.01, y: 100}
     Wrap: 0
     Recentering:
       Enabled: 0
@@ -580,10 +583,10 @@ MonoBehaviour:
       Input:
         InputAction: {fileID: -5630151704836100654, guid: 5801e2976a5a8cb48be3333ec7c1c733,
           type: 3}
-        Gain: 10
+        Gain: 0.5
         LegacyInput: 
         LegacyGain: 1
-        CancelDeltaTime: 0
+        CancelDeltaTime: 1
       InputValue: 0
       Driver:
         AccelTime: 0.2
@@ -594,10 +597,10 @@ MonoBehaviour:
       Input:
         InputAction: {fileID: -5630151704836100654, guid: 5801e2976a5a8cb48be3333ec7c1c733,
           type: 3}
-        Gain: -10
+        Gain: -0.5
         LegacyInput: 
         LegacyGain: 1
-        CancelDeltaTime: 0
+        CancelDeltaTime: 1
       InputValue: 0
       Driver:
         AccelTime: 0.2
@@ -608,10 +611,10 @@ MonoBehaviour:
       Input:
         InputAction: {fileID: -2333446826551399854, guid: 5801e2976a5a8cb48be3333ec7c1c733,
           type: 3}
-        Gain: -5
+        Gain: -0.1
         LegacyInput: 
         LegacyGain: 1
-        CancelDeltaTime: 0
+        CancelDeltaTime: 1
       InputValue: 0
       Driver:
         AccelTime: 0
@@ -670,6 +673,9 @@ MonoBehaviour:
       m_Flags: 0
     m_Reference: {fileID: 8256910942690146540, guid: 5801e2976a5a8cb48be3333ec7c1c733,
       type: 3}
+  _zoomInputGain: 0
+  _zoomInputGainMaster: 0
+  _rotationGain: 0
 --- !u!1 &6582740456461446132
 GameObject:
   m_ObjectHideFlags: 0
@@ -789,14 +795,14 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6790873231929574749}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f9dfa5b682dcd46bda6128250e975f58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Priority:
     Enabled: 1
-    m_Value: 1
+    m_Value: 2
   OutputChannel: 1
   StandbyUpdate: 2
   m_StreamingVersion: 20241001
@@ -895,10 +901,10 @@ MonoBehaviour:
       Input:
         InputAction: {fileID: -5630151704836100654, guid: 5801e2976a5a8cb48be3333ec7c1c733,
           type: 3}
-        Gain: 10
+        Gain: 0.5
         LegacyInput: 
         LegacyGain: 1
-        CancelDeltaTime: 0
+        CancelDeltaTime: 1
       InputValue: 0
       Driver:
         AccelTime: 0.2
@@ -909,10 +915,10 @@ MonoBehaviour:
       Input:
         InputAction: {fileID: -5630151704836100654, guid: 5801e2976a5a8cb48be3333ec7c1c733,
           type: 3}
-        Gain: -10
+        Gain: -0.5
         LegacyInput: 
         LegacyGain: 1
-        CancelDeltaTime: 0
+        CancelDeltaTime: 1
       InputValue: 0
       Driver:
         AccelTime: 0.2
@@ -988,47 +994,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 1
-  _sprintSpeed: 4
-  Horizontal:
-    Value: 0
-    Center: 0
-    Range: {x: -1, y: 1}
-    Wrap: 0
-    Recentering:
-      Enabled: 0
-      Wait: 0
-      Time: 0
-    Restrictions: 6
-  Vertical:
-    Value: 0
-    Center: 0
-    Range: {x: -1, y: 1}
-    Wrap: 0
-    Recentering:
-      Enabled: 0
-      Wait: 0
-      Time: 0
-    Restrictions: 6
-  Perpendicular:
-    Value: 0
-    Center: 0
-    Range: {x: -1, y: 1}
-    Wrap: 0
-    Recentering:
-      Enabled: 0
-      Wait: 0
-      Time: 0
-    Restrictions: 6
-  Sprint:
-    Value: 0
-    Center: 0
-    Range: {x: -1, y: 1}
-    Wrap: 0
-    Recentering:
-      Enabled: 0
-      Wait: 0
-      Time: 0
-    Restrictions: 6
+  _sprintSpeedMultiplier: 3
 --- !u!114 &1971398325601572488
 MonoBehaviour:
   m_ObjectHideFlags: 0
