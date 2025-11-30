@@ -7,6 +7,12 @@ namespace OC.UI
 {
     public class MoveIn3DSpace : MonoBehaviour, IInputAxisOwner
     {
+        public float Speed
+        {
+            get => _speed;
+            set => _speed = value;
+        }
+
         [Tooltip("Default FPS speed")]
         [SerializeField] private float _speed = 1f;
         [Tooltip("Speed when sprinting")]

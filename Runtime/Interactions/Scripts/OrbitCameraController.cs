@@ -29,6 +29,10 @@ namespace OC.UI.Interactions
         private bool _isZooming = false;
         private bool _isOrbiting = false;
         private GameObject _focusTarget;
+
+        [SerializeField] private float _zoomInputGain = 0;
+        [SerializeField] private float _zoomInputGainMaster = 0;
+        [SerializeField] private float _rotationGain = 0;
         
 
         private void Start()
@@ -46,6 +50,8 @@ namespace OC.UI.Interactions
             _zoomAction?.Enable();
             _focusAction?.Enable();
             SelectionManager.Instance.OnSelectionChanged += OnSelectionChanged;
+            _controllerMaster.RotationGain.Subscribe(OnRotationGainChangedAction);
+            _controllerMaster.ScrollGain.Subscribe(OnScrollGainChangedAction);
         }
 
         private void OnDisable()
@@ -54,6 +60,8 @@ namespace OC.UI.Interactions
             _zoomAction?.Disable();
             _focusAction?.Disable();
             SelectionManager.Instance.OnSelectionChanged -= OnSelectionChanged;
+            _controllerMaster.RotationGain.Unsubscribe(OnRotationGainChangedAction);
+            _controllerMaster.ScrollGain.Unsubscribe(OnScrollGainChangedAction);
         }
 
         public override void Enable()
@@ -92,6 +100,8 @@ namespace OC.UI.Interactions
         {
             if(!UserInputSystem.Instance.IsPointerOverScreen) return;
             if(UIManager.Instance.IsUIFieldSelected) return;
+
+            SetZoomInputGain();
 
             // Disable orbit input while zooming
             SetAxisControllerState("Look Orbit X", false);
@@ -217,6 +227,18 @@ namespace OC.UI.Interactions
             Disable();
         }
 
+        private void OnRotationGainChangedAction(float value)
+        {
+            _rotationGain = value;
+            _inputAxisController.GetController("Look Orbit X").Input.Gain = _rotationGain;
+            _inputAxisController.GetController("Look Orbit Y").Input.Gain = -_rotationGain;
+        }
+
+        private void OnScrollGainChangedAction(float value)
+        {
+            _zoomInputGainMaster = value; 
+        }
+
         private void SetPivotBeforeCamChange()
         {
             ICinemachineCamera activeCam = CinemachineBrain.GetActiveBrain(0).ActiveVirtualCamera;
@@ -226,6 +248,17 @@ namespace OC.UI.Interactions
 
             _camera.PreviousStateIsValid = false;
             _camera.Target.TrackingTarget.position = teleportPosition;
+        }
+
+        private void SetZoomInputGain()
+        {
+            _zoomInputGain = GetInputGainFromPivotDistance();
+            _inputAxisController.GetController("Orbit Scale").Input.Gain = - _zoomInputGain;
+        }
+
+        private float GetInputGainFromPivotDistance()
+        {
+            return _distanceToPivot * _zoomInputGainMaster;
         }
     }
 }

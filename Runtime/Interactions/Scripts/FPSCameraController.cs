@@ -8,8 +8,16 @@ namespace OC.UI.Interactions
     {
         [SerializeField] private InputActionProperty _fpsActionProperty;
 
+        private MoveIn3DSpace _freeMover;
+
         private InputAction _fpsAction;
-        
+
+
+        protected override void Awake()
+        {
+            base.Awake();
+            _freeMover = GetComponent<MoveIn3DSpace>();
+        }
 
         private void Start()
         {
@@ -20,11 +28,15 @@ namespace OC.UI.Interactions
         private void OnEnable()
         {
             _fpsAction?.Enable();
+            _controllerMaster.MoveSpeed.Subscribe(OnMoveSpeedChangedAction);
+            _controllerMaster.RotationGain.Subscribe(OnRatationGainChangedAction);
         }
 
         private void OnDisable()
         {
             _fpsAction?.Disable();
+            _controllerMaster.MoveSpeed.Unsubscribe(OnMoveSpeedChangedAction);
+            _controllerMaster.RotationGain.Unsubscribe(OnRatationGainChangedAction);
         }
 
         public override void Enable()
@@ -48,6 +60,17 @@ namespace OC.UI.Interactions
         private void OnFPSCanceled(InputAction.CallbackContext context)
         {
             Disable();
+        }
+
+        private void OnMoveSpeedChangedAction(float value)
+        {
+            _freeMover.Speed = value;
+        }
+
+        private void OnRatationGainChangedAction(float value)
+        {
+            _inputAxisController.GetController("Look X (Pan)").Input.Gain = value;
+            _inputAxisController.GetController("Look Y (Tilt)").Input.Gain = -value;
         }
 
         private void SetFollowTarget()

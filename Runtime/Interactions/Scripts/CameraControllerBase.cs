@@ -15,7 +15,7 @@ namespace OC.UI.Interactions
         protected CameraControllerMaster _controllerMaster;
         
 
-        protected void Awake()
+        protected virtual void Awake()
         {
             _camera = GetComponent<CinemachineCamera>();   
             _camera.enabled = _cameraEnabledAtStart; 
