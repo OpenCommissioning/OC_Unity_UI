@@ -21,7 +21,8 @@ namespace OC.UI.Interactions
         private InputAction _zoomAction;
         private InputAction _focusAction;
 
-        private const float DEFAULT_DISTANCE = 3f;
+        private const float DEFAULT_FOCUS_DISTANCE = 3f;
+        private const float DEFAULT_PIVOT_DISTANCE = 3f;
 
         private float _distanceToPivot = 1f;
         private bool _isFocused = false;
@@ -41,6 +42,7 @@ namespace OC.UI.Interactions
             _zoomAction.Enable();
             _focusAction.Enable();
             SelectionManager.Instance.OnSelectionChanged += OnSelectionChanged;
+            _distanceToPivot = DEFAULT_PIVOT_DISTANCE;
         }
 
         private void OnEnable()
@@ -154,13 +156,13 @@ namespace OC.UI.Interactions
             if (useBounds)
             {
                 var bounds = GetBoundingBoxOfGameObject(target);
-                _distanceToPivot = bounds.extents.magnitude * DEFAULT_DISTANCE + _camera.Lens.NearClipPlane;
+                _distanceToPivot = bounds.extents.magnitude * DEFAULT_FOCUS_DISTANCE + _camera.Lens.NearClipPlane;
                 ChangeTargetPosition(bounds.center);
                 SetOrbitalFollowDistance(_distanceToPivot);
             }
             else
             {
-                _distanceToPivot = DEFAULT_DISTANCE;
+                _distanceToPivot = DEFAULT_FOCUS_DISTANCE;
                 ChangeTargetPosition(target.transform.position);
                 SetOrbitalFollowDistance(_distanceToPivot);
             }
@@ -194,8 +196,6 @@ namespace OC.UI.Interactions
         {
             var orbitalFollowComponent = _camera.GetComponent<CinemachineOrbitalFollow>();
             orbitalFollowComponent.RadialAxis.Value = distance;
-            orbitalFollowComponent.Radius = DEFAULT_DISTANCE;
-            _distanceToPivot = orbitalFollowComponent.RadialAxis.Value * orbitalFollowComponent.Radius;
         }
 
         private void SetAxisControllerState(string name, bool value)
