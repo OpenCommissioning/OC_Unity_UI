@@ -165,9 +165,10 @@ namespace OC.UI.Interactions
                 ChangeTargetPosition(target.transform.position);
                 SetOrbitalFollowDistance(_distanceToPivot);
             }
-            
+
+            // Wait for the blend from the OnFocusStared method and then disable the camera
             StopAllCoroutines();
-            StartCoroutine(WaitForCameraBlend(CinemachineCore.FindPotentialTargetBrain(_camera)));
+            StartCoroutine(WaitForCameraBlend());
 
             // Enable orbit input when focused
             SetAxisControllerState("Look Orbit X", true);
@@ -224,9 +225,9 @@ namespace OC.UI.Interactions
             return bounds;
         }
 
-        private IEnumerator WaitForCameraBlend(CinemachineBrain brain)
+        private IEnumerator WaitForCameraBlend()
         {
-            yield return new WaitUntil(() => !brain.IsBlending);
+            yield return new WaitUntil(() => !_controllerMaster.Brain.IsBlending);
             Disable();
         }
 
@@ -244,7 +245,7 @@ namespace OC.UI.Interactions
 
         private void SetPivotBeforeCamChange()
         {
-            ICinemachineCamera activeCam = CinemachineBrain.GetActiveBrain(0).ActiveVirtualCamera;
+            ICinemachineCamera activeCam = _controllerMaster.Brain.ActiveVirtualCamera;
             Vector3 camPosition = activeCam.State.RawPosition;
             Vector3 camForward = activeCam.State.GetFinalOrientation() * Vector3.forward;
             Vector3 teleportPosition = camPosition + camForward * _distanceToPivot;
