@@ -10,25 +10,52 @@ namespace OC.UI.Interactions
     {
         public bool IsPointerOverScreen => Utils.IsPointerOverScreen(Mouse.current.position.value);
 
+        [SerializeField] private InputActionProperty _toolTypeMoveActionProperty;
+        [SerializeField] private InputActionProperty _toolTypeRotationActionProperty;
+        [SerializeField] private InputActionProperty _toolTypeViewActionProperty;
+        [SerializeField] private InputActionProperty _escapeActionProperty;
         private bool _isValid;
         private bool _holdInput;
 
+        private InputAction _toolTypeMoveAction;
+        private InputAction _toolTypeRotationAction;
+        private InputAction _toolTypeViewAction;
+        private InputAction _escapeAction;
+
+        [SerializeField] private CameraControllerMaster _cameraControllerMaster;
+
+
+        private void Start()
+        {
+            RegisterActions();
+            _escapeAction.Enable();
+            CinemachineCore.CameraActivatedEvent.AddListener(OnCameraActivated);
+        }
+
+        private void RegisterActions()
+        {
+            _toolTypeMoveAction = _toolTypeMoveActionProperty.reference != null ? _toolTypeMoveActionProperty.reference.action : _toolTypeMoveActionProperty.action;
+            _toolTypeMoveAction.started += OnToolTypeMoveAction;
+
+            _toolTypeRotationAction = _toolTypeRotationActionProperty.reference != null ? _toolTypeRotationActionProperty.reference.action : _toolTypeRotationActionProperty.action;
+            _toolTypeRotationAction.started += OnToolTypeRotationAction;
+
+            _toolTypeViewAction = _toolTypeViewActionProperty.reference != null ? _toolTypeViewActionProperty.reference.action : _toolTypeViewActionProperty.action;
+            _toolTypeViewAction.started += OnToolTypeViewAction;
+
+            _escapeAction = _escapeActionProperty.reference != null ? _escapeActionProperty.reference.action : _escapeActionProperty.action;
+            _escapeAction.started += OnEscapeAction;
+        }
 
         private void Update()
         {
-            //if (!_isValid) return;
-
-            if (Input.GetKeyDown(KeyCode.Escape))
+            if (_cameraControllerMaster != null && _cameraControllerMaster.IsBusy)
             {
-                if (SelectionManager.Instance.SelectedInteractions.Any())
-                {
-                    SelectionManager.Instance.Deselect(SelectionManager.Instance.SelectedInteractions.Last());
-                }
-                else
-                {
-                    UIManager.Instance.CloseLast();
-                }
+                DisableToolbarInput();
+                SelectionManager.Instance.ResetHit();
+                return;
             }
+            //if (!_isValid) return;
 
             // var cam = CinemachineBrain.GetActiveBrain(0).ActiveVirtualCamera;
 
@@ -47,10 +74,51 @@ namespace OC.UI.Interactions
 
             if (!UIManager.Instance.IsUIFieldSelected && RuntimeTransformHandle.Instance != null)
             {
-                if (Input.GetKeyDown(KeyCode.W)) RuntimeTransformHandle.Instance.ToolType = ToolType.Move;
-                if (Input.GetKeyDown(KeyCode.E)) RuntimeTransformHandle.Instance.ToolType = ToolType.Rotation;
-                if (Input.GetKeyDown(KeyCode.Q)) RuntimeTransformHandle.Instance.ToolType = ToolType.View;
+                EnableToolbarInput();
             }
+            else
+            {
+                DisableToolbarInput();
+            }
+        }
+
+        private void OnToolTypeMoveAction(InputAction.CallbackContext context)
+        {
+            RuntimeTransformHandle.Instance.ToolType = ToolType.Move;
+        }
+
+        private void OnToolTypeRotationAction(InputAction.CallbackContext context)
+        {
+            RuntimeTransformHandle.Instance.ToolType = ToolType.Rotation;
+        }
+
+        private void OnToolTypeViewAction(InputAction.CallbackContext context)
+        {
+            RuntimeTransformHandle.Instance.ToolType = ToolType.View;
+        }
+
+        private void OnEscapeAction(InputAction.CallbackContext context)
+        {
+            if (SelectionManager.Instance.SelectedInteractions.Any())
+            {
+                SelectionManager.Instance.Deselect(SelectionManager.Instance.SelectedInteractions.Last());
+            }
+            else
+            {
+                UIManager.Instance.CloseLast();
+            }
+        }
+
+        private void OnCameraActivated(ICinemachineCamera.ActivationEventParams args)
+        {
+            if (args.IncomingCamera is CinemachineCamera cam)
+            {
+                var master = cam.GetComponentInParent<CameraControllerMaster>();
+                if(master != null)
+                {
+                    _cameraControllerMaster = master;
+                }
+            }           
         }
 
         private void SelectionUserInputs()
@@ -69,75 +137,18 @@ namespace OC.UI.Interactions
             //}
         }
 
-        private void CameraUserInputs(CameraController cameraController)
+        private void EnableToolbarInput()
         {
-            if (!IsPointerOverScreen)
-            {
-                cameraController.Mode = CameraController.CameraMode.None;
-                return;
-            }
+            _toolTypeMoveAction.Enable();
+            _toolTypeRotationAction.Enable();
+            _toolTypeViewAction.Enable();
+        }
 
-            if (Input.GetKeyUp(KeyCode.Mouse1) || Input.GetKeyUp(KeyCode.Mouse2))
-            {
-                cameraController.Mode = CameraController.CameraMode.None;
-                return;
-            }
-
-            if (cameraController.Mode == CameraController.CameraMode.Orbit)
-            {
-                if (Input.GetKeyUp(KeyCode.Mouse0))
-                {
-                    cameraController.Mode = CameraController.CameraMode.None;
-                    return;
-                }
-
-                if (!Input.GetKey(KeyCode.LeftAlt))
-                {
-                    cameraController.Mode = CameraController.CameraMode.None;
-                    return;
-                }
-            }
-
-            if (cameraController.Mode == CameraController.CameraMode.Zoom)
-            {
-                if (Input.mouseScrollDelta.y == 0)
-                {
-                    cameraController.Mode = CameraController.CameraMode.None;
-                    return;
-                }
-            }
-
-            if (!UIManager.Instance.IsPointerOverUI)
-            {
-                if (Input.GetKeyDown(KeyCode.Mouse1))
-                {
-                    cameraController.Mode = CameraController.CameraMode.FPS;
-                    return;
-                }
-
-                if (Input.GetKeyDown(KeyCode.Mouse2))
-                {
-                    cameraController.Mode = CameraController.CameraMode.Pan;
-                    return;
-                }
-
-                if (Input.GetKeyDown(KeyCode.Mouse0) && Input.GetKey(KeyCode.LeftAlt))
-                {
-                    cameraController.Mode = CameraController.CameraMode.Orbit;
-                    return;
-                }
-
-                if (Input.mouseScrollDelta.y != 0)
-                {
-                    cameraController.Zoom();
-                    return;
-                }
-            }
-
-            if (Input.GetKeyDown(KeyCode.F) && !UIManager.Instance.IsUIFieldSelected)
-            {
-                cameraController.Focus();
-            }
+        private void DisableToolbarInput()
+        {
+            _toolTypeMoveAction.Disable();
+            _toolTypeRotationAction.Disable();
+            _toolTypeViewAction.Disable();
         }
     }
 }
