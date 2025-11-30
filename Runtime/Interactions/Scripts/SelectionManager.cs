@@ -12,9 +12,8 @@ namespace OC.UI.Interactions
     [RequireComponent(typeof(MeshCollider))]
     [RequireComponent(typeof(Rigidbody))]
     [DefaultExecutionOrder(-1000)]
-    public class SelectionManager : MonoBehaviour
+    public class SelectionManager : MonoBehaviourSingleton<SelectionManager>
     {
-        public static SelectionManager Instance { get; private set; }
         public IEnumerable<Interaction> SelectedInteractions => _selectedInteractions;
         public List<GameObject> HitGameObjects => _hitGameobjects;
         public Ray Pointer => _pointer;
@@ -80,11 +79,6 @@ namespace OC.UI.Interactions
         private GameObject _closestHitGameobject;
         private bool _hitHandle;
         
-        private void Awake()
-        {
-            if (Instance == null) Instance = this;
-            else if (Instance != this) Destroy(gameObject);
-        }
 
         private void Start()
         {
