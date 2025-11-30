@@ -16,7 +16,7 @@ namespace OC.UI
         [Tooltip("Default FPS speed")]
         [SerializeField] private float _speed = 1f;
         [Tooltip("Speed when sprinting")]
-        [SerializeField] private float _sprintSpeed = 4;
+        [SerializeField] private float _sprintSpeedMultiplier = 4;
 
         [Header("Input Axes")]
         private InputAxis Horizontal = InputAxis.DefaultMomentary;
@@ -60,7 +60,7 @@ namespace OC.UI
         private void FPS()
         {
             _isSprinting = Sprint.Value > 0.5f;
-            var desiredVelocity = _isSprinting ? _sprintSpeed : _speed;
+            var desiredVelocity = _isSprinting ? _speed * _sprintSpeedMultiplier : _speed;
             var movement = _trackingTarget.rotation * new Vector3(Horizontal.Value, Perpendicular.Value, Vertical.Value);
             _trackingTarget.SetPositionAndRotation(_trackingTarget.position + desiredVelocity * Time.deltaTime * movement, _cam.State.RawOrientation);
         }
