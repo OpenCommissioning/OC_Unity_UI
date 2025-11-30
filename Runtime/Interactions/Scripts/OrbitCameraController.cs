@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using OC.UI.Interactions;
 using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -99,8 +98,8 @@ namespace OC.UI.Interactions
 
         private void OnZoomStarted(InputAction.CallbackContext context)
         {
-            if(!UserInputSystem.Instance.IsPointerOverScreen) return;
             if(_controllerMaster.Brain.IsBlending) return;
+            if(!Utils.IsPointerOverScreen(Mouse.current.position.value)) return;
             if(UIManager.Instance.IsUIFieldSelected) return;
 
             SetZoomInputGain();
