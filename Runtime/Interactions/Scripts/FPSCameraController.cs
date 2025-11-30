@@ -54,6 +54,7 @@ namespace OC.UI.Interactions
 
         private void OnFPS(InputAction.CallbackContext context)
         {
+            if(_controllerMaster.Brain.IsBlending) return;
             Enable();
         }
 

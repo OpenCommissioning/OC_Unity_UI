@@ -86,6 +86,7 @@ namespace OC.UI.Interactions
 
         private void OnOrbitStarted(InputAction.CallbackContext context)
         {
+            if(_controllerMaster.Brain.IsBlending) return;
             _isOrbiting = true;
             Enable();
         }
@@ -99,6 +100,7 @@ namespace OC.UI.Interactions
         private void OnZoomStarted(InputAction.CallbackContext context)
         {
             if(!UserInputSystem.Instance.IsPointerOverScreen) return;
+            if(_controllerMaster.Brain.IsBlending) return;
             if(UIManager.Instance.IsUIFieldSelected) return;
 
             SetZoomInputGain();
@@ -125,6 +127,7 @@ namespace OC.UI.Interactions
 
         private void OnFocusStarted(InputAction.CallbackContext context)
         {
+            if(_controllerMaster.Brain.IsBlending) return;
             if(UIManager.Instance.IsUIFieldSelected) return;
             //if(!UIManager.Instance.IsPointerOverUI) return;
             if(_focusTarget == null) return;

@@ -44,6 +44,7 @@ namespace OC.UI.Interactions
 
         private void OnPan(InputAction.CallbackContext context)
         {
+            if(_controllerMaster.Brain.IsBlending) return;
             SetPanInputGain();
             Enable();
         }
