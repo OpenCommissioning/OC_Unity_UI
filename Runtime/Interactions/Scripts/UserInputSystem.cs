@@ -22,7 +22,7 @@ namespace OC.UI.Interactions
         private InputAction _toolTypeViewAction;
         private InputAction _escapeAction;
 
-        [SerializeField] private CameraControllerMaster _cameraControllerMaster;
+        private CameraControllerMaster _cameraControllerMaster;
 
 
         private void Start()
