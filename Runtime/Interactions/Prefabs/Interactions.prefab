@@ -93,7 +93,8 @@ MonoBehaviour:
       m_Interactions: 
       m_SingletonActionBindings: []
       m_Flags: 0
-    m_Reference: {fileID: 0}
+    m_Reference: {fileID: -5107007239970920364, guid: 5801e2976a5a8cb48be3333ec7c1c733,
+      type: 3}
   _toolTypeRotationActionProperty:
     m_UseReference: 1
     m_Action:
@@ -105,7 +106,8 @@ MonoBehaviour:
       m_Interactions: 
       m_SingletonActionBindings: []
       m_Flags: 0
-    m_Reference: {fileID: 0}
+    m_Reference: {fileID: 97083628003718788, guid: 5801e2976a5a8cb48be3333ec7c1c733,
+      type: 3}
   _toolTypeViewActionProperty:
     m_UseReference: 1
     m_Action:
@@ -117,7 +119,8 @@ MonoBehaviour:
       m_Interactions: 
       m_SingletonActionBindings: []
       m_Flags: 0
-    m_Reference: {fileID: 0}
+    m_Reference: {fileID: 2973488243264904584, guid: 5801e2976a5a8cb48be3333ec7c1c733,
+      type: 3}
   _escapeActionProperty:
     m_UseReference: 1
     m_Action:
@@ -129,7 +132,8 @@ MonoBehaviour:
       m_Interactions: 
       m_SingletonActionBindings: []
       m_Flags: 0
-    m_Reference: {fileID: 0}
+    m_Reference: {fileID: -1202895631932887467, guid: 5801e2976a5a8cb48be3333ec7c1c733,
+      type: 3}
 --- !u!114 &3097341586915862187
 MonoBehaviour:
   m_ObjectHideFlags: 0
