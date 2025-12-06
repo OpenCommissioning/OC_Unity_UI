@@ -71,9 +71,9 @@ namespace OC.UI.Interactions
         private const float SCROLL_GAIN_DEFAULT = 0.004f;
         private const float MOVE_SPEED_DEFAULT = 0.5f;
 
-        [SerializeField] private Property<float> _rotationGain = new(0f);
-        [SerializeField] private Property<float> _scrollGain = new(0f);
-        [SerializeField] private Property<float> _moveSpeed = new(0f);
+        private Property<float> _rotationGain = new(0f);
+        private Property<float> _scrollGain = new(0f);
+        private Property<float> _moveSpeed = new(0f);
 
         private CursorHandler _cursorHandler;
 
