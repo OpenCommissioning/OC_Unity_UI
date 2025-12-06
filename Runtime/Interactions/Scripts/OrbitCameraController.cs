@@ -10,7 +10,6 @@ namespace OC.UI.Interactions
     public class OrbitCameraController : CameraControllerBase
     {
         public float DistanceToPivot => _distanceToPivot;
-        public bool IsZooming => _isZooming;
         public bool IsOrbiting => _isOrbiting; 
         
         [SerializeField] private InputActionProperty _orbitActionProperty;
@@ -26,7 +25,6 @@ namespace OC.UI.Interactions
 
         private float _distanceToPivot = 1f;
         private bool _isFocused = false;
-        private bool _isZooming = false;
         private bool _isOrbiting = false;
         private GameObject _focusTarget;
 
@@ -110,7 +108,6 @@ namespace OC.UI.Interactions
             SetAxisControllerState("Look Orbit X", false);
             SetAxisControllerState("Look Orbit Y", false);
 
-            _isZooming = true;
             Enable();
         }
 
@@ -179,7 +176,6 @@ namespace OC.UI.Interactions
         private IEnumerator WaitForZoomCooldown()
         {
             yield return new WaitForSeconds(0.1f);
-            _isZooming = false;
 
             // Enable orbit input when not zooming
             SetAxisControllerState("Look Orbit X", true);

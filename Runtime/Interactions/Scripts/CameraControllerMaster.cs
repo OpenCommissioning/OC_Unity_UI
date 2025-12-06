@@ -126,11 +126,7 @@ namespace OC.UI.Interactions
                     _mode.Value = CameraMode.Pan;
                     break;
                 case CinemachineCamera c when ReferenceEquals(c, _orbitCameraController.Camera):
-                    if(_orbitCameraController.IsZooming)
-                    {
-                        _mode.Value = CameraMode.Zoom;
-                    }
-                    else if(_orbitCameraController.IsOrbiting)
+                    if(_orbitCameraController.IsOrbiting)
                     {
                         _mode.Value = CameraMode.Orbit;
                     }
