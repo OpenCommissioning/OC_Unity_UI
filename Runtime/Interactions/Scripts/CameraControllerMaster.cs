@@ -66,6 +66,9 @@ namespace OC.UI.Interactions
         [SerializeField] 
         private int _scrollSensitivity = 5;
 
+        [Header("Cursor")]
+        [SerializeField] private bool _warpCursor = false;
+
 
         private const float ROTATION_GAIN_DEFAULT = 0.15f;
         private const float SCROLL_GAIN_DEFAULT = 0.004f;
@@ -80,7 +83,7 @@ namespace OC.UI.Interactions
 
         private void Start()
         {
-            _cursorHandler = new CursorHandler();
+            _cursorHandler = new CursorHandler(_warpCursor);
             _mode.OnValueChanged += OnModeChanged;
             CinemachineCore.CameraActivatedEvent.AddListener(OnCameraActivated);
         }
@@ -94,6 +97,11 @@ namespace OC.UI.Interactions
         private void OnValidate()
         {
             RefreshSettings();
+        }
+
+        private void Update()
+        {
+            _cursorHandler.Update();
         }
 
         private void OnModeChanged(CameraMode mode)
