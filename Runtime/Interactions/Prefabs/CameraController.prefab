@@ -226,7 +226,7 @@ MonoBehaviour:
       m_Interactions: 
       m_SingletonActionBindings: []
       m_Flags: 0
-    m_Reference: {fileID: 5020959301797987754, guid: 5801e2976a5a8cb48be3333ec7c1c733,
+    m_Reference: {fileID: -9113756750963598157, guid: 5801e2976a5a8cb48be3333ec7c1c733,
       type: 3}
 --- !u!1 &2765020037067839535
 GameObject:
@@ -280,16 +280,11 @@ MonoBehaviour:
   _orbitCameraController: {fileID: 1925543119240584906}
   _panCameraController: {fileID: 2174563796420938754}
   _fpsCameraController: {fileID: 1971398325601572488}
+  _infiniteZoomCameraController: {fileID: 0}
   _mouseSensitivity: 5
   _moveSensitivity: 5
   _scrollSensitivity: 5
-  _debug: 0
-  _rotationGain:
-    _value: 0.75
-  _scrollGain:
-    _value: 0.020000001
-  _moveSpeed:
-    _value: 2.5
+  _warpCursor: 1
 --- !u!1 &3397471295749206164
 GameObject:
   m_ObjectHideFlags: 0
@@ -609,7 +604,7 @@ MonoBehaviour:
       Owner: {fileID: 3809297542958392752}
       Enabled: 1
       Input:
-        InputAction: {fileID: -2333446826551399854, guid: 5801e2976a5a8cb48be3333ec7c1c733,
+        InputAction: {fileID: 8734637601671566056, guid: 5801e2976a5a8cb48be3333ec7c1c733,
           type: 3}
         Gain: -0.1
         LegacyInput: 
@@ -645,7 +640,7 @@ MonoBehaviour:
       m_Interactions: 
       m_SingletonActionBindings: []
       m_Flags: 0
-    m_Reference: {fileID: -2099379676528639254, guid: 5801e2976a5a8cb48be3333ec7c1c733,
+    m_Reference: {fileID: 1523298328677608009, guid: 5801e2976a5a8cb48be3333ec7c1c733,
       type: 3}
   _zoomActionProperty:
     m_UseReference: 1
@@ -658,7 +653,7 @@ MonoBehaviour:
       m_Interactions: 
       m_SingletonActionBindings: []
       m_Flags: 0
-    m_Reference: {fileID: -2333446826551399854, guid: 5801e2976a5a8cb48be3333ec7c1c733,
+    m_Reference: {fileID: 8734637601671566056, guid: 5801e2976a5a8cb48be3333ec7c1c733,
       type: 3}
   _focusActionProperty:
     m_UseReference: 1
@@ -1019,5 +1014,5 @@ MonoBehaviour:
       m_Interactions: 
       m_SingletonActionBindings: []
       m_Flags: 0
-    m_Reference: {fileID: -3551434254060362233, guid: 5801e2976a5a8cb48be3333ec7c1c733,
+    m_Reference: {fileID: -1859561166211835845, guid: 5801e2976a5a8cb48be3333ec7c1c733,
       type: 3}
