@@ -105,8 +105,9 @@ namespace OC.UI.Interactions
             SetZoomInputGain();
 
             // Disable orbit input while zooming
-            SetAxisControllerState("Look Orbit X", false);
-            SetAxisControllerState("Look Orbit Y", false);
+            StopAllCoroutines();
+            StartCoroutine(DisableAxisControllerForSeconds("Look Orbit X", 0.1f));
+            StartCoroutine(DisableAxisControllerForSeconds("Look Orbit Y", 0.1f));
 
             Enable();
         }
@@ -117,10 +118,6 @@ namespace OC.UI.Interactions
             _distanceToPivot = orbitalFollowComponent.RadialAxis.Value * orbitalFollowComponent.Radius;
 
             Disable();
-
-            // Wait for zoom cooldown and then enable input for orbit --> otherwise 
-            StopAllCoroutines();
-            StartCoroutine(WaitForZoomCooldown());
         }
 
         private void OnFocusStarted(InputAction.CallbackContext context)
@@ -131,8 +128,9 @@ namespace OC.UI.Interactions
             if(_focusTarget == null) return;
 
             // Disable orbit input while focus
-            SetAxisControllerState("Look Orbit X", false);
-            SetAxisControllerState("Look Orbit Y", false);
+            StopAllCoroutines();
+            StartCoroutine(DisableAxisControllerForSeconds("Look Orbit X", 0.1f));
+            StartCoroutine(DisableAxisControllerForSeconds("Look Orbit Y", 0.1f));
 
             Enable();
 
@@ -165,21 +163,7 @@ namespace OC.UI.Interactions
             }
 
             // Wait for the blend from the OnFocusStared method and then disable the camera
-            StopAllCoroutines();
             StartCoroutine(WaitForCameraBlend());
-
-            // Enable orbit input when focused
-            SetAxisControllerState("Look Orbit X", true);
-            SetAxisControllerState("Look Orbit Y", true);
-        }
-
-        private IEnumerator WaitForZoomCooldown()
-        {
-            yield return new WaitForSeconds(0.1f);
-
-            // Enable orbit input when not zooming
-            SetAxisControllerState("Look Orbit X", true);
-            SetAxisControllerState("Look Orbit Y", true);
         }
 
         private void ChangeTargetPosition(Vector3 position)
@@ -194,9 +178,11 @@ namespace OC.UI.Interactions
             orbitalFollowComponent.RadialAxis.Value = distance;
         }
 
-        private void SetAxisControllerState(string name, bool value)
+        private IEnumerator DisableAxisControllerForSeconds(string name, float seconds)
         {
-            _inputAxisController.GetController(name).Enabled = value;
+            _inputAxisController.GetController(name).Enabled = false;
+            yield return new WaitForSeconds(seconds);
+            _inputAxisController.GetController(name).Enabled = true;
         }
 
         private void OnSelectionChanged(List<Interaction> selectedInteractions)
