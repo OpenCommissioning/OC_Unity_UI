@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 324930537873914786}
   - component: {fileID: 3761462697469774819}
   - component: {fileID: 4788599389403852118}
-  - component: {fileID: 2546804566350646610}
   - component: {fileID: 3097341586915862187}
+  - component: {fileID: 9197280129592338667}
   m_Layer: 0
   m_Name: Interactions
   m_TagString: Untagged
@@ -70,70 +70,6 @@ MonoBehaviour:
   OnSettingsChanged:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &2546804566350646610
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 324930537873914785}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 95852f97c59be444491852fe8d13a221, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _toolTypeMoveActionProperty:
-    m_UseReference: 1
-    m_Action:
-      m_Name: Tool Type Move Action Property
-      m_Type: 0
-      m_ExpectedControlType: 
-      m_Id: 5d48709e-d7ba-47a7-9034-a63905a763fb
-      m_Processors: 
-      m_Interactions: 
-      m_SingletonActionBindings: []
-      m_Flags: 0
-    m_Reference: {fileID: -5107007239970920364, guid: 5801e2976a5a8cb48be3333ec7c1c733,
-      type: 3}
-  _toolTypeRotationActionProperty:
-    m_UseReference: 1
-    m_Action:
-      m_Name: Tool Type Rotation Action Property
-      m_Type: 0
-      m_ExpectedControlType: 
-      m_Id: d73186ae-9810-47f1-bc4e-51320baf8047
-      m_Processors: 
-      m_Interactions: 
-      m_SingletonActionBindings: []
-      m_Flags: 0
-    m_Reference: {fileID: 97083628003718788, guid: 5801e2976a5a8cb48be3333ec7c1c733,
-      type: 3}
-  _toolTypeViewActionProperty:
-    m_UseReference: 1
-    m_Action:
-      m_Name: Tool Type View Action Property
-      m_Type: 0
-      m_ExpectedControlType: 
-      m_Id: 49ba0760-a5f3-482f-8f5f-c63f08e1e966
-      m_Processors: 
-      m_Interactions: 
-      m_SingletonActionBindings: []
-      m_Flags: 0
-    m_Reference: {fileID: 2973488243264904584, guid: 5801e2976a5a8cb48be3333ec7c1c733,
-      type: 3}
-  _escapeActionProperty:
-    m_UseReference: 1
-    m_Action:
-      m_Name: Escape Action Property
-      m_Type: 0
-      m_ExpectedControlType: 
-      m_Id: 29899ebf-b291-43b7-b359-1a19476efd19
-      m_Processors: 
-      m_Interactions: 
-      m_SingletonActionBindings: []
-      m_Flags: 0
-    m_Reference: {fileID: -1202895631932887467, guid: 5801e2976a5a8cb48be3333ec7c1c733,
-      type: 3}
 --- !u!114 &3097341586915862187
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -176,6 +112,70 @@ MonoBehaviour:
   m_PointerBehavior: 0
   m_CursorLockBehavior: 0
   m_ScrollDeltaPerTick: 6
+--- !u!114 &9197280129592338667
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 324930537873914785}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95852f97c59be444491852fe8d13a221, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _toolTypeMoveActionProperty:
+    m_UseReference: 1
+    m_Action:
+      m_Name: Tool Type Move Action Property
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: e8ee8d24-73f7-4490-a185-691bc7676f00
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+    m_Reference: {fileID: -5107007239970920364, guid: 5801e2976a5a8cb48be3333ec7c1c733,
+      type: 3}
+  _toolTypeRotationActionProperty:
+    m_UseReference: 1
+    m_Action:
+      m_Name: Tool Type Rotation Action Property
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: bdbe0f48-4969-4bad-9bcb-dbe9595ab5a1
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+    m_Reference: {fileID: 97083628003718788, guid: 5801e2976a5a8cb48be3333ec7c1c733,
+      type: 3}
+  _toolTypeViewActionProperty:
+    m_UseReference: 1
+    m_Action:
+      m_Name: Tool Type View Action Property
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: 9ef502c0-4fcd-4d16-a6a3-c0d0f83b7009
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+    m_Reference: {fileID: 2973488243264904584, guid: 5801e2976a5a8cb48be3333ec7c1c733,
+      type: 3}
+  _escapeActionProperty:
+    m_UseReference: 1
+    m_Action:
+      m_Name: Escape Action Property
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: c850e4b0-efcb-4d0c-84f2-419e660ef09b
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+    m_Reference: {fileID: -1202895631932887467, guid: 5801e2976a5a8cb48be3333ec7c1c733,
+      type: 3}
 --- !u!1 &6627891214244880613
 GameObject:
   m_ObjectHideFlags: 0
