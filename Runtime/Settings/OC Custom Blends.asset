@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: OC Custom Blends
   m_EditorClassIdentifier: 
   CustomBlends:
-  - From: Default Camera
-    To: Default Camera
+  - From: '**ANY CAMERA**'
+    To: '**ANY CAMERA**'
     Blend:
       Style: 1
       Time: 1
