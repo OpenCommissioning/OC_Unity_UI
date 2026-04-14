@@ -1,3 +1,4 @@
+using OC.Interactions;
 using OC.UI.Interactions;
 using UnityEngine;
 
@@ -20,14 +21,16 @@ namespace OC.UI.Panel
                 return;
             }
             _component = (Component)interactable;
-            OnSelectionChanged += ShowPanel;
+            //TODO
+            //OnSelectionChanged += ShowPanel;
         }
 
         private new void OnDestroy()
         {
             base.OnDestroy();
             Delete();
-            OnSelectionChanged -= ShowPanel;
+            //TODO
+            //OnSelectionChanged -= ShowPanel;
         }
 
         private void ShowPanel(bool show)

@@ -6,7 +6,8 @@
         "Unity.TextMeshPro",
         "NaughtyAttributes.Core",
         "Unity.Cinemachine",
-        "Unity.InputSystem"
+        "Unity.InputSystem",
+        "com.cqf.outline"
     ],
     "includePlatforms": [
         "Editor",

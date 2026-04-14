@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using OC.Interactions;
 using OC.MaterialFlow;
 using OC.UI.Toolbar;
 using UnityEngine;
@@ -243,7 +244,7 @@ namespace OC.UI.Interactions
         private void Select(GameObject go, bool multiple)
         {
             if (!go.TryGetComponent<Interaction>(out var interaction)) return;
-            if (interaction.IsDisabled) return;
+            if (interaction.State.Value.HasFlag(InteractionState.Disabled)) return;
             if (!interaction.Mode.HasFlag(Interaction.InteractionMode.Selection)) return;
 
             if (multiple)

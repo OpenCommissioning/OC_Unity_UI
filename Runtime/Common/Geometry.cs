@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using OC.Interactions;
 using UnityEngine;
 
 namespace OC.UI.Interactions
@@ -86,7 +87,14 @@ namespace OC.UI.Interactions
         {
             foreach (var interaction in _interactions)
             {
-                interaction.IsDisabled = disable;
+                if (disable)
+                {
+                    interaction.State.Value.SetFlag(InteractionState.Disabled);
+                }
+                else
+                {
+                    interaction.State.Value.RemoveFlag(InteractionState.Disabled);
+                }
             }
         }
     }

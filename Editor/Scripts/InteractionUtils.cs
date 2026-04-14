@@ -1,4 +1,4 @@
-using OC.UI.Interactions;
+using OC.Interactions;
 using OC.UI.Panel;
 using UnityEditor;
 using UnityEngine;

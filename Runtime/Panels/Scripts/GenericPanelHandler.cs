@@ -13,7 +13,7 @@ namespace OC.UI.Panel
 
         protected virtual new void OnValidate()
         {
-            base.OnValidate();
+            //base.OnValidate();
 
             _possibleBindings = new List<string>();
 
