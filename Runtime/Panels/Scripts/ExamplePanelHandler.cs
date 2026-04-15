@@ -17,11 +17,11 @@ namespace OC.UI.Panel
             var target = (GenericPanelTestInteraction)Component;
 
             // add panelfields directly to panel using target from above
-            _panel.Add(new GroupContainer("Custom Panel Example"));
-            _panel.Add(new FloatField("Float", target.Float));
+            _panel.Add(new PanelGroupContainer("Custom Panel Example"));
+            _panel.Add(new PanelFloatField("Float", target.Float));
 
             // add panelfield for Properties of referenced object
-            _panel.Add(new FloatField(_drive.name + "_Speed", _drive.Speed));
+            _panel.Add(new PanelFloatField(_drive.name + "_Speed", _drive.Speed));
         }
     }
 

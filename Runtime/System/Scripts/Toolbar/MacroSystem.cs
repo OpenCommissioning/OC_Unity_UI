@@ -15,7 +15,7 @@ namespace OC.UI.Toolbar
         {
             foreach (var macro in _macros)
             {
-                var button = new Button(macro.Name, () => macro.OnClick?.Invoke());
+                var button = new PanelButton(macro.Name, () => macro.OnClick?.Invoke());
                 subsystemPanel.Add(button);
             }
         }

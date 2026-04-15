@@ -47,12 +47,12 @@ namespace OC.UI.Toolbar
         private int _commandHistoryCurrentIndex;
 
         private bool _enableAutoScroll = true;
-        private Panel.ListView _listView;
+        private PanelListView _listView;
         private TextField _itemDetails;
         private LogList _logList;
 
-        private StringField _searchField;
-        private StringField _commandField;
+        private PanelStringField _searchField;
+        private PanelStringField _commandField;
         private Toggle _showInfoLogsToggle;
         private Toggle _showWarningLogsToggle;
         private Toggle _showErrorLogsToggle;
@@ -110,7 +110,7 @@ namespace OC.UI.Toolbar
             _warningIcon = new StyleBackground(warnSprite);
             _errorIcon = new StyleBackground(errorSprite);
 
-            _listView = new Panel.ListView();
+            _listView = new PanelListView();
             _listView.AddToClassList(USS_CONSOLE_LIST_VIEW);
             _listView.itemsSource = _logList;
             _listView.fixedItemHeight = FIXED_ITEM_HEIGHT;
@@ -121,7 +121,7 @@ namespace OC.UI.Toolbar
 
             _listView.VerticalScroller.valueChanged += VerticalScrollerValueChanged;
 
-            var scrollView = new Panel.ScrollView
+            var scrollView = new PanelScrollView
             {
                 mode = ScrollViewMode.Vertical
             };
@@ -139,17 +139,17 @@ namespace OC.UI.Toolbar
             var buttonContainer = new VisualElement();
             buttonContainer.AddToClassList(USS_CONSOLE_BUTTON_CONTAINER);
 
-            var clearButton = new Panel.Button("clear", ClearListView);
+            var clearButton = new PanelButton("clear", ClearListView);
             clearButton.AddToClassList(USS_CONSOLE_CLEAR_BUTTON);
             buttonContainer.Add(clearButton);
 
-            _searchField = new StringField("Filter:");
+            _searchField = new PanelStringField("Filter:");
             _searchField.AddToClassList(USS_CONSOLE_SEARCH);
             _searchField.RegisterValueChangedCallback(OnSearchFieldChange);
             _searchField.ToggleStringFieldAltStyle(true);
             buttonContainer.Add(_searchField);
 
-            _commandField = new StringField();
+            _commandField = new PanelStringField();
             _commandField.AddToClassList(USS_CONSOLE_COMMAND_INPUT);
             _commandField.SetTextInputAlign(TextAnchor.MiddleLeft);
             _commandField.RegisterCallback<KeyDownEvent>(OnCommandFieldKeyDown);

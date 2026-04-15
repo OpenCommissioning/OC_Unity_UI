@@ -11,7 +11,7 @@ namespace OC.UI.Toolbar
     public class HideSystem : ToolbarSystemPanel
     {
         private List<HideGroup> _hideGroups;
-        private List<ToggleIcon> _toggleIcons;
+        private List<PanelToggleIcon> _toggleIcons;
 
         private void Start()
         {
@@ -20,11 +20,11 @@ namespace OC.UI.Toolbar
 
         protected override void AddContent(SubsystemPanel subsystemPanel)
         {
-            _toggleIcons = new List<ToggleIcon>();
+            _toggleIcons = new List<PanelToggleIcon>();
             
             foreach (var group in _hideGroups)
             {
-                var toggle = new ToggleIcon(group.name, _defaultIcon, _activeIcon, Color.white, new Color(1f, 0.33f, 0.29f));
+                var toggle = new PanelToggleIcon(group.name, _defaultIcon, _activeIcon, Color.white, new Color(1f, 0.33f, 0.29f));
                 toggle.RegisterValueChangedCallback( evt =>
                 {
                     group.Transparent = evt.newValue;
@@ -37,9 +37,9 @@ namespace OC.UI.Toolbar
                 subsystemPanel.Add(toggle);
             }
             
-            var hoizontalGroup = new HorizontalGroup();
-            hoizontalGroup.Add(new Panel.Button("Hide all", HideAll));
-            hoizontalGroup.Add(new Panel.Button("Show all", ShowAll));
+            var hoizontalGroup = new PanelHorizontalGroup();
+            hoizontalGroup.Add(new PanelButton("Hide all", HideAll));
+            hoizontalGroup.Add(new PanelButton("Show all", ShowAll));
             subsystemPanel.Add(hoizontalGroup);
         }
 

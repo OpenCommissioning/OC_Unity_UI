@@ -9,7 +9,7 @@ namespace OC.UI.Toolbar
     public class CameraSystem : ToolbarSystemPanel
     {
         private List<CameraControllerMaster> _cameraControllers;
-        private List<ToggleSlide> _toggles = new ();
+        private List<PanelToggleSlide> _toggles = new ();
 
         protected override void AddContent(SubsystemPanel subsystemPanel)
         {
@@ -17,7 +17,7 @@ namespace OC.UI.Toolbar
 
             for (var i = 0; i < _cameraControllers.Count; i++)
             {
-                var toggle = new ToggleSlide(_cameraControllers[i].name);
+                var toggle = new PanelToggleSlide(_cameraControllers[i].name);
                 var index = i;
                 toggle.OnValueChanged += b =>
                 {

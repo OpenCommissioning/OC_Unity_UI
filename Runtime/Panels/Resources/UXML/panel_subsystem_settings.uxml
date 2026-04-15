@@ -6,10 +6,10 @@
         </ui:VisualElement>
         <ui:VisualElement name="content" class="panel-content">
             <ui:SliderInt picking-mode="Ignore" label="SliderInt22 21231" value="42" high-value="100" show-input-field="true" class="panel-field-container panel-field-slider" />
-            <PlanX.UI.Panel.OCButton />
-            <PlanX.UI.Panel.OCButton />
-            <PlanX.UI.Panel.OCButton />
-            <PlanX.UI.Panel.OCMinMaxSlider low-limit="-3,402823E+38" high-limit="3,402823E+38" />
+            <PlanX.UI.Panel.PanelButton />
+            <PlanX.UI.Panel.PanelButton />
+            <PlanX.UI.Panel.PanelButton />
+            <PlanX.UI.Panel.PanelMinMaxSlider low-limit="-3,402823E+38" high-limit="3,402823E+38" />
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>

@@ -1,14 +1,6 @@
 using OC.UI.Panel;
 using UnityEngine;
 using UnityEngine.UIElements;
-using FloatField = OC.UI.Panel.FloatField;
-using IntegerField = OC.UI.Panel.IntegerField;
-using Slider = OC.UI.Panel.Slider;
-using SliderInt = OC.UI.Panel.SliderInt;
-using Vector2Field = OC.UI.Panel.Vector2Field;
-using Vector2IntField = OC.UI.Panel.Vector2IntField;
-using Vector3Field = OC.UI.Panel.Vector3Field;
-using Vector3IntField = OC.UI.Panel.Vector3IntField;
 
 namespace OC.UI.Toolbar
 {
@@ -34,18 +26,18 @@ namespace OC.UI.Toolbar
             var fields = Resources.Load<VisualTreeAsset>(UXML).Instantiate();
             subsystemPanel.Add(fields);
 
-            fields.Q<ToggleSlide>().BindProperty(ToggleSlideValue);
-            fields.Q<Panel.Toggle>().BindProperty(ToggleValue);
-            fields.Q<BinaryStatusField>().BindProperty(BinaryStatusValue);
-            fields.Q<StringField>().BindProperty(StringValue);
-            fields.Q<FloatField>().BindProperty(FloatValue);
-            fields.Q<IntegerField>().BindProperty(IntValue);
-            fields.Q<Vector3Field>().BindProperty(Vector3Value);
-            fields.Q<Vector3IntField>().BindProperty(Vector3IntValue);
-            fields.Q<Vector2Field>().BindProperty(Vector2Value);
-            fields.Q<Vector2IntField>().BindProperty(Vector2IntValue);
-            fields.Q<SliderInt>().BindProperty(SliderIntValue);
-            fields.Q<Slider>().BindProperty(SliderValue);
+            fields.Q<PanelToggleSlide>().BindProperty(ToggleSlideValue);
+            fields.Q<PanelToggle>().BindProperty(ToggleValue);
+            fields.Q<PanelBinaryStatusField>().BindProperty(BinaryStatusValue);
+            fields.Q<PanelStringField>().BindProperty(StringValue);
+            fields.Q<PanelFloatField>().BindProperty(FloatValue);
+            fields.Q<PanelIntegerField>().BindProperty(IntValue);
+            fields.Q<PanelVector3Field>().BindProperty(Vector3Value);
+            fields.Q<PanelVector3IntField>().BindProperty(Vector3IntValue);
+            fields.Q<PanelVector2Field>().BindProperty(Vector2Value);
+            fields.Q<PanelVector2IntField>().BindProperty(Vector2IntValue);
+            fields.Q<PanelSliderInt>().BindProperty(SliderIntValue);
+            fields.Q<PanelSlider>().BindProperty(SliderValue);
         }
 
         private void OnValidate()
