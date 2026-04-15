@@ -3,9 +3,15 @@ using UnityEngine.UIElements;
 
 namespace OC.UI.Panel
 {
+#if UNITY_6000_3_OR_NEWER
+    [UxmlElement]
+    public partial class ULongField : UnsignedLongField
+    {
+#else
     public class ULongField : UnsignedLongField
     {
         public new class UxmlFactory : UxmlFactory<ULongField, UxmlTraits> { }
+#endif
 
         private const string STYLE_SHEET = "StyleSheet/panel-field";
         private const string USS_CONTAINER = "panel-field-container";

@@ -4,14 +4,18 @@ using UnityEngine.UIElements;
 
 namespace OC.UI.Panel
 {
+#if UNITY_6000_3_OR_NEWER
+    [UxmlElement]
+    public partial class BinaryStatusField : BaseField<bool>
+    {
+#else
     public class BinaryStatusField : BaseField<bool>
     {
         public new class UxmlFactory : UxmlFactory<BinaryStatusField, UxmlTraits> { }
 
         public new class UxmlTraits : BaseField<bool>.UxmlTraits
         {
-            readonly UxmlBoolAttributeDescription _value =
-                new UxmlBoolAttributeDescription { name = "Value", defaultValue = false };
+            readonly UxmlBoolAttributeDescription _value = new UxmlBoolAttributeDescription { name = "Value", defaultValue = false };
 
             public override IEnumerable<UxmlChildElementDescription> uxmlChildElementsDescription
             {
@@ -24,6 +28,7 @@ namespace OC.UI.Panel
                 if (ve is BinaryStatusField ate) ate.value = _value.GetValueFromBag(bag, cc);
             }
         }
+#endif
 
         private readonly VisualElement _checkMark;
         private const string STYLE_SHEET = "StyleSheet/panel-field";
