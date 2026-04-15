@@ -3,11 +3,16 @@ using UnityEngine.UIElements;
 
 namespace OC.UI.Toolbar
 {
+#if UNITY_6000_3_OR_NEWER
+    [UxmlElement]
+    public partial class Toggle : BaseBoolField
+    {
+#else
     public class Toggle : BaseBoolField
     {
         public new class UxmlFactory : UxmlFactory<Toggle, UxmlTraits>{}
         public new class UxmlTraits : BaseFieldTraits<bool, UxmlBoolAttributeDescription> { }
-
+#endif
         public Sprite DefaultIcon
         {
             get => _defaultIcon;
@@ -33,8 +38,7 @@ namespace OC.UI.Toolbar
 
             } 
         }
-
-
+        
         public Sprite ActiveIcon
         {
             get => _activeIcon;

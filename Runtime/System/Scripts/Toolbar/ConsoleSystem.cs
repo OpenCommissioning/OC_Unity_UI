@@ -14,15 +14,17 @@ namespace OC.UI.Toolbar
         [Header("Console Settings")]
         [SerializeField]
         private bool _showInfoLogs = true;
+
         [SerializeField]
         private bool _showWarnLogs = true;
+
         [SerializeField]
         private bool _showErrorLogs = true;
-        
+
         private const int LOG_BUFFER_CAPACITY = 3000;
         private const int COMMAND_BUFFER_CAPACITY = 100;
         private const int FIXED_ITEM_HEIGHT = 45;
-        
+
         private const string INFO_ICON_RESOURCE = "Icons/d_ConsoleInfoIcon@2x";
         private const string WARNING_ICON_RESOURCE = "Icons/d_ConsoleWarnIcon@2x";
         private const string ERROR_ICON_RESOURCE = "Icons/d_ConsoleErrorIcon@2x";
@@ -37,25 +39,25 @@ namespace OC.UI.Toolbar
         private const string USS_CONSOLE_BUTTON_CONTAINER = "console-button-container";
         private const string USS_CONSOLE_FLOATING_PANEL = "console-floating-panel";
         private const string USS_CONSOLE_CLEAR_BUTTON = "console-clear-button";
-        
-        private readonly bool _showNamespacenameInCommandPreview = true;
+
+        private readonly bool _showNamespaceNameInCommandPreview = true;
         private readonly List<string> _commandHistory = new(COMMAND_BUFFER_CAPACITY);
-        
+
         private string _commandInputFieldAutoCompleteBase;
         private int _commandHistoryCurrentIndex;
-       
+
         private bool _enableAutoScroll = true;
         private Panel.ListView _listView;
         private TextField _itemDetails;
         private LogList _logList;
-        
+
         private StringField _searchField;
         private StringField _commandField;
         private Toggle _showInfoLogsToggle;
         private Toggle _showWarningLogsToggle;
-        private Toggle _showErroLogsToggle;
+        private Toggle _showErrorLogsToggle;
         private VisualElement _commandPreviewPopup;
-        private List<ConsoleMethodInfo> _mathingCommandsForPopup;
+        private List<ConsoleMethodInfo> _matchingCommandsForPopup;
         private StyleBackground _infoIcon;
         private StyleBackground _warningIcon;
         private StyleBackground _errorIcon;
@@ -90,7 +92,7 @@ namespace OC.UI.Toolbar
         [Button]
         public void LogMax()
         {
-            for (int i = 0; i < LOG_BUFFER_CAPACITY; i++)
+            for (var i = 0; i < LOG_BUFFER_CAPACITY; i++)
             {
                 Debug.Log(i);
             }
@@ -136,7 +138,7 @@ namespace OC.UI.Toolbar
 
             var buttonContainer = new VisualElement();
             buttonContainer.AddToClassList(USS_CONSOLE_BUTTON_CONTAINER);
-            
+
             var clearButton = new Panel.Button("clear", ClearListView);
             clearButton.AddToClassList(USS_CONSOLE_CLEAR_BUTTON);
             buttonContainer.Add(clearButton);
@@ -154,11 +156,11 @@ namespace OC.UI.Toolbar
             _commandField.RegisterValueChangedCallback(OnCommandFielfValueChange);
             _commandField.RegisterCallback<BlurEvent>(OnBlurCommandField);
             _commandField.RegisterCallback<FocusEvent>(OnFocusCommandField);
-            
+
 
             _commandPreviewPopup = new VisualElement();
             _commandPreviewPopup.AddToClassList(USS_CONSOLE_COMMAND_POPUP);
-            _mathingCommandsForPopup = new List<ConsoleMethodInfo>();
+            _matchingCommandsForPopup = new List<ConsoleMethodInfo>();
 
             CommandInputDefault();
 
@@ -174,11 +176,11 @@ namespace OC.UI.Toolbar
             _logList.ShowWarnLogs = _showWarningLogsToggle.value;
             buttonContainer.Add(_showWarningLogsToggle);
 
-            _showErroLogsToggle = new Toggle(errorSprite);
-            _showErroLogsToggle.RegisterValueChangedCallback(OnShowErrorToggle);
-            _showErroLogsToggle.value = _showErrorLogs;
-            _logList.ShowErrorLogs = _showErroLogsToggle.value;
-            buttonContainer.Add(_showErroLogsToggle);
+            _showErrorLogsToggle = new Toggle(errorSprite);
+            _showErrorLogsToggle.RegisterValueChangedCallback(OnShowErrorToggle);
+            _showErrorLogsToggle.value = _showErrorLogs;
+            _logList.ShowErrorLogs = _showErrorLogsToggle.value;
+            buttonContainer.Add(_showErrorLogsToggle);
 
             SetTypeCounters();
 
@@ -213,8 +215,8 @@ namespace OC.UI.Toolbar
             if (_commandPreviewPopup == null) return;
             _commandPreviewPopup.Clear();
 
-            if (_mathingCommandsForPopup == null) return;
-            _mathingCommandsForPopup.Clear();
+            if (_matchingCommandsForPopup == null) return;
+            _matchingCommandsForPopup.Clear();
         }
 
         private void OnDetailsMouseDown(MouseDownEvent evt)
@@ -230,7 +232,7 @@ namespace OC.UI.Toolbar
                 Debug.Log("Copied Log Details to Clipboard!");
             }
         }
-        
+
         private void OnCommandFieldKeyDown(KeyDownEvent evt)
         {
             switch (evt.keyCode)
@@ -256,9 +258,9 @@ namespace OC.UI.Toolbar
                     {
                         case '\n':
                             evt.StopPropagation();
-                            evt.PreventDefault();
                             break;
                     }
+
                     break;
             }
         }
@@ -274,7 +276,7 @@ namespace OC.UI.Toolbar
 
             _commandField.value = _commandHistory[_commandHistoryCurrentIndex];
             _commandField.SelectRange(0, _commandField.value.Length);
-            evt.PreventDefault();
+            evt.StopPropagation();
         }
 
         private void HandleUpArrowKey(KeyDownEvent evt)
@@ -287,30 +289,34 @@ namespace OC.UI.Toolbar
             {
                 _commandHistoryCurrentIndex--;
             }
+
             _commandField.cursorIndex = 0;
 
             _commandField.SelectRange(0, _commandField.value.Length);
-            evt.PreventDefault();
+            evt.StopPropagation();
         }
 
         private void HandleTabKey(KeyDownEvent evt)
         {
             if (string.IsNullOrEmpty(_commandField.text))
             {
-                evt.PreventDefault();
+                evt.StopPropagation();
                 return;
             }
 
             if (string.IsNullOrEmpty(_commandInputFieldAutoCompleteBase))
+            {
                 _commandInputFieldAutoCompleteBase = _commandField.text;
+            }
 
-            string autoCompletedCommand = DebugLogConsole.GetAutoCompleteCommand(_commandInputFieldAutoCompleteBase, _commandField.text);
+            var autoCompletedCommand = DebugLogConsole.GetAutoCompleteCommand(_commandInputFieldAutoCompleteBase, _commandField.text);
             if (!string.IsNullOrEmpty(autoCompletedCommand) && autoCompletedCommand != _commandField.text)
             {
                 _commandField.value = autoCompletedCommand;
                 _commandField.SelectRange(_commandField.cursorIndex, _commandField.value.Length);
             }
-            evt.PreventDefault();
+
+            evt.StopPropagation();
         }
 
         private void HandleReturnKey(KeyDownEvent evt)
@@ -328,6 +334,7 @@ namespace OC.UI.Toolbar
                 {
                     _commandHistory.RemoveAt(0);
                 }
+
                 _commandHistory.Add(_commandField.value);
             }
 
@@ -336,7 +343,6 @@ namespace OC.UI.Toolbar
             CommandInputDefault();
             _commandHistoryCurrentIndex = _commandHistory.Count - 1;
             evt.StopPropagation();
-            evt.PreventDefault();
         }
 
         private void SetCommandPopupContent()
@@ -346,17 +352,18 @@ namespace OC.UI.Toolbar
             if (!string.IsNullOrEmpty(_commandField.text))
             {
                 // add functionality for starts with
-                DebugLogConsole.FindCommands(_commandField.text, true, _mathingCommandsForPopup);
-                foreach (var methodInfo in _mathingCommandsForPopup)
+                DebugLogConsole.FindCommands(_commandField.text, true, _matchingCommandsForPopup);
+                foreach (var methodInfo in _matchingCommandsForPopup)
                 {
                     var commandText = methodInfo.command;
-                    if (methodInfo.parameters.Length > 0) 
+                    if (methodInfo.parameters.Length > 0)
                     {
                         foreach (var paramter in methodInfo.parameters)
                         {
                             commandText += " " + paramter;
                         }
                     }
+
                     var commandPreview = new VisualElement();
                     commandPreview.AddToClassList(USS_CONSOLE_COMMAND_POPUP_COMMAND_PREVIEW);
 
@@ -368,7 +375,7 @@ namespace OC.UI.Toolbar
 
                     commandPreview.Add(commandTextLabel);
 
-                    if (_showNamespacenameInCommandPreview)
+                    if (_showNamespaceNameInCommandPreview)
                     {
                         commandPreview.Add(commandAssembly);
                     }
@@ -519,7 +526,7 @@ namespace OC.UI.Toolbar
         {
             _showInfoLogsToggle.text = _logList.InfoLogCounter.ToString();
             _showWarningLogsToggle.text = _logList.WarningLogCounter.ToString();
-            _showErroLogsToggle.text = _logList.ErrorLogCounter.ToString();
+            _showErrorLogsToggle.text = _logList.ErrorLogCounter.ToString();
         }
 
         private void ScrollToButtom()
