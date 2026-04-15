@@ -4,7 +4,7 @@ using UnityEngine.UIElements;
 namespace OC.UI.Panel
 {
 #if UNITY_6000_3_OR_NEWER
-    [UxmlElement]
+    [UxmlElement("OCULongField")]
     public partial class ULongField : UnsignedLongField
     {
 #else

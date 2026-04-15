@@ -3,10 +3,16 @@ using UnityEngine.UIElements;
 
 namespace OC.UI.Panel
 {
+#if UNITY_6000_3_OR_NEWER
+    [UxmlElement("OCToggleIcon")]
+    public partial class ToggleIcon : BaseBoolField
+    {
+#else
     public class ToggleIcon : BaseBoolField
     {
         public new class UxmlFactory : UxmlFactory<ToggleIcon, UxmlTraits> { }
         public new class UxmlTraits : BaseFieldTraits<bool, UxmlBoolAttributeDescription> { }
+#endif
 
         private const string STYLE_SHEET = "StyleSheet/panel-field";
         private const string USS_CONTAINER = "panel-field-container";

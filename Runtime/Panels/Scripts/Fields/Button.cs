@@ -4,10 +4,16 @@ using UnityEngine.UIElements;
 
 namespace OC.UI.Panel
 {
+#if UNITY_6000_3_OR_NEWER
+    [UxmlElement("OCButton")]
+    public partial class Button : UnityEngine.UIElements.Button
+    {
+#else
     public class Button : UnityEngine.UIElements.Button
     {
         public new class UxmlFactory : UxmlFactory<Button, UxmlTraits> { }
-        
+#endif
+
         public sealed override string text
         {
             get => base.text;

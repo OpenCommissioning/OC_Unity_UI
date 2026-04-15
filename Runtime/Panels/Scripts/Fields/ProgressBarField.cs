@@ -3,12 +3,17 @@ using UnityEngine.UIElements;
 
 namespace OC.UI.Panel
 {
+#if UNITY_6000_3_OR_NEWER
+    [UxmlElement("OCProgressBarField")]
+    public partial class ProgressBarField : ProgressBar
+    {
+#else
     public class ProgressBarField : ProgressBar
     {
         public new class UxmlFactory : UxmlFactory<ProgressBarField, UxmlTraits> { }
 
         public new class UxmlTraits : UnityEngine.UIElements.ProgressBar.UxmlTraits { }
-
+#endif
 
         private const string STYLE_SHEET = "StyleSheet/panel-field";
         private const string USS_PROGRESS_BAR_FIELD = "panel-field-progress-bar";

@@ -3,9 +3,15 @@ using UnityEngine.UIElements;
 
 namespace OC.UI.Panel
 {
+#if UNITY_6000_3_OR_NEWER
+    [UxmlElement("OCUIntegerField")]
+    public partial class UIntegerField : UnsignedIntegerField
+    {
+#else
     public class UIntegerField : UnsignedIntegerField
     {
         public new class UxmlFactory : UxmlFactory<UIntegerField, UxmlTraits> { }
+#endif
 
         private const string STYLE_SHEET = "StyleSheet/panel-field";
         private const string USS_CONTAINER = "panel-field-container";

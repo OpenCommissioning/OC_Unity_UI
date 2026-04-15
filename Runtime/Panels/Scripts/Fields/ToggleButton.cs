@@ -3,11 +3,17 @@ using UnityEngine.UIElements;
 
 namespace OC.UI.Panel
 {
+#if UNITY_6000_3_OR_NEWER
+    [UxmlElement("OCToggleButton")]
+    public partial class ToggleButton : Label
+    {
+#else
     public class ToggleButton : Label
     {
         public new class UxmlFactory : UxmlFactory<ToggleButton, UxmlTraits> { }
         public new class UxmlTraits : UnityEngine.UIElements.Label.UxmlTraits { }
-        
+#endif
+
         public sealed override string text
         {
             get => base.text;

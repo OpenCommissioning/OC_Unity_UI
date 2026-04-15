@@ -3,21 +3,30 @@ using UnityEngine.UIElements;
 
 namespace OC.UI.Panel
 {
+#if UNITY_6000_3_OR_NEWER
+    [UxmlElement("OCGroupContainer")]
+    public partial class GroupContainer : VisualElement
+    {
+#else
     public class GroupContainer : VisualElement
     {
         public new class UxmlFactory : UxmlFactory<GroupContainer, UxmlTraits> { }
 
         public new class UxmlTraits : VisualElement.UxmlTraits
         {
-            private readonly UxmlStringAttributeDescription _label =  new() { name = "Label", defaultValue = "Label" };
-        
+            private readonly UxmlStringAttributeDescription _label = new() { name = "Label", defaultValue = "Label" };
+
             public override void Init(VisualElement ve, IUxmlAttributes bag, CreationContext cc)
             {
                 base.Init(ve, bag, cc);
                 if (ve is GroupContainer ate) ate.Label = _label.GetValueFromBag(bag, cc);
             }
         }
+#endif
 
+#if UNITY_6000_3_OR_NEWER
+        [UxmlAttribute("Label")]
+#endif
         public string Label
         {
             get => _label.text;

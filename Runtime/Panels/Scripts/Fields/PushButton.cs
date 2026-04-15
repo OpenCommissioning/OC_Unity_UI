@@ -4,11 +4,17 @@ using UnityEngine.UIElements;
 
 namespace OC.UI.Panel
 {
+#if UNITY_6000_3_OR_NEWER
+    [UxmlElement("OCPushButton")]
+    public partial class PushButton : Label
+    {
+#else
     public class PushButton : Label
     {
         public new class UxmlFactory : UxmlFactory<PushButton, UxmlTraits> { }
         public new class UxmlTraits : UnityEngine.UIElements.Label.UxmlTraits { }
-        
+#endif
+
         public sealed override string text
         {
             get => base.text;

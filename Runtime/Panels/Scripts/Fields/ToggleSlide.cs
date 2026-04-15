@@ -4,11 +4,17 @@ using UnityEngine.UIElements;
 
 namespace OC.UI.Panel
 {
+#if UNITY_6000_3_OR_NEWER
+    [UxmlElement("OCToggleSlide")]
+    public partial class ToggleSlide : BaseField<bool>
+    {
+#else
     public class ToggleSlide : BaseField<bool>
     {
         public new class UxmlFactory : UxmlFactory<ToggleSlide, UxmlTraits> { }
 
         public new class UxmlTraits : BaseFieldTraits<bool, UxmlBoolAttributeDescription> { }
+#endif
 
         private const string USS_CLASS_NAME = "panel-field-toggle_slide";
         private const string INPUT_USS_CLASS_NAME = "panel-field-toggle_slide__input";

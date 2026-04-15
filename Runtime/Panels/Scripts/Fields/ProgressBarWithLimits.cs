@@ -4,6 +4,11 @@ using UnityEngine.UIElements;
 
 namespace OC.UI.Panel
 {
+#if UNITY_6000_3_OR_NEWER
+    [UxmlElement("OCProgressBarWithLimits")]
+    public partial class ProgressBarWithLimits : ProgressBar
+    {
+#else
     public class ProgressBarWithLimits : ProgressBar
     {
         public new class UxmlFactory : UxmlFactory<ProgressBarWithLimits, UxmlTraits> { }
@@ -11,13 +16,13 @@ namespace OC.UI.Panel
         public new class UxmlTraits : UnityEngine.UIElements.ProgressBar.UxmlTraits
         {
             private readonly UxmlColorAttributeDescription _colorProgressBar = new() { name = "Color-Bar", defaultValue = Color.white };
-            private readonly UxmlColorAttributeDescription _colorBackground = new() { name = "Color-Background", defaultValue = new Color(0.5f,0.5f,0.5f, 0.5f) };
+            private readonly UxmlColorAttributeDescription _colorBackground = new() { name = "Color-Background", defaultValue = new Color(0.5f, 0.5f, 0.5f, 0.5f) };
 
             public override IEnumerable<UxmlChildElementDescription> uxmlChildElementsDescription
             {
                 get { yield break; }
             }
-            
+
             public override void Init(VisualElement ve, IUxmlAttributes bag, CreationContext cc)
             {
                 base.Init(ve, bag, cc);
@@ -26,7 +31,11 @@ namespace OC.UI.Panel
                 progressBar.ColorBackground = _colorBackground.GetValueFromBag(bag, cc);
             }
         }
+#endif
 
+#if UNITY_6000_3_OR_NEWER
+        [UxmlAttribute("Color-Bar")]
+#endif
         public Color ColorBar
         {
             get => _colorBar;
@@ -37,6 +46,9 @@ namespace OC.UI.Panel
             }
         }
 
+#if UNITY_6000_3_OR_NEWER
+        [UxmlAttribute("Color-Background")]
+#endif
         public Color ColorBackground
         {
             get => _colorBackground;

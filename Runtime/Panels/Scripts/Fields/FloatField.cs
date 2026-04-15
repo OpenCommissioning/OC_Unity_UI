@@ -3,9 +3,15 @@ using UnityEngine.UIElements;
 
 namespace OC.UI.Panel
 {
+#if UNITY_6000_3_OR_NEWER
+    [UxmlElement("OCFloatField")]
+    public partial class FloatField : UnityEngine.UIElements.FloatField
+    {
+#else
     public class FloatField : UnityEngine.UIElements.FloatField
     {
         public new class UxmlFactory : UxmlFactory<FloatField, UxmlTraits> { }
+#endif
 
         private const string STYLE_SHEET = "StyleSheet/panel-field";
         private const string USS_CONTAINER = "panel-field-container";

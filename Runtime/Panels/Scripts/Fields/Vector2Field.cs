@@ -3,9 +3,15 @@ using UnityEngine.UIElements;
 
 namespace OC.UI.Panel
 {
+#if UNITY_6000_3_OR_NEWER
+    [UxmlElement("OCVector2Field")]
+    public partial class Vector2Field : UnityEngine.UIElements.Vector2Field
+    {
+#else
     public class Vector2Field : UnityEngine.UIElements.Vector2Field
     {
         public new class UxmlFactory : UxmlFactory<Vector2Field, UxmlTraits> { }
+#endif
 
         private const string STYLE_SHEET = "StyleSheet/panel-field";
         private const string USS_CONTAINER = "panel-field-container";

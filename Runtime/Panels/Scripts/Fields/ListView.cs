@@ -3,10 +3,16 @@ using UnityEngine.UIElements;
 
 namespace OC.UI.Panel
 {
+#if UNITY_6000_3_OR_NEWER
+    [UxmlElement("OCListView")]
+    public partial class ListView : UnityEngine.UIElements.ListView
+    {
+#else
     public class ListView : UnityEngine.UIElements.ListView
     {
         public new class UxmlFactory : UxmlFactory<ListView, UxmlTraits> { }
         public new class UxmlTraits : UnityEngine.UIElements.ListView.UxmlTraits { }
+#endif
 
         public Scroller VerticalScroller;
         public Scroller HorizontalScroller;
