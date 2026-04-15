@@ -5,7 +5,7 @@ using UnityEngine.UIElements;
 namespace OC.UI.Panel
 {
 #if UNITY_6000_3_OR_NEWER
-    [UxmlElement("PanelProgressBarWithLimits")]
+    [UxmlElement]
     public partial class PanelProgressBarWithLimits : ProgressBar
     {
 #else

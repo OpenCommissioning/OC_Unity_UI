@@ -4,7 +4,7 @@ using UnityEngine.UIElements;
 namespace OC.UI.Panel
 {
 #if UNITY_6000_3_OR_NEWER
-    [UxmlElement("PanelVector2Field")]
+    [UxmlElement]
     public partial class PanelVector2Field : UnityEngine.UIElements.Vector2Field
     {
 #else

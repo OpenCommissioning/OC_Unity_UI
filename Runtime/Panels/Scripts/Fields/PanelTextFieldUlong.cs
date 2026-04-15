@@ -4,7 +4,7 @@ using UnityEngine.UIElements;
 namespace OC.UI.Panel
 {
 #if UNITY_6000_3_OR_NEWER
-    [UxmlElement("PanelTextFieldUlong")]
+    [UxmlElement]
     public partial class PanelTextFieldUlong : PanelTextField<ulong>
     {
 #else

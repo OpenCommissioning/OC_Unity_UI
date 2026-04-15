@@ -4,7 +4,7 @@ using UnityEngine.UIElements;
 namespace OC.UI.Panel
 {
 #if UNITY_6000_3_OR_NEWER
-    [UxmlElement("PanelVector3IntField")]
+    [UxmlElement]
     public partial class PanelVector3IntField : UnityEngine.UIElements.Vector3IntField
     {
 #else

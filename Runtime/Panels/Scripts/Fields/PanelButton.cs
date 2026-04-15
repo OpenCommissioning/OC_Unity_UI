@@ -5,7 +5,7 @@ using UnityEngine.UIElements;
 namespace OC.UI.Panel
 {
 #if UNITY_6000_3_OR_NEWER
-    [UxmlElement("PanelButton")]
+    [UxmlElement]
     public partial class PanelButton : UnityEngine.UIElements.Button
     {
 #else

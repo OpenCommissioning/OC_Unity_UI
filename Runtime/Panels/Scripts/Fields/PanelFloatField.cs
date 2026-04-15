@@ -4,7 +4,7 @@ using UnityEngine.UIElements;
 namespace OC.UI.Panel
 {
 #if UNITY_6000_3_OR_NEWER
-    [UxmlElement("PanelFloatField")]
+    [UxmlElement]
     public partial class PanelFloatField : UnityEngine.UIElements.FloatField
     {
 #else

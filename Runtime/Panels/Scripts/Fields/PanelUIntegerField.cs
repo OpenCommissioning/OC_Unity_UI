@@ -4,7 +4,7 @@ using UnityEngine.UIElements;
 namespace OC.UI.Panel
 {
 #if UNITY_6000_3_OR_NEWER
-    [UxmlElement("PanelUIntegerField")]
+    [UxmlElement]
     public partial class PanelUIntegerField : UnsignedIntegerField
     {
 #else

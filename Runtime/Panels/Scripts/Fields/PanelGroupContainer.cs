@@ -4,7 +4,7 @@ using UnityEngine.UIElements;
 namespace OC.UI.Panel
 {
 #if UNITY_6000_3_OR_NEWER
-    [UxmlElement("PanelGroupContainer")]
+    [UxmlElement]
     public partial class PanelGroupContainer : VisualElement
     {
 #else
