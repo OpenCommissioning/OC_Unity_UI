@@ -3,10 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using OC.Interactions;
-using OC.MaterialFlow;
 using OC.UI.Toolbar;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 
 namespace OC.UI.Interactions
 {
@@ -16,7 +17,7 @@ namespace OC.UI.Interactions
     public class SelectionManager : MonoBehaviourSingleton<SelectionManager>
     {
         public IEnumerable<Interaction> SelectedInteractions => _selectedInteractions;
-        public List<GameObject> HitGameObjects => _hitGameobjects;
+        public List<GameObject> HitGameObjects => _hitGameObjects;
         public Ray Pointer => _pointer;
         
         public event Action<List<Interaction>> OnSelectionChanged;
@@ -42,21 +43,29 @@ namespace OC.UI.Interactions
 
         [Header("Settings")]
         [SerializeField]
-        private KeyCode _multiSelectKey = KeyCode.LeftControl;
+        private InputActionProperty _inputActionPropertyClick;
         [SerializeField]
-        private LayerMask _layermask;
+        private InputActionProperty _inputActionPropertyMultiClick;
+        [SerializeField]
+        private InputActionProperty _inputActionPropertyPointer;
+        
+        [SerializeField]
+        private KeyCode _multiSelectKey = KeyCode.LeftControl;
+        [FormerlySerializedAs("_layermask")]
+        [SerializeField]
+        private LayerMask _layerMask;
 
         [SerializeField]
         private bool _drawDebugGizmos;
-
+        
         [Header("Debug")] 
         [SerializeField] 
-        private List<GameObject> _hitGameobjects = new ();
+        private List<GameObject> _hitGameObjects = new ();
         [SerializeField]
         private List<Interaction> _selectedInteractions;
 
         private const float MAX_DISTANCE = 500;
-        private const float DRAG_TRESHOLD = 0.3f;
+        private const float DRAG_THRESHOLD = 0.3f;
 
         private Interaction _hoveredInteraction;
         private Interaction _lastHoveredInteraction;
@@ -77,22 +86,25 @@ namespace OC.UI.Interactions
 
         private Camera _camera;
 
-        private GameObject _closestHitGameobject;
+        private GameObject _closestHitGameObject;
         private bool _hitHandle;
+        private InputAction _inputActionClick;
+        private InputAction _inputActionMultiClick;
+        private InputAction _inputActionPointer;
         
 
         private void Start()
         {
             _camera = Camera.main;
             
-            GameObject boxDrawerGameobject = new("BoxDrawer")
+            GameObject boxDrawerGameObject = new("BoxDrawer")
             {
                 transform =
                 {
                     parent = gameObject.transform
                 }
             };
-            _boxDrawer = boxDrawerGameobject.AddComponent<BoxDrawer>();
+            _boxDrawer = boxDrawerGameObject.AddComponent<BoxDrawer>();
             transform.position = Vector3.zero;
             GetComponent<Rigidbody>().isKinematic = true;
             GetComponent<Rigidbody>().useGravity = false;
@@ -103,6 +115,13 @@ namespace OC.UI.Interactions
             UserInteractionManager.Instance.OnInteractionEnableChanged += SetEnable;
 
             SetEnable(false);
+            
+            _inputActionClick = _inputActionPropertyClick.reference.action;
+            _inputActionPointer = _inputActionPropertyPointer.reference.action;
+            _inputActionMultiClick = _inputActionPropertyMultiClick.reference.action;
+
+            _inputActionClick.started += OnClickDown;
+            _inputActionClick.canceled += OnClickUp;
         }
         
         private void OnDestroy()
@@ -125,13 +144,15 @@ namespace OC.UI.Interactions
             if (!_enable) return;
             
             Array.Clear(_hits, 0, _hitsCount);
-            _hitGameobjects.Clear();
+            _hitGameObjects.Clear();
             _hitHandle = false;
 
-            if (Input.mousePosition.sqrMagnitude > 1e16) return;
+            var pointerPosition = _inputActionPointer.ReadValue<Vector2>();
             
-            _pointer = _camera.ScreenPointToRay(Input.mousePosition);
-            _hitsCount = Physics.RaycastNonAlloc(_pointer.origin, _pointer.direction, _hits, MAX_DISTANCE, _layermask);
+            if (pointerPosition.sqrMagnitude > 1e16) return;
+            
+            _pointer = _camera.ScreenPointToRay(pointerPosition);
+            _hitsCount = Physics.RaycastNonAlloc(_pointer.origin, _pointer.direction, _hits, MAX_DISTANCE, _layerMask);
 
             if (_hitsCount == 0)
             {
@@ -148,67 +169,65 @@ namespace OC.UI.Interactions
                     _hitHandle = true;
                     continue;
                 }
-                _hitGameobjects.Add(raycast.collider.gameObject);
+                _hitGameObjects.Add(raycast.collider.gameObject);
             }
 
-            if (_hitGameobjects.Count < 1)
+            if (_hitGameObjects.Count < 1)
             {
                 ResetHit();
                 return; 
             }
             
-            if (_hitGameobjects.First() == _closestHitGameobject) return;
-            if (_closestHitGameobject != null) PointerExitEvent(_closestHitGameobject);
+            if (_hitGameObjects.First() == _closestHitGameObject) return;
+            if (_closestHitGameObject != null) PointerExitEvent(_closestHitGameObject);
 
-            _closestHitGameobject = _hitGameobjects.First();
-            PointerEnterEvent(_closestHitGameobject);
+            _closestHitGameObject = _hitGameObjects.First();
+            PointerEnterEvent(_closestHitGameObject);
         }
 
         public void ResetHit()
         {
-            PointerUpEvent(_closestHitGameobject);
-            PointerExitEvent(_closestHitGameobject);
-            _hitGameobjects.Clear();
-            _closestHitGameobject = null;
+            PointerUpEvent(_closestHitGameObject);
+            PointerExitEvent(_closestHitGameObject);
+            _hitGameObjects.Clear();
+            _closestHitGameObject = null;
         }
-
-        public void ProcessPointerEvents(int pointerId)
+        
+        private void OnClickDown(InputAction.CallbackContext context)
         {
             if (!_enable) return;
-            
-            if (Input.GetMouseButtonDown(pointerId))
-            {
-                if (_hitHandle) return;
+            if (_hitHandle) return;
 
-                if (_hitGameobjects.Count > 0)
+            if (_hitGameObjects.Count > 0)
+            {
+                if (_selectedInteractions.Count > 0)
                 {
-                    if (_selectedInteractions.Count > 0)
-                    {
-                        var index = (_hitGameobjects.IndexOf(_selectedInteractions.First().gameObject) + 1) % _hitGameobjects.Count;
-                        var nextHitGameobject = _hitGameobjects[index];
-                        Select(nextHitGameobject, Input.GetKey(_multiSelectKey));
-                        PointerDownEvent(nextHitGameobject);
-                    }
-                    else
-                    {
-                        Select(_closestHitGameobject, Input.GetKey(_multiSelectKey));
-                        PointerDownEvent(_closestHitGameobject);
-                    }
+                    var index = (_hitGameObjects.IndexOf(_selectedInteractions.First().gameObject) + 1) % _hitGameObjects.Count;
+                    var nextHitGameObject = _hitGameObjects[index];
+                    Select(nextHitGameObject, _inputActionMultiClick.IsPressed());
+                    PointerDownEvent(nextHitGameObject);
                 }
                 else
                 {
-                    ResetHit();
-                    ClearSelection();
+                    Select(_closestHitGameObject, _inputActionMultiClick.IsPressed());
+                    PointerDownEvent(_closestHitGameObject);
                 }
             }
-
-            if (Input.GetMouseButtonUp(pointerId))
+            else
             {
-                if (_hitGameobjects.Count > 0)
-                {
-                    PointerClickEvent(_closestHitGameobject);
-                    PointerUpEvent(_closestHitGameobject);
-                }
+                ResetHit();
+                ClearSelection();
+            }
+        }
+
+        private void OnClickUp(InputAction.CallbackContext context)
+        {
+            if (!_enable) return;
+            
+            if (_hitGameObjects.Count > 0)
+            {
+                PointerClickEvent(_closestHitGameObject);
+                PointerUpEvent(_closestHitGameObject);
             }
         }
 
@@ -218,8 +237,8 @@ namespace OC.UI.Interactions
             {
                 if (_isDrawing) _boxDrawer.DrawBox();
 
-                _endMousePos = Input.mousePosition;
-                if (Vector3.Magnitude(_startMousePos - _endMousePos) > DRAG_TRESHOLD)
+                _endMousePos = _inputActionPointer.ReadValue<Vector2>();
+                if (Vector3.Magnitude(_startMousePos - _endMousePos) > DRAG_THRESHOLD)
                 {
                     _mouseDragging = true;
                     if (!_isDrawing)
@@ -229,7 +248,7 @@ namespace OC.UI.Interactions
                     }
                 }
             }
-            if (Input.GetMouseButtonUp(0) && _mouseDragging && _mouseClickStartedInEmptySpace)
+            if (!_inputActionClick.IsPressed() && _mouseDragging && _mouseClickStartedInEmptySpace)
             {
                 DetectObjectsInBox();
                 _mouseDragging = false;
@@ -403,7 +422,7 @@ namespace OC.UI.Interactions
         private void OnTriggerEnter(Collider col)
         {
             if (!col.gameObject.GetComponent<Interaction>()) return;
-            if (((1 << col.gameObject.layer) & _layermask.value) > 0)
+            if (((1 << col.gameObject.layer) & _layerMask.value) > 0)
             {
                 Select(col.gameObject, true);
             }
@@ -413,37 +432,6 @@ namespace OC.UI.Interactions
         {
             yield return new WaitForFixedUpdate();
             _selectionCollider.enabled = false;
-        }
-
-        public void FindUniqueID(ulong id)
-        {
-            var selectedGameObject = Pool.Instance.PoolManager.FindPayload(id).gameObject;
-            if (selectedGameObject == null)
-            {
-                Logging.Logger.Log(LogType.Log, $"Entity with UniqueID \"{id}\" not found");
-            }
-            else
-            {
-                Logging.Logger.Log(LogType.Log, $"Entity with UniqueID \"{id}\" found");
-                //RuntimeSelectionComponent.Instance.Focus(selectedGameObject.transform.position, 0.5f);
-                Select(selectedGameObject, false);
-            }
-        }
-
-        public void FindDevice(string deviceName)
-        {
-            //TODO
-            // var device = ProjectManager.Singleton.Devices.FindLast(x => x.Link.Name == deviceName);
-            // if (device == null)
-            // {
-            //     Logging.Logger.Log(LogType.Log, $"Device with Name \"{deviceName}\" not found");
-            // }
-            // else
-            // {
-            //     Logging.Logger.Log(LogType.Log, $"Device with Name \"{deviceName}\" found");
-            //     // RuntimeSelectionComponent.Instance.Focus(device.Link.GameObject.transform.position, 0.5f);
-            //     Select(device.Link.GameObject, false);
-            // }
         }
         
         private void PointerEnterEvent(GameObject target)

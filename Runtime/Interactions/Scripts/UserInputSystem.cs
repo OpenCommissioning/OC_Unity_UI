@@ -127,7 +127,7 @@ namespace OC.UI.Interactions
         {
             if (UIManager.Instance.IsPointerOverUI) return;
             SelectionManager.Instance.Raycast();
-            SelectionManager.Instance.ProcessPointerEvents(0);
+            //SelectionManager.Instance.ProcessPointerEvents(0);
 
             //TODO Box selection
             //if (((Input.GetMouseButton(0) && (SelectionManager.Instance._isDrawing))  || (Input.GetMouseButtonUp(0) && SelectionManager.Instance._isDrawing)) && !Input.GetKey(KeyCode.LeftAlt))

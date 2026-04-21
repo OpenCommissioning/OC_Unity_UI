@@ -5,11 +5,11 @@ namespace OC.UI.Interactions
 {
     [AddComponentMenu("Open Commissioning/UI/Outline")]
     [DisallowMultipleComponent]
-    [RequireComponent(typeof(OC.Interactions.Interaction))]
+    [RequireComponent(typeof(Interaction))]
     public class Outline : MonoBehaviour
     {
         [SerializeField]
-        private OC.Interactions.Interaction _interaction;
+        private Interaction _interaction;
         
         private const uint RENDER_LAYER_HOVER = 2;
         private const uint RENDER_LAYER_SELECTION = 4;
@@ -53,7 +53,7 @@ namespace OC.UI.Interactions
             SetRenderLayerMask(_interaction, 1);
         }
         
-        private static void SetRenderLayerMask(OC.Interactions.Interaction interaction, uint layerMask)
+        private static void SetRenderLayerMask(Interaction interaction, uint layerMask)
         {
             foreach (var item in interaction.Renderers)
             {

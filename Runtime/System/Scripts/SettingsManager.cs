@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.InputSystem;
 
 namespace OC.UI
 {
@@ -29,11 +30,15 @@ namespace OC.UI
         private int _mouseSensitivity = 5;
         [SerializeField]
         private KeyCode _windowMode =  KeyCode.F12;
+        [SerializeField]
+        private InputActionProperty _inputActionWindow;
 
         [Header("Collision")] 
         private bool _isWindowed;
 
         public UnityEvent OnSettingsChanged;
+        
+        private InputAction _actionWindow;
         
         
         private void Awake()
@@ -46,6 +51,8 @@ namespace OC.UI
             {
                 Instance = this;
             }
+            
+            _actionWindow = _inputActionWindow.reference.action;
         }
         
         private void Start()
@@ -82,9 +89,11 @@ namespace OC.UI
         
         private void ScreenModeAction()
         {
-            if (!Input.GetKeyDown(_windowMode)) return;
-            _isWindowed = !_isWindowed;
-            SetScreenMode(_isWindowed);
+            if (_actionWindow.triggered)
+            {
+                _isWindowed = !_isWindowed;
+                SetScreenMode(_isWindowed);
+            }
         }
         
         private void SetScreenMode(bool window)

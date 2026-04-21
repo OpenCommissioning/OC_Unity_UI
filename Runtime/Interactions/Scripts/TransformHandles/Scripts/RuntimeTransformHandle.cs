@@ -4,6 +4,7 @@ using System.Linq;
 using OC.Interactions;
 using OC.UI.Interactions;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace OC.UI.TransformHandles
 {
@@ -75,6 +76,10 @@ namespace OC.UI.TransformHandles
         private GameObject _rotationHandle;
         [SerializeField] 
         private List<Transform> _targets;
+        [SerializeField]
+        private InputActionProperty _inputActionPropertyClick;
+        [SerializeField]
+        private InputActionProperty _inputActionPropertyPointer;
 
         private Vector3 _previousMousePosition;
         private HandleBase _previousHandle;
@@ -82,6 +87,8 @@ namespace OC.UI.TransformHandles
         private bool _rotating;
 
         private Camera _camera;
+        private InputAction _inputActionClick;
+        private InputAction _inputActionPointer;
 
         private void Awake()
         {
@@ -102,6 +109,9 @@ namespace OC.UI.TransformHandles
             }
 
             SelectionManager.Instance.OnSelectionChanged += SelectedObjectsChanged;
+
+            _inputActionClick = _inputActionPropertyClick.reference.action;
+            _inputActionPointer = _inputActionPropertyPointer.reference.action;
         }
 
         private void OnDisable()
@@ -132,13 +142,13 @@ namespace OC.UI.TransformHandles
             HandleOverEffect(handle);
             ManageHandleTransform();
 
-            if (Input.GetMouseButton(0) && _draggingHandle != null)
+            if (_inputActionClick.IsPressed() && _draggingHandle != null)
             {
                 _draggingHandle.Interact(_previousMousePosition);
                 if (_draggingHandle is RotationAxis) _rotating = true;
             }
 
-            if (Input.GetMouseButtonDown(0))
+            if (_inputActionClick.IsPressed())
             {
                 GetHandle(ref handle, ref hitPoint);
                 if (handle != null)
@@ -150,15 +160,14 @@ namespace OC.UI.TransformHandles
                 HandleOverEffect(_draggingHandle);
             }
 
-            if (Input.GetMouseButtonUp(0) && _draggingHandle != null)
+            if (!_inputActionClick.IsPressed() && _draggingHandle != null)
             {
                 _draggingHandle.EndInteraction();
                 if (_draggingHandle is RotationAxis) _rotating = false;
                 _draggingHandle = null;
             }
-
-            _previousMousePosition = Input.mousePosition;
-
+            
+            _previousMousePosition = _inputActionPointer.ReadValue<Vector2>();
         }
 
         public void AddGameObjectToTargets(GameObject go)
@@ -254,10 +263,12 @@ namespace OC.UI.TransformHandles
         private void GetHandle(ref HandleBase handle, ref Vector3 hitPoint)
         {
             //TODO Need to refactor. The same Raycast is in the SelectionManager class
-
-            if (Input.mousePosition.sqrMagnitude > 1e16) return;
             
-            var ray = _camera.ScreenPointToRay(Input.mousePosition);
+            var pointerPosition = _inputActionPointer.ReadValue<Vector2>();
+            
+            if (pointerPosition.sqrMagnitude > 1e16) return;
+            
+            var ray = _camera.ScreenPointToRay(pointerPosition);
             RaycastHit[] hits = Physics.RaycastAll(ray);
             if (hits.Length == 0) return;
 
