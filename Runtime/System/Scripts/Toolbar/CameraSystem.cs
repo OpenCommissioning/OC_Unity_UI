@@ -13,7 +13,11 @@ namespace OC.UI.Toolbar
 
         protected override void AddContent(SubsystemPanel subsystemPanel)
         {
+#if UNITY_6000_3_OR_NEWER
+            _cameraControllers = FindObjectsByType<CameraControllerMaster>(FindObjectsInactive.Exclude).ToList();
+#else
             _cameraControllers = FindObjectsByType<CameraControllerMaster>(FindObjectsSortMode.InstanceID).ToList();
+#endif  
 
             for (var i = 0; i < _cameraControllers.Count; i++)
             {

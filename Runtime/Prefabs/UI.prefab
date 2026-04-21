@@ -60,10 +60,17 @@ MonoBehaviour:
   m_Script: {fileID: 19102, guid: 0000000000000000e000000000000000, type: 0}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_PanelSettings: {fileID: 11400000, guid: 1e8a2ae669d8edb4fb417c1792a2625e, type: 2}
+  m_PanelSettings: {fileID: 11400000, guid: 8b87d46e8d5257f4dabbde7af1aa0b28, type: 2}
   m_ParentUI: {fileID: 0}
   sourceAsset: {fileID: 0}
   m_SortingOrder: 0
+  m_Position: 0
+  m_WorldSpaceSizeMode: 1
+  m_WorldSpaceWidth: 1920
+  m_WorldSpaceHeight: 1080
+  m_PivotReferenceSize: 0
+  m_Pivot: 0
+  m_WorldSpaceCollider: {fileID: 0}
 --- !u!114 &3791549101984166990
 MonoBehaviour:
   m_ObjectHideFlags: 0

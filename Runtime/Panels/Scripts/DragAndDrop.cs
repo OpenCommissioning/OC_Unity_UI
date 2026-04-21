@@ -69,7 +69,12 @@ namespace OC.UI.Panel
         private void Move(Vector3 delta)
         {
             var position = _targetStartPosition + delta;
+            
+#if UNITY_6000_3_OR_NEWER
+            target.style.translate = Utils.ClampInParent(target, position);
+#else
             target.transform.position = Utils.ClampInParent(target, position);
+#endif
         }
 
         private void UpEvent(PointerUpEvent evt)
@@ -88,7 +93,12 @@ namespace OC.UI.Panel
                 {
                     _interactionsPanelManager.AddToSidebar(target);
                     _panel.CanPinned = true;
+                    
+#if UNITY_6000_3_OR_NEWER
+                    target.style.translate = new Vector3();
+#else
                     target.transform.position = new Vector3();
+#endif
                 }
                 _inMotion = false;
             }

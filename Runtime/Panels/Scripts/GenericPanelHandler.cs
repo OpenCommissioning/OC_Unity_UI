@@ -11,7 +11,7 @@ namespace OC.UI.Panel
 
         private List<string> _possibleBindings;
 
-        protected virtual new void OnValidate()
+        protected virtual void OnValidate()
         {
             //base.OnValidate();
 

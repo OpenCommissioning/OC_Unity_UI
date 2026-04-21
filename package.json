@@ -3,25 +3,21 @@
   "version": "0.0.0",
   "displayName": "Open Commissioning UI",
   "description": "Runtime UI for Open Commissioning",
-  "unity": "2022.3",
-  "documentationUrl": "",
-  "changelogUrl": "",
-  "licensesUrl": "",    
+  "unity": "6000.3",
   "author": {
     "name": "SpiraTec AG",
-    "email": ["michael.kasseckert@spiratec.com","viktor.gaponenko@spiratec.com","moritz.langer@spiratec.com.com"],
     "url": "https://www.spiratec.com/de/kontakt/"
   },
-    "samples": [
-        {
-            "displayName": "Demo",
-            "description": "Demo scenes with basic components",
-            "path": "Samples~/Demo"
-        },
-        {
-            "displayName": "Environment",
-            "description": "Base environment",
-            "path": "Samples~/Environment"
-        }
-    ]
+  "samples": [
+    {
+      "displayName": "Demo",
+      "description": "Demo scenes with basic components",
+      "path": "Samples~/Demo"
+    },
+    {
+      "displayName": "Environment",
+      "description": "Base environment",
+      "path": "Samples~/Environment"
+    }
+  ]
 }

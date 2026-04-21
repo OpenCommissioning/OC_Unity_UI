@@ -41,7 +41,13 @@ namespace OC.UI.Panel
             if (!_handle.HasPointerCapture(evt.pointerId)) return;
             var delta = evt.position - _pointerStartPosition;
             var position = _targetStartPosition + delta;
+            
+#if UNITY_6000_3_OR_NEWER
+            target.style.translate = Utils.ClampInParent(target, position);
+#else
             target.transform.position = Utils.ClampInParent(target, position);
+#endif
+            
         }
 
         private void UpEvent(PointerUpEvent evt)

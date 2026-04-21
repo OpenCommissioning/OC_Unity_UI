@@ -55,6 +55,8 @@ namespace OC.UI.Interactions
                 SelectionManager.Instance.ResetHit();
                 return;
             }
+            
+            //TODO
             //if (!_isValid) return;
 
             // var cam = CinemachineBrain.GetActiveBrain(0).ActiveVirtualCamera;
