@@ -8,15 +8,24 @@ namespace OC.UI.Interactions
     [RequireComponent(typeof(Interaction))]
     public class Outline : MonoBehaviour
     {
+        [Header("References")]
         [SerializeField]
         private Interaction _interaction;
         
-        private const uint RENDER_LAYER_HOVER = 2;
-        private const uint RENDER_LAYER_SELECTION = 4;
+        [Header("Settings")]
+        [SerializeField]
+        private string _layerNameHover = "Outline_1";
+        [SerializeField]
+        private string _layerNameSelection = "Outline_2";
+        
+        private uint _layerMaskHover;
+        private uint _layerMaskSelection;
 
         private void Awake()
         {
             TryGetComponent(out _interaction);
+            _layerMaskHover = RenderingLayerMask.GetMask(_layerNameHover);
+            _layerMaskSelection = RenderingLayerMask.GetMask(_layerNameSelection);
         }
         
         private void OnEnable()
@@ -40,13 +49,13 @@ namespace OC.UI.Interactions
 
             if (interactionState.HasFlag(InteractionState.Selected))
             {
-                SetRenderLayerMask(_interaction, RENDER_LAYER_SELECTION);
+                SetRenderLayerMask(_interaction, _layerMaskSelection);
                 return;
             }
             
             if (interactionState.HasFlag(InteractionState.Hovered))
             {
-                SetRenderLayerMask(_interaction, RENDER_LAYER_HOVER);
+                SetRenderLayerMask(_interaction, _layerMaskHover);
                 return;
             }
             

@@ -95,7 +95,7 @@ MonoBehaviour:
   m_DepthAttachmentFormat: 0
   m_DepthTextureFormat: 0
   m_AccurateGbufferNormals: 0
-  m_IntermediateTextureMode: 1
+  m_IntermediateTextureMode: 0
 --- !u!114 &2154596520798246493
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -138,7 +138,7 @@ MonoBehaviour:
   m_Name: OutlineRendererFeature
   m_EditorClassIdentifier: com.cqf.outline::OutlineRendererFeature
   m_Active: 1
-  shader: {fileID: 4800000, guid: d5f0ed6ad64bfd74aa279f5bf5fe41f8, type: 3}
+  shader: {fileID: 4800000, guid: 022d8e95d98c7804a81891f32fcc16ab, type: 3}
 --- !u!114 &5677953496430557403
 MonoBehaviour:
   m_ObjectHideFlags: 0
