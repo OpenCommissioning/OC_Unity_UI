@@ -3452,13 +3452,47 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 576315432846064135, guid: 2dce1cbfed1d5814aad206859d609758, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 766611885}
   m_SourcePrefab: {fileID: 100100000, guid: 2dce1cbfed1d5814aad206859d609758, type: 3}
 --- !u!4 &766611882 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5883218057482307558, guid: 2dce1cbfed1d5814aad206859d609758, type: 3}
   m_PrefabInstance: {fileID: 766611881}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &766611883 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 576315432846064135, guid: 2dce1cbfed1d5814aad206859d609758, type: 3}
+  m_PrefabInstance: {fileID: 766611881}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &766611884 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1011426874826814901, guid: 2dce1cbfed1d5814aad206859d609758, type: 3}
+  m_PrefabInstance: {fileID: 766611881}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 766611883}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad5773b8abf109243844773b128f6222, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: OC::OC.Interactions.Interaction
+--- !u!114 &766611885
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 766611883}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82f4a2cca5d243ce8b352cc7daa7aaf1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: OC.UI::OC.UI.Interactions.Outline
+  _interaction: {fileID: 766611884}
+  _layerNameHover: Outline_1
+  _layerNameSelection: Outline_2
 --- !u!1 &777691501
 GameObject:
   m_ObjectHideFlags: 0
@@ -11984,8 +12018,42 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 576315432846064135, guid: 2dce1cbfed1d5814aad206859d609758, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8047105047078476577}
   m_SourcePrefab: {fileID: 100100000, guid: 2dce1cbfed1d5814aad206859d609758, type: 3}
+--- !u!1 &8047105047078476575 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 576315432846064135, guid: 2dce1cbfed1d5814aad206859d609758, type: 3}
+  m_PrefabInstance: {fileID: 8047105047078476574}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &8047105047078476576 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1011426874826814901, guid: 2dce1cbfed1d5814aad206859d609758, type: 3}
+  m_PrefabInstance: {fileID: 8047105047078476574}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8047105047078476575}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad5773b8abf109243844773b128f6222, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: OC::OC.Interactions.Interaction
+--- !u!114 &8047105047078476577
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8047105047078476575}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82f4a2cca5d243ce8b352cc7daa7aaf1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: OC.UI::OC.UI.Interactions.Outline
+  _interaction: {fileID: 8047105047078476576}
+  _layerNameHover: Outline_1
+  _layerNameSelection: Outline_2
 --- !u!4 &8080204785658110514
 Transform:
   m_ObjectHideFlags: 0
