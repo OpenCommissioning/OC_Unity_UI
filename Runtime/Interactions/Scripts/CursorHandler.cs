@@ -14,7 +14,7 @@ namespace OC.UI.Interactions
         private bool _isWarping = false;
         private float _warpThreshold = 5f;
 
-        private CameraMode _cameraMode = CameraMode.None;
+        //private CameraMode _cameraMode = CameraMode.None;
 
         public CursorHandler(bool warpCursor)
         {
@@ -34,7 +34,7 @@ namespace OC.UI.Interactions
             CheckMousePosition();
         }
 
-        public void SetCursor(CameraMode type)
+        /*public void SetCursor(CameraMode type)
         {
             switch (type)
             {
@@ -61,14 +61,14 @@ namespace OC.UI.Interactions
                 default:
                     throw new ArgumentOutOfRangeException(nameof(type), type, null);
             }
-        }
+        }*/
 
         private void CheckMousePosition()
         {
             if(Utils.IsPointerOverScreen(Mouse.current.position.ReadValue())) return;
 
             // Only warp, when cam state is not none
-            if(_cameraMode == CameraMode.None) return;
+            //if(_cameraMode == CameraMode.None) return;
 
             if(!_isWarping && _warpCursor)
             {

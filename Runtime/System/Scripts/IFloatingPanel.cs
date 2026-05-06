@@ -1,6 +1,6 @@
 namespace OC.UI.Panel
 {
-    public interface ICloseble
+    public interface IFloatingPanel
     {
         public void Close();
     }

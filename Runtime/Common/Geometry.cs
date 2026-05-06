@@ -48,9 +48,9 @@ namespace OC.UI.Interactions
                     SetOriginalMaterials();
                     DisableInteraction(false);
                     break;
-                case ViewModeType.Transperent:
+                case ViewModeType.Transparent:
                     Hide(false);
-                    SetMaterial(SettingsManager.Instance.VisualConfig.Transperent);
+                    SetMaterial(SettingsManager.Instance.VisualConfig.Transparent);
                     DisableInteraction(true);
                     break;
                 case ViewModeType.Hide:

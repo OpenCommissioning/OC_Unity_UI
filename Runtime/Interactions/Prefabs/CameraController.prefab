@@ -176,11 +176,8 @@ MonoBehaviour:
       Owner: {fileID: 6770988247560225012}
       Enabled: 1
       Input:
-        InputAction: {fileID: -5630151704836100654, guid: 5801e2976a5a8cb48be3333ec7c1c733,
-          type: 3}
+        InputAction: {fileID: -5630151704836100654, guid: 5801e2976a5a8cb48be3333ec7c1c733, type: 3}
         Gain: -0.5
-        LegacyInput: 
-        LegacyGain: 1
         CancelDeltaTime: 1
       InputValue: 0
       Driver:
@@ -190,11 +187,8 @@ MonoBehaviour:
       Owner: {fileID: 6770988247560225012}
       Enabled: 1
       Input:
-        InputAction: {fileID: -5630151704836100654, guid: 5801e2976a5a8cb48be3333ec7c1c733,
-          type: 3}
+        InputAction: {fileID: -5630151704836100654, guid: 5801e2976a5a8cb48be3333ec7c1c733, type: 3}
         Gain: -0.5
-        LegacyInput: 
-        LegacyGain: 1
         CancelDeltaTime: 1
       InputValue: 0
       Driver:
@@ -214,7 +208,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10839a47f77f9a94a989581d4b551b6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _cameraEnabledAtStart: 0
   _panActionProperty:
     m_UseReference: 1
     m_Action:
@@ -226,8 +219,7 @@ MonoBehaviour:
       m_Interactions: 
       m_SingletonActionBindings: []
       m_Flags: 0
-    m_Reference: {fileID: -9113756750963598157, guid: 5801e2976a5a8cb48be3333ec7c1c733,
-      type: 3}
+    m_Reference: {fileID: -9113756750963598157, guid: 5801e2976a5a8cb48be3333ec7c1c733, type: 3}
 --- !u!1 &2765020037067839535
 GameObject:
   m_ObjectHideFlags: 0
@@ -280,7 +272,6 @@ MonoBehaviour:
   _orbitCameraController: {fileID: 1925543119240584906}
   _panCameraController: {fileID: 2174563796420938754}
   _fpsCameraController: {fileID: 1971398325601572488}
-  _infiniteZoomCameraController: {fileID: 0}
   _mouseSensitivity: 5
   _moveSensitivity: 5
   _scrollSensitivity: 5
@@ -576,11 +567,8 @@ MonoBehaviour:
       Owner: {fileID: 3809297542958392752}
       Enabled: 1
       Input:
-        InputAction: {fileID: -5630151704836100654, guid: 5801e2976a5a8cb48be3333ec7c1c733,
-          type: 3}
+        InputAction: {fileID: -2099379676528639254, guid: 6221e7b8a5138e244916faf73a7bc1f6, type: 3}
         Gain: 0.5
-        LegacyInput: 
-        LegacyGain: 1
         CancelDeltaTime: 1
       InputValue: 0
       Driver:
@@ -590,11 +578,8 @@ MonoBehaviour:
       Owner: {fileID: 3809297542958392752}
       Enabled: 1
       Input:
-        InputAction: {fileID: -5630151704836100654, guid: 5801e2976a5a8cb48be3333ec7c1c733,
-          type: 3}
+        InputAction: {fileID: -2099379676528639254, guid: 6221e7b8a5138e244916faf73a7bc1f6, type: 3}
         Gain: -0.5
-        LegacyInput: 
-        LegacyGain: 1
         CancelDeltaTime: 1
       InputValue: 0
       Driver:
@@ -604,11 +589,8 @@ MonoBehaviour:
       Owner: {fileID: 3809297542958392752}
       Enabled: 1
       Input:
-        InputAction: {fileID: 8734637601671566056, guid: 5801e2976a5a8cb48be3333ec7c1c733,
-          type: 3}
+        InputAction: {fileID: 8734637601671566056, guid: 5801e2976a5a8cb48be3333ec7c1c733, type: 3}
         Gain: -0.1
-        LegacyInput: 
-        LegacyGain: 1
         CancelDeltaTime: 1
       InputValue: 0
       Driver:
@@ -628,7 +610,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 982724222d91a5342a4b0d412d011060, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _cameraEnabledAtStart: 0
   _orbitActionProperty:
     m_UseReference: 1
     m_Action:
@@ -640,8 +621,7 @@ MonoBehaviour:
       m_Interactions: 
       m_SingletonActionBindings: []
       m_Flags: 0
-    m_Reference: {fileID: 1523298328677608009, guid: 5801e2976a5a8cb48be3333ec7c1c733,
-      type: 3}
+    m_Reference: {fileID: -2099379676528639254, guid: 6221e7b8a5138e244916faf73a7bc1f6, type: 3}
   _zoomActionProperty:
     m_UseReference: 1
     m_Action:
@@ -653,8 +633,7 @@ MonoBehaviour:
       m_Interactions: 
       m_SingletonActionBindings: []
       m_Flags: 0
-    m_Reference: {fileID: 8734637601671566056, guid: 5801e2976a5a8cb48be3333ec7c1c733,
-      type: 3}
+    m_Reference: {fileID: -2333446826551399854, guid: 6221e7b8a5138e244916faf73a7bc1f6, type: 3}
   _focusActionProperty:
     m_UseReference: 1
     m_Action:
@@ -666,8 +645,7 @@ MonoBehaviour:
       m_Interactions: 
       m_SingletonActionBindings: []
       m_Flags: 0
-    m_Reference: {fileID: 8256910942690146540, guid: 5801e2976a5a8cb48be3333ec7c1c733,
-      type: 3}
+    m_Reference: {fileID: 8256910942690146540, guid: 6221e7b8a5138e244916faf73a7bc1f6, type: 3}
   _zoomInputGain: 0
   _zoomInputGainMaster: 0
   _rotationGain: 0
@@ -696,8 +674,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6582740456461446132}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0.25400203, y: 0.6537795, z: -0.24853769, w: -0.6680452}
+  m_LocalPosition: {x: 0.14893924, y: 0.7176793, z: 6.311789}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -894,11 +872,8 @@ MonoBehaviour:
       Owner: {fileID: 6082521365233761574}
       Enabled: 1
       Input:
-        InputAction: {fileID: -5630151704836100654, guid: 5801e2976a5a8cb48be3333ec7c1c733,
-          type: 3}
+        InputAction: {fileID: -5630151704836100654, guid: 5801e2976a5a8cb48be3333ec7c1c733, type: 3}
         Gain: 0.5
-        LegacyInput: 
-        LegacyGain: 1
         CancelDeltaTime: 1
       InputValue: 0
       Driver:
@@ -908,11 +883,8 @@ MonoBehaviour:
       Owner: {fileID: 6082521365233761574}
       Enabled: 1
       Input:
-        InputAction: {fileID: -5630151704836100654, guid: 5801e2976a5a8cb48be3333ec7c1c733,
-          type: 3}
+        InputAction: {fileID: -5630151704836100654, guid: 5801e2976a5a8cb48be3333ec7c1c733, type: 3}
         Gain: -0.5
-        LegacyInput: 
-        LegacyGain: 1
         CancelDeltaTime: 1
       InputValue: 0
       Driver:
@@ -922,11 +894,8 @@ MonoBehaviour:
       Owner: {fileID: 6809609749538554694}
       Enabled: 1
       Input:
-        InputAction: {fileID: -1680190386980627800, guid: 5801e2976a5a8cb48be3333ec7c1c733,
-          type: 3}
+        InputAction: {fileID: -1680190386980627800, guid: 5801e2976a5a8cb48be3333ec7c1c733, type: 3}
         Gain: 1
-        LegacyInput: 
-        LegacyGain: 1
         CancelDeltaTime: 0
       InputValue: 0
       Driver:
@@ -936,11 +905,8 @@ MonoBehaviour:
       Owner: {fileID: 6809609749538554694}
       Enabled: 1
       Input:
-        InputAction: {fileID: -1680190386980627800, guid: 5801e2976a5a8cb48be3333ec7c1c733,
-          type: 3}
+        InputAction: {fileID: -1680190386980627800, guid: 5801e2976a5a8cb48be3333ec7c1c733, type: 3}
         Gain: 1
-        LegacyInput: 
-        LegacyGain: 1
         CancelDeltaTime: 0
       InputValue: 0
       Driver:
@@ -950,11 +916,8 @@ MonoBehaviour:
       Owner: {fileID: 6809609749538554694}
       Enabled: 1
       Input:
-        InputAction: {fileID: -4437217236898970475, guid: 5801e2976a5a8cb48be3333ec7c1c733,
-          type: 3}
+        InputAction: {fileID: -4437217236898970475, guid: 5801e2976a5a8cb48be3333ec7c1c733, type: 3}
         Gain: 1
-        LegacyInput: 
-        LegacyGain: 1
         CancelDeltaTime: 0
       InputValue: 0
       Driver:
@@ -964,11 +927,8 @@ MonoBehaviour:
       Owner: {fileID: 6809609749538554694}
       Enabled: 1
       Input:
-        InputAction: {fileID: 6157547504671083967, guid: 5801e2976a5a8cb48be3333ec7c1c733,
-          type: 3}
+        InputAction: {fileID: 6157547504671083967, guid: 5801e2976a5a8cb48be3333ec7c1c733, type: 3}
         Gain: 1
-        LegacyInput: 
-        LegacyGain: 1
         CancelDeltaTime: 0
       InputValue: 0
       Driver:
@@ -1002,7 +962,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 077a72c849748f740889ac80b9e53810, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _cameraEnabledAtStart: 0
   _fpsActionProperty:
     m_UseReference: 1
     m_Action:
@@ -1014,5 +973,4 @@ MonoBehaviour:
       m_Interactions: 
       m_SingletonActionBindings: []
       m_Flags: 0
-    m_Reference: {fileID: -1859561166211835845, guid: 5801e2976a5a8cb48be3333ec7c1c733,
-      type: 3}
+    m_Reference: {fileID: -1859561166211835845, guid: 5801e2976a5a8cb48be3333ec7c1c733, type: 3}

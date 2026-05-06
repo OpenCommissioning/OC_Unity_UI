@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 324930537873914786}
   - component: {fileID: 3761462697469774819}
-  - component: {fileID: 4788599389403852118}
   - component: {fileID: 3097341586915862187}
+  - component: {fileID: 4788599389403852118}
   - component: {fileID: 9197280129592338667}
   m_Layer: 0
   m_Name: Interactions
@@ -52,6 +52,37 @@ MonoBehaviour:
   m_FirstSelected: {fileID: 0}
   m_sendNavigationEvents: 1
   m_DragThreshold: 10
+--- !u!114 &3097341586915862187
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 324930537873914785}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01614664b831546d2ae94a42149d80ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SendPointerHoverToParent: 1
+  m_MoveRepeatDelay: 0.5
+  m_MoveRepeatRate: 0.1
+  m_XRTrackingOrigin: {fileID: 0}
+  m_ActionsAsset: {fileID: -944628639613478452, guid: 6221e7b8a5138e244916faf73a7bc1f6, type: 3}
+  m_PointAction: {fileID: -1654692200621890270, guid: 6221e7b8a5138e244916faf73a7bc1f6, type: 3}
+  m_MoveAction: {fileID: -8784545083839296357, guid: 6221e7b8a5138e244916faf73a7bc1f6, type: 3}
+  m_SubmitAction: {fileID: 392368643174621059, guid: 6221e7b8a5138e244916faf73a7bc1f6, type: 3}
+  m_CancelAction: {fileID: 7727032971491509709, guid: 6221e7b8a5138e244916faf73a7bc1f6, type: 3}
+  m_LeftClickAction: {fileID: 3001919216989983466, guid: 6221e7b8a5138e244916faf73a7bc1f6, type: 3}
+  m_MiddleClickAction: {fileID: -2185481485913320682, guid: 6221e7b8a5138e244916faf73a7bc1f6, type: 3}
+  m_RightClickAction: {fileID: -4090225696740746782, guid: 6221e7b8a5138e244916faf73a7bc1f6, type: 3}
+  m_ScrollWheelAction: {fileID: 6240969308177333660, guid: 6221e7b8a5138e244916faf73a7bc1f6, type: 3}
+  m_TrackedDevicePositionAction: {fileID: 6564999863303420839, guid: 5801e2976a5a8cb48be3333ec7c1c733, type: 3}
+  m_TrackedDeviceOrientationAction: {fileID: 7970375526676320489, guid: 5801e2976a5a8cb48be3333ec7c1c733, type: 3}
+  m_DeselectOnBackgroundClick: 1
+  m_PointerBehavior: 0
+  m_CursorLockBehavior: 0
+  m_ScrollDeltaPerTick: 6
 --- !u!114 &4788599389403852118
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -82,37 +113,6 @@ MonoBehaviour:
   OnSettingsChanged:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &3097341586915862187
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 324930537873914785}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 01614664b831546d2ae94a42149d80ac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SendPointerHoverToParent: 1
-  m_MoveRepeatDelay: 0.5
-  m_MoveRepeatRate: 0.1
-  m_XRTrackingOrigin: {fileID: 0}
-  m_ActionsAsset: {fileID: -944628639613478452, guid: 5801e2976a5a8cb48be3333ec7c1c733, type: 3}
-  m_PointAction: {fileID: -1654692200621890270, guid: 5801e2976a5a8cb48be3333ec7c1c733, type: 3}
-  m_MoveAction: {fileID: -8784545083839296357, guid: 5801e2976a5a8cb48be3333ec7c1c733, type: 3}
-  m_SubmitAction: {fileID: 392368643174621059, guid: 5801e2976a5a8cb48be3333ec7c1c733, type: 3}
-  m_CancelAction: {fileID: 7727032971491509709, guid: 5801e2976a5a8cb48be3333ec7c1c733, type: 3}
-  m_LeftClickAction: {fileID: 3001919216989983466, guid: 5801e2976a5a8cb48be3333ec7c1c733, type: 3}
-  m_MiddleClickAction: {fileID: -2185481485913320682, guid: 5801e2976a5a8cb48be3333ec7c1c733, type: 3}
-  m_RightClickAction: {fileID: -4090225696740746782, guid: 5801e2976a5a8cb48be3333ec7c1c733, type: 3}
-  m_ScrollWheelAction: {fileID: 6240969308177333660, guid: 5801e2976a5a8cb48be3333ec7c1c733, type: 3}
-  m_TrackedDevicePositionAction: {fileID: 6564999863303420839, guid: 5801e2976a5a8cb48be3333ec7c1c733, type: 3}
-  m_TrackedDeviceOrientationAction: {fileID: 7970375526676320489, guid: 5801e2976a5a8cb48be3333ec7c1c733, type: 3}
-  m_DeselectOnBackgroundClick: 1
-  m_PointerBehavior: 0
-  m_CursorLockBehavior: 0
-  m_ScrollDeltaPerTick: 6
 --- !u!114 &9197280129592338667
 MonoBehaviour:
   m_ObjectHideFlags: 0

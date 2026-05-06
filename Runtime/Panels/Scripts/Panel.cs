@@ -4,7 +4,7 @@ using UnityEngine.UIElements;
 
 namespace OC.UI.Panel
 {
-    public class Panel : VisualElement, ICloseble
+    public class Panel : VisualElement, IFloatingPanel
     {
         public bool CanClosed
         {
@@ -71,7 +71,7 @@ namespace OC.UI.Panel
 
             InteractionsPanelManager.Instance.Register(this);
             InteractionsPanelManager.Instance.AddToSidebar(this);
-            UIManager.Instance.Register(this);
+            AppUI.Instance.Register(this);
             
             CanClosed = canClose;
             CanFocus = canFocus;
@@ -100,7 +100,7 @@ namespace OC.UI.Panel
         {
             RemoveFromHierarchy();
             InteractionsPanelManager.Instance.Unregister(this);
-            UIManager.Instance.Unregister(this);
+            AppUI.Instance.Unregister(this);
         }
     }
 }

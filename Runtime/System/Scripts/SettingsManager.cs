@@ -28,10 +28,6 @@ namespace OC.UI
         [Header("Settings")]
         [SerializeField]
         private int _mouseSensitivity = 5;
-        [SerializeField]
-        private KeyCode _windowMode =  KeyCode.F12;
-        [SerializeField]
-        private InputActionProperty _inputActionWindow;
 
         [Header("Collision")] 
         private bool _isWindowed;
@@ -51,18 +47,11 @@ namespace OC.UI
             {
                 Instance = this;
             }
-            
-            _actionWindow = _inputActionWindow.reference.action;
         }
         
         private void Start()
         {
             Load();
-        }
-
-        private void Update()
-        {
-            ScreenModeAction();
         }
 
         private void OnDisable()
@@ -86,33 +75,12 @@ namespace OC.UI
             PlayerPrefs.SetInt("MouseSensitivity",_mouseSensitivity);
             PlayerPrefs.Save();
         }
-        
-        private void ScreenModeAction()
-        {
-            if (_actionWindow.triggered)
-            {
-                _isWindowed = !_isWindowed;
-                SetScreenMode(_isWindowed);
-            }
-        }
-        
-        private void SetScreenMode(bool window)
-        {
-            if (window)
-            {
-                Screen.SetResolution(Screen.currentResolution.width,Screen.currentResolution.height,FullScreenMode.Windowed);
-            }
-            else
-            {
-                Screen.SetResolution(Screen.currentResolution.width,Screen.currentResolution.height,FullScreenMode.FullScreenWindow);
-            }
-        }
     }
     
     public enum ViewModeType
     {
         Default,
-        Transperent,
+        Transparent,
         Hide
     }
 

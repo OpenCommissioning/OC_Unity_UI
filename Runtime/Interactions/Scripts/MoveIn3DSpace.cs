@@ -14,9 +14,11 @@ namespace OC.UI
         }
 
         [Tooltip("Default FPS speed")]
-        [SerializeField] private float _speed = 1f;
+        [SerializeField] 
+        private float _speed = 1f;
         [Tooltip("Speed when sprinting")]
-        [SerializeField] private float _sprintSpeedMultiplier = 4;
+        [SerializeField] 
+        private float _sprintSpeedMultiplier = 4;
 
         [Header("Input Axes")]
         private InputAxis Horizontal = InputAxis.DefaultMomentary;
@@ -41,6 +43,9 @@ namespace OC.UI
             axes.Add(new() { DrivenAxis = () => ref Vertical, Name = "Vertical", Hint = IInputAxisOwner.AxisDescriptor.Hints.Y });
             axes.Add(new() { DrivenAxis = () => ref Perpendicular, Name = "Perpendicular", Hint = IInputAxisOwner.AxisDescriptor.Hints.Y });
             axes.Add(new () { DrivenAxis = () => ref Sprint, Name = "Sprint" });
+            
+            
+            
         }
 
         private void OnValidate()

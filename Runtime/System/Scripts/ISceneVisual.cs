@@ -1,6 +1,6 @@
 namespace OC.UI
 {
-    public interface IHideable
+    public interface ISceneVisual
     {
         public void Hide(bool hide);
     }

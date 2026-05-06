@@ -38,16 +38,16 @@ namespace OC.UI.Interactions
         
         public bool Transparent
         {
-            get => _viewModeType == ViewModeType.Transperent;
+            get => _viewModeType == ViewModeType.Transparent;
             set
             {
                 if (value)
                 {
-                    _viewModeType = ViewModeType.Transperent;
+                    _viewModeType = ViewModeType.Transparent;
                 }
                 else
                 {
-                    if (_viewModeType == ViewModeType.Transperent) _viewModeType = ViewModeType.Default;
+                    if (_viewModeType == ViewModeType.Transparent) _viewModeType = ViewModeType.Default;
                 }
                 SetViewMode(_viewModeType);
             }

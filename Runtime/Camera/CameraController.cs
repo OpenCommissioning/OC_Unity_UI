@@ -37,6 +37,14 @@ namespace OC.UI.Interactions
                 RefreshSettings();
             }
         }
+        
+        [Header("State")]
+        [SerializeField]
+        private Property<CameraMode> _mode = new (CameraMode.None);
+        [SerializeField]
+        private GameObject _focusTarget;
+        [SerializeField] 
+        private bool _isPointerOverUI;
 
         [Header("Settings")]
         [Range(1,10)]
@@ -50,21 +58,20 @@ namespace OC.UI.Interactions
         private int _scrollSensitivity = 5;
         [SerializeField] 
         private UpdateLoop _updateLoop = UpdateLoop.Update;
+        
+        [Header("Debug")]
         [SerializeField]
         private bool _showGizmos;
+        [SerializeField] 
+        private bool _debug;
         
-        [Header("Settings")]
-        [SerializeField]
-        private GameObject _focusTarget;
-
         private const float ROTATION_SPEED = 0.5f;
         private const float MOVE_SPEED = 1f;
         private const float SCROLL_SPEED = 0.04f;
         private const float FLY_ACCELERATION = 2f;
         private const float DEFAULT_DISTANCE = 3f;
         
-        private readonly Property<CameraMode> _mode = new (CameraMode.None);
-        private Camera _camera;
+        private UnityEngine.Camera _camera;
         private Transform _transform;
         private Vector3 _pivot;
         private Quaternion _rotation;
@@ -81,32 +88,35 @@ namespace OC.UI.Interactions
         private bool _isFocusedOnDefaultDistance;
 
         private Vector3 _flySpeed;
-
         private Texture2D _panIcon;
         private Texture2D _orbitIcon;
         private Texture2D _zoomIcon;
         private Texture2D _fpsIcon;
+        
+        private bool _pan;
+        private bool _sprint;
+        private bool _fps;
+        private Vector3 _moveInput;
+        private Vector2 _lookInput;
+        private Vector2 _zoomInput;
+        private Vector3 _lastMousePosition;
+        private Plane _dragPlane;
 
-        [Header("Testing")]
-        [SerializeField] private bool _isPointerOverUI = false;
-        [SerializeField] private bool _pan;
-        [SerializeField] private bool _sprint = false;
-        [SerializeField] private bool _fps;
-        [SerializeField] private Vector3 _moveInput;
-        [SerializeField] private Vector2 _lookInput;
-        [SerializeField] private Vector2 _zoomInput;
-        [SerializeField] private Vector3 _lastMousePosition;
-
-        [Header("Debug")]
-        [SerializeField] private bool _debug = false;
-
+        private InputAction _actionMove;
+        private InputAction _actionLook;
+        private InputAction _actionZoom;
+        private InputAction _actionOrbit;
+        private InputAction _actionPan;
+        private InputAction _actionFocus;
+        private InputAction _actionSprint;
+        
         private void Start()
         {
             RefreshSettings();
             
             _transform = transform;
             var cameraBrain = CinemachineBrain.GetActiveBrain(0);
-            _camera = cameraBrain.GetComponent<Camera>();
+            _camera = cameraBrain.GetComponent<UnityEngine.Camera>();
 
             _distance = DEFAULT_DISTANCE;
             _rotation = transform.rotation;
@@ -116,16 +126,52 @@ namespace OC.UI.Interactions
             _orbitIcon = Resources.Load<Texture2D>("Cursors/Orbit");
             _fpsIcon = Resources.Load<Texture2D>("Cursors/FPS");
             
-            SettingsManager.Instance.OnSettingsChanged.AddListener(RefreshSettings);
-            SelectionManager.Instance.OnSelectionChanged += OnSelectionChanged;
+            //SettingsManager.Instance.OnSettingsChanged.AddListener(RefreshSettings);
+            //SelectionManager.Instance.OnSelectionChanged += OnSelectionChanged;
             _mode.OnValueChanged += OnModeChanged;
+        }
+
+        private void OnEnable()
+        {
+            _mode.Value = CameraMode.None;
+            
+            _actionMove = InputSystem.actions.FindAction("Move");
+            _actionLook = InputSystem.actions.FindAction("Look");
+            _actionZoom = InputSystem.actions.FindAction("Zoom");
+            _actionOrbit = InputSystem.actions.FindAction("Orbit");
+            _actionPan = InputSystem.actions.FindAction("Pan");
+            _actionFocus = InputSystem.actions.FindAction("Focus");
+            _actionSprint = InputSystem.actions.FindAction("Sprint");
+            
+            _actionMove.performed += OnMove;
+            _actionMove.canceled += OnMove;
+            _actionLook.performed += OnLook;
+            _actionLook.canceled += OnLook;
+            _actionZoom.performed += OnZoom;
+            _actionZoom.canceled += OnZoom;
+            _actionOrbit.performed += OnOrbit;
+            _actionOrbit.canceled += OnOrbit;
+            _actionPan.performed += OnPan;
+            _actionPan.canceled += OnPan;
+            
         }
 
         private void OnDisable()
         {
-            SettingsManager.Instance.OnSettingsChanged.RemoveListener(RefreshSettings);
-            SelectionManager.Instance.OnSelectionChanged -= OnSelectionChanged;
+            //SettingsManager.Instance.OnSettingsChanged.RemoveListener(RefreshSettings);
+            //SelectionManager.Instance.OnSelectionChanged -= OnSelectionChanged;
             _mode.OnValueChanged -= OnModeChanged;
+            
+            _actionMove.performed -= OnMove;
+            _actionMove.canceled -= OnMove;
+            _actionLook.performed -= OnLook;
+            _actionLook.canceled -= OnLook;
+            _actionZoom.performed -= OnZoom;
+            _actionZoom.canceled -= OnZoom;
+            _actionOrbit.performed -= OnOrbit;
+            _actionOrbit.canceled -= OnOrbit;
+            _actionPan.performed -= OnPan;
+            _actionPan.canceled -= OnPan;
         }
 
         private void OnSelectionChanged(List<Interaction> selectedInteractions)
@@ -162,7 +208,7 @@ namespace OC.UI.Interactions
 
         private void LocalUpdate()
         {
-            _motionDirection = Vector3.zero;
+            /*_motionDirection = Vector3.zero;
 
             if (_mode.Value != CameraMode.Pan) _pan = false;
 
@@ -192,11 +238,13 @@ namespace OC.UI.Interactions
             }
 
             SetTransform();
-            SetPointerPosition();
+            SetPointerPosition();*/
         }
         
         public void OnMove(InputAction.CallbackContext context)
         {
+            
+            
             if (!_fps)
             {
                 _moveInput = Vector2.zero;
@@ -371,8 +419,6 @@ namespace OC.UI.Interactions
             _motionDirection += _rotation * Vector3.right * _moveInput.x;
             _pivot += GetMovementDirection();
         }
-
-        private Plane _dragPlane;
         
         private void Pan()
         {
@@ -495,7 +541,7 @@ namespace OC.UI.Interactions
         
         private void SetPointerPosition()
         {
-            _isPointerOverUI = UIManager.Instance.IsPointerOverUI;
+            _isPointerOverUI = AppUI.Instance.IsPointerOverUI;
         }
 
         private enum UpdateLoop

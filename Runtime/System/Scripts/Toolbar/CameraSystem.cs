@@ -8,15 +8,15 @@ namespace OC.UI.Toolbar
 {
     public class CameraSystem : ToolbarSystemPanel
     {
-        private List<CameraControllerMaster> _cameraControllers;
+        private List<CameraController> _cameraControllers;
         private List<PanelToggleSlide> _toggles = new ();
 
         protected override void AddContent(SubsystemPanel subsystemPanel)
         {
 #if UNITY_6000_3_OR_NEWER
-            _cameraControllers = FindObjectsByType<CameraControllerMaster>(FindObjectsInactive.Exclude).ToList();
+            _cameraControllers = FindObjectsByType<CameraController>(FindObjectsInactive.Exclude).ToList();
 #else
-            _cameraControllers = FindObjectsByType<CameraControllerMaster>(FindObjectsSortMode.InstanceID).ToList();
+            _cameraControllers = FindObjectsByType<CameraController>(FindObjectsSortMode.InstanceID).ToList();
 #endif  
 
             for (var i = 0; i < _cameraControllers.Count; i++)
@@ -39,14 +39,14 @@ namespace OC.UI.Toolbar
         {
             DisableAll();
             _toggles[index].SetValueWithoutNotify(true);
-            _cameraControllers[index].Prioritize();
+            _cameraControllers[index].enabled = enable;
         }
 
         private void DisableAll()
         {
             foreach (var cameraController in _cameraControllers)
             {
-                cameraController.Priority(0);
+                cameraController.enabled = false; 
             }
 
             foreach (var toggle in _toggles)

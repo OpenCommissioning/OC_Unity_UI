@@ -4,7 +4,7 @@ using UnityEngine.UIElements;
 
 namespace OC.UI.Panel
 {
-    public class SubsystemPanel : VisualElement, ICloseble
+    public class SubsystemPanel : VisualElement, IFloatingPanel
     {
         public bool Enable
         {
@@ -57,11 +57,11 @@ namespace OC.UI.Panel
 
             if (enable)
             {
-                UIManager.Instance.Register(this);
+                AppUI.Instance.Register(this);
             }
             else
             {
-                UIManager.Instance.Unregister(this);
+                AppUI.Instance.Unregister(this);
             }
         }
 
