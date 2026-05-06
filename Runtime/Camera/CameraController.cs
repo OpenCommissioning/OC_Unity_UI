@@ -1,609 +1,485 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using OC.Interactions;
+using OC.Components;
 using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace OC.UI.Interactions
+namespace OC.UI
 {
     public class CameraController : MonoBehaviour
     {
-        public bool IsBusy => _mode != CameraMode.None;
+        public bool IsBusy => _state.Value != CameraState.None;
+        public IProperty<CameraState> State => _state;
+        public CameraSettings Settings => _settings;
         
-        public CameraMode Mode
-        {
-            get => _mode.Value;
-            set => _mode.Value = value;
-        }
-
-        public int MouseSensitivity
-        {
-            get => _mouseSensitivity;
-            set
-            {
-                _mouseSensitivity = value;
-                RefreshSettings();
-            }
-        }
-
-        public int MoveSensitivity
-        {
-            get => _moveSensitivity;
-            set
-            {
-                _moveSensitivity = value;
-                RefreshSettings();
-            }
-        }
+        protected const float EPSILON = UnityVectorExtensions.Epsilon;
         
         [Header("State")]
         [SerializeField]
-        private Property<CameraMode> _mode = new (CameraMode.None);
+        private Property<bool> _active = new(false);
         [SerializeField]
-        private GameObject _focusTarget;
-        [SerializeField] 
-        private bool _isPointerOverUI;
-
-        [Header("Settings")]
-        [Range(1,10)]
+        private Property<CameraState> _state = new(CameraState.None);
         [SerializeField]
-        private int _mouseSensitivity = 5;
-        [Range(1,10)]
-        [SerializeField] 
-        private int _moveSensitivity = 5;
-        [Range(1, 10)] 
-        [SerializeField] 
-        private int _scrollSensitivity = 5;
-        [SerializeField] 
-        private UpdateLoop _updateLoop = UpdateLoop.Update;
+        private Property<bool> _isLockedToTarget = new(false);
+        [SerializeField]
+        private float _distance = 8;
         
-        [Header("Debug")]
+        [Header("Settings")]
         [SerializeField]
-        private bool _showGizmos;
-        [SerializeField] 
+        private CameraSettings _settings;
+        [SerializeField]
+        private UpdateLoop _updateLoop = UpdateLoop.FixedUpdate;
+        [SerializeField]
         private bool _debug;
         
-        private const float ROTATION_SPEED = 0.5f;
-        private const float MOVE_SPEED = 1f;
-        private const float SCROLL_SPEED = 0.04f;
-        private const float FLY_ACCELERATION = 2f;
-        private const float DEFAULT_DISTANCE = 3f;
+        [Header("References")]
+        [SerializeField]
+        private Transform _pivot;
+        [SerializeField]
+        private Property<Transform> _target = new(null);
+        [SerializeField]
+        private CinemachineCamera _camera;
         
-        private UnityEngine.Camera _camera;
-        private Transform _transform;
-        private Vector3 _pivot;
-        private Quaternion _rotation;
-        private float _distance;
-        private float _rotationSpeed;
-        private float _moveSpeed;
-        private float _scrollSpeed;
-
-        private bool _isMoving;
-        private float _flyTargetSpeed;
-        private Vector3 _motionDirection;
+        [Header("Input Actions")]
+        [SerializeField]
+        private InputActionReference _move;
+        [SerializeField]
+        private InputActionReference _mouse;
+        [SerializeField]
+        private InputActionReference _scroll;
+        [SerializeField]
+        private InputActionReference _look;
+        [SerializeField]
+        private InputActionReference _orbit;
+        [SerializeField]
+        private InputActionReference _pan;
+        [SerializeField]
+        private InputActionReference _zoom;
+        [SerializeField]
+        private InputActionReference _sprint;
+        [SerializeField]
+        private InputActionReference _focus;
+        [SerializeField]
+        private InputActionReference _follow;
         
-        private bool _isFocused;
-        private bool _isFocusedOnDefaultDistance;
-
-        private Vector3 _flySpeed;
-        private Texture2D _panIcon;
-        private Texture2D _orbitIcon;
-        private Texture2D _zoomIcon;
-        private Texture2D _fpsIcon;
+        private InputAction _moveAction;
+        private InputAction _mouseAction;
+        private InputAction _scrollAction;
         
-        private bool _pan;
-        private bool _sprint;
-        private bool _fps;
-        private Vector3 _moveInput;
-        private Vector2 _lookInput;
-        private Vector2 _zoomInput;
-        private Vector3 _lastMousePosition;
-        private Plane _dragPlane;
-
-        private InputAction _actionMove;
-        private InputAction _actionLook;
-        private InputAction _actionZoom;
-        private InputAction _actionOrbit;
-        private InputAction _actionPan;
-        private InputAction _actionFocus;
-        private InputAction _actionSprint;
+        private InputAction _lookAction;
+        private InputAction _orbitAction;
+        private InputAction _panAction;
+        private InputAction _zoomAction;
+        private InputAction _sprintAction;
         
-        private void Start()
-        {
-            RefreshSettings();
-            
-            _transform = transform;
-            var cameraBrain = CinemachineBrain.GetActiveBrain(0);
-            _camera = cameraBrain.GetComponent<UnityEngine.Camera>();
+        private InputAction _focusAction;
+        private InputAction _followAction;
+        
+        private Vector3 _previousCameraPosition;
+        private Quaternion _previousCameraRotation;
+        
+        private Vector3 _targetPivotPosition;
+        private Quaternion _targetPivotRotation;
+        private Vector3 _previousPivotPosition;
+        private Quaternion _previousPivotRotation;
 
-            _distance = DEFAULT_DISTANCE;
-            _rotation = transform.rotation;
-            _pivot = _transform.position + _rotation * Vector3.forward * _distance;
-            
-            _panIcon = Resources.Load<Texture2D>("Cursors/Pan");
-            _orbitIcon = Resources.Load<Texture2D>("Cursors/Orbit");
-            _fpsIcon = Resources.Load<Texture2D>("Cursors/FPS");
-            
-            //SettingsManager.Instance.OnSettingsChanged.AddListener(RefreshSettings);
-            //SelectionManager.Instance.OnSelectionChanged += OnSelectionChanged;
-            _mode.OnValueChanged += OnModeChanged;
-        }
+        private float _worldPerPixelX;
+        private float _worldPerPixelY;
+        private bool _focusedOnBounds;
 
         private void OnEnable()
         {
-            _mode.Value = CameraMode.None;
+            _moveAction = _move.action;
+            _mouseAction = _mouse.action;
+            _scrollAction = _scroll.action;
             
-            _actionMove = InputSystem.actions.FindAction("Move");
-            _actionLook = InputSystem.actions.FindAction("Look");
-            _actionZoom = InputSystem.actions.FindAction("Zoom");
-            _actionOrbit = InputSystem.actions.FindAction("Orbit");
-            _actionPan = InputSystem.actions.FindAction("Pan");
-            _actionFocus = InputSystem.actions.FindAction("Focus");
-            _actionSprint = InputSystem.actions.FindAction("Sprint");
+            _lookAction = _look.action;
+            _orbitAction = _orbit.action;
+            _panAction = _pan.action;
+            _zoomAction = _zoom.action;
+            _sprintAction = _sprint.action;
+            _focusAction = _focus.action;
+            _followAction = _follow.action;
             
-            _actionMove.performed += OnMove;
-            _actionMove.canceled += OnMove;
-            _actionLook.performed += OnLook;
-            _actionLook.canceled += OnLook;
-            _actionZoom.performed += OnZoom;
-            _actionZoom.canceled += OnZoom;
-            _actionOrbit.performed += OnOrbit;
-            _actionOrbit.canceled += OnOrbit;
-            _actionPan.performed += OnPan;
-            _actionPan.canceled += OnPan;
+            _moveAction?.Enable();
+            _mouseAction?.Enable();
+            _scrollAction?.Enable();
+            _lookAction?.Enable();
+            _orbitAction?.Enable();
+            _panAction?.Enable();
+            _zoomAction?.Enable();
+            _sprintAction?.Enable();
+            _focusAction?.Enable();
+            _followAction?.Enable();
+
+            if (_lookAction != null)
+            {
+                _lookAction.started += HandleLookAction;
+                _lookAction.performed += HandleLookAction;
+                _lookAction.canceled += HandleLookAction;
+            }
+
+            if (_orbitAction != null)
+            {
+                _orbitAction.started += HandleOrbitAction;
+                _orbitAction.performed += HandleOrbitAction;
+                _orbitAction.canceled += HandleOrbitAction;
+            }
+
+            if (_panAction != null)
+            {
+                _panAction.started += HandlePanAction;
+                _panAction.performed += HandlePanAction;
+                _panAction.canceled += HandlePanAction;
+            }
+
+            if (_zoomAction != null)
+            {
+                _zoomAction.started += HandleZoomAction;
+                _zoomAction.performed += HandleZoomAction;
+                _zoomAction.canceled += HandleZoomAction;
+            }
+
+            if (_scrollAction != null) _scrollAction.performed += HandleScrollAction;
+
+            if (_focusAction != null) _focusAction.performed += HandleFocusAction;
+            if (_followAction != null) _followAction.performed += HandleFollowAction;
+
+            _state.Subscribe(OnStateChanged);
+            _active.Subscribe(OnActiveChanged);
+            _target.Subscribe(OnTargetChanged);
             
+            //INITIALIZE
+            _previousPivotPosition = _pivot.position;
+            _previousPivotRotation = _pivot.rotation;
+            _previousCameraPosition = transform.position;
+            _previousCameraRotation = transform.rotation;
+            _focusedOnBounds = false;
         }
 
         private void OnDisable()
         {
-            //SettingsManager.Instance.OnSettingsChanged.RemoveListener(RefreshSettings);
-            //SelectionManager.Instance.OnSelectionChanged -= OnSelectionChanged;
-            _mode.OnValueChanged -= OnModeChanged;
+            _lookAction.started -= HandleLookAction;
+            _lookAction.performed -= HandleLookAction;
+            _lookAction.canceled -= HandleLookAction;
             
-            _actionMove.performed -= OnMove;
-            _actionMove.canceled -= OnMove;
-            _actionLook.performed -= OnLook;
-            _actionLook.canceled -= OnLook;
-            _actionZoom.performed -= OnZoom;
-            _actionZoom.canceled -= OnZoom;
-            _actionOrbit.performed -= OnOrbit;
-            _actionOrbit.canceled -= OnOrbit;
-            _actionPan.performed -= OnPan;
-            _actionPan.canceled -= OnPan;
-        }
-
-        private void OnSelectionChanged(List<Interaction> selectedInteractions)
-        {
-            if (selectedInteractions == null || selectedInteractions.Count == 0)
-            {
-                _focusTarget = null;
-                return;
-            }
-
-            _focusTarget = selectedInteractions.Last().Target;
-        }
-        
-        private void OnModeChanged(CameraMode mode)
-        {
-            SetCursor(mode);
-            if (_debug) Debug.Log($"Camera Mode changed to: {mode}");
-        }
-
-        private void OnValidate()
-        {
-            RefreshSettings();
+            _orbitAction.started -= HandleOrbitAction;
+            _orbitAction.performed -= HandleOrbitAction;
+            _orbitAction.canceled -= HandleOrbitAction;
+            
+            _panAction.started -= HandlePanAction;
+            _panAction.performed -= HandlePanAction;
+            _panAction.canceled -= HandlePanAction;
+            
+            _zoomAction.started -= HandleZoomAction;
+            _zoomAction.performed -= HandleZoomAction;
+            _zoomAction.canceled -= HandleZoomAction;
+            
+            _scrollAction.performed -= HandleScrollAction;
+            
+            _focusAction.performed -= HandleFocusAction;
+            _followAction.performed -= HandleFollowAction;
+            
+            _state.Unsubscribe(OnStateChanged);
+            _active.Unsubscribe(OnActiveChanged);
+            _target.Unsubscribe(OnTargetChanged);
         }
 
         private void Update()
         {
-            if (_updateLoop == UpdateLoop.Update) LocalUpdate();
+            if (!_active.Value) return;
+            if (_updateLoop != UpdateLoop.Update) return;
+            Pipeline(Time.deltaTime);
         }
-
+        
         private void FixedUpdate()
         {
-            if (_updateLoop == UpdateLoop.FixedUpdate) LocalUpdate();
+            if (!_active.Value) return;
+            if (_updateLoop != UpdateLoop.FixedUpdate) return;
+            Pipeline(Time.fixedDeltaTime);
+        }
+        
+        private void LateUpdate()
+        {
+            if (!_active.Value) return;
+            if (_updateLoop != UpdateLoop.LateUpdate) return;
+            Pipeline(Time.deltaTime);
         }
 
-        private void LocalUpdate()
+        private void Pipeline(float deltaTime)
         {
-            /*_motionDirection = Vector3.zero;
-
-            if (_mode.Value != CameraMode.Pan) _pan = false;
-
-            if (!Utils.IsPointerOverScreen(Mouse.current.position.ReadValue()))
+            switch (_state.Value)
             {
-                _mode.Value = CameraMode.None;
-            }
-
-            switch (_mode.Value)
-            {
-                case CameraMode.None:
+                case CameraState.None:
                     break;
-                case CameraMode.FPS:
-                    FPS();
+                case CameraState.Fly:
+                    FlyMode(deltaTime);
                     break;
-                case CameraMode.Pan:
-                    Pan();
+                case CameraState.Pan:
+                    PanMode(deltaTime);
                     break;
-                case CameraMode.Orbit:
-                    Orbit();
+                case CameraState.Orbit:
+                    OrbitMode(deltaTime);
                     break;
-                case CameraMode.Zoom:
-                    Zoom();
+                case CameraState.Zoom:
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+            
+            RefreshState();
+        }
 
-            SetTransform();
-            SetPointerPosition();*/
+        private void RefreshState()
+        {
+            if (_isLockedToTarget.Value && _target.Value != null)
+            {
+                _targetPivotPosition = _target.Value.position;
+            }
+            
+            transform.position = _targetPivotPosition + _targetPivotRotation * Vector3.back * _distance;
+            _pivot.SetPositionAndRotation(_targetPivotPosition, _targetPivotRotation);
+            transform.LookAt(_targetPivotPosition, Vector3.up);
+            
+            //PIVOT
+            _previousPivotPosition = _targetPivotPosition;
+            _previousPivotRotation = _targetPivotRotation;
+            
+            //CAMERA
+            _previousCameraPosition = transform.position;
+            _previousCameraRotation = transform.rotation;
+        }
+
+        private void OnStateChanged(CameraState state)
+        {
+            if (_debug) Debug.Log($"Camera state changed to {state}");
+        }
+
+        private void OnActiveChanged(bool isActive)
+        {
+            if (_debug) Debug.Log($"Active state changed to {isActive}");
         }
         
-        public void OnMove(InputAction.CallbackContext context)
+        private void OnTargetChanged(Transform target)
         {
-            
-            
-            if (!_fps)
-            {
-                _moveInput = Vector2.zero;
-                return;
-            }
-
-            _moveInput = context.ReadValue<Vector3>();
+            _focusedOnBounds = false;
         }
-
-        public void OnLook(InputAction.CallbackContext context)
+        
+        private void HandleLookAction(InputAction.CallbackContext ctx)
         {
-            if (_mode.Value != CameraMode.FPS && _mode.Value != CameraMode.Orbit)
+            if (!IsBusy && ctx.performed)
             {
-                _lookInput = Vector2.zero;
-                return;
+                _state.Value = CameraState.Fly;
             }
 
-            _lookInput = context.ReadValue<Vector2>();
-        }
-
-        public void OnFPS(InputAction.CallbackContext context)
-        {
-            if (ContextPerformedAndNotOverUI(context))
+            if (ctx.canceled)
             {
-                _fps = true;
-                _mode.Value = CameraMode.FPS;
-            }
-            else
-            {
-                _fps = false;
-                _mode.Value = CameraMode.None;
-            }
-        }
-
-        public void OnPan(InputAction.CallbackContext context)
-        {
-            if (ContextPerformedAndNotOverUI(context))
-            {
-                _mode.Value = CameraMode.Pan;
-            }
-            else
-            {
-                _mode.Value = CameraMode.None;
+                _state.Value = CameraState.None;
             }
         }
         
-        public void OnZoom(InputAction.CallbackContext context)
+        private void HandleOrbitAction(InputAction.CallbackContext ctx)
         {
-            if (ContextPerformedAndNotOverUI(context))
+            if (!IsBusy && ctx.performed)
             {
-                _mode.Value = CameraMode.Zoom;
-            }
-            else
-            {
-                _mode.Value = CameraMode.None;
+                _state.Value = CameraState.Orbit;
             }
 
-            _zoomInput = context.ReadValue<Vector2>();
-        }
-
-        public void OnFocus(InputAction.CallbackContext context)
-        {
-            if (_debug) Debug.Log($"Focus value: {context.performed}");
-
-            if (context.performed)
+            if (ctx.canceled)
             {
-                Focus();
+                _state.Value = CameraState.None;
             }
-        }
-
-        public void OnOrbit(InputAction.CallbackContext context)
-        {
-            if (_debug) Debug.Log($"Orbit value: {context.performed}");
-
-            if (ContextPerformedAndNotOverUI(context))
-            {
-                _mode.Value = CameraMode.Orbit;
-            }
-            else
-            {
-                _mode.Value = CameraMode.None;
-            }
-        }
-
-        public void OnSprint(InputAction.CallbackContext context)
-        {
-            if (context.performed)
-            {
-                _sprint = true;
-            }
-            else
-            {
-                _sprint = false;
-            }
-        }
-
-        private void OnDrawGizmos()
-        {
-            if (!_showGizmos) return;
-            if (!Application.isPlaying) return;
-            Gizmos.color = Color.cyan;
-            Gizmos.DrawSphere(_pivot, 0.04f);
-            Gizmos.DrawLine(_transform.position, _pivot);
-        }
-
-        private void RefreshSettings()
-        {
-            _rotationSpeed = ROTATION_SPEED * _mouseSensitivity;
-            _moveSpeed = MOVE_SPEED * _moveSensitivity;
-            _scrollSpeed = SCROLL_SPEED * _scrollSensitivity;
-        }
-
-        private void SetTransform()
-        {
-            var position = _pivot - _rotation * Vector3.forward * _distance;
-            position = Vector3.Lerp(_transform.position, position, 0.4f);
-            var rotation = Quaternion.Slerp(_transform.rotation, _rotation, 0.4f);
-            var eulerAngles = rotation.eulerAngles;
-            eulerAngles.z = 0;
-            _transform.SetPositionAndRotation(position, Quaternion.Euler(eulerAngles));
-        }
-
-        private Vector3 GetMovementDirection()
-        {
-            _isMoving = _motionDirection.sqrMagnitude > 0;
-            var speedModifier = 1;
-
-            if (_sprint)
-            {
-                speedModifier *= 5;
-            }
-            
-            var speed = _isMoving ? _moveSpeed * speedModifier : 0f; 
-
-            //_flySpeed.speed = 4;
-            //_flySpeed.target = _motionDirection.normalized * (_flyTargetSpeed * speedModifier);
-            
-            _flySpeed = Vector3.MoveTowards(_flySpeed, _motionDirection.normalized * speed, FLY_ACCELERATION);
-            return _flySpeed * GetDeltaTime();
         }
         
-        private void FPS()
+        private void HandlePanAction(InputAction.CallbackContext ctx)
         {
-            var delta = _lookInput;
-            delta *= _rotationSpeed;
-            
-            // The reason we calculate the camera position from the pivot, rotation and distance,
-            // rather than just getting it from the camera transform is that the camera transform
-            // is the *output* of camera motion calculations. It shouldn't be input and output at the same time,
-            // otherwise we easily get accumulated error.
-            // We did get accumulated error before when we did this - the camera would continuously move slightly in FPS mode
-            // even when not holding down any arrow/WASD keys or moving the mouse.
-            var position = _pivot - _rotation * Vector3.forward * _distance;
-            
-            var rotation = _rotation;
-            rotation = Quaternion.AngleAxis(-delta.y, rotation * Vector3.right) * rotation;
-            rotation = Quaternion.AngleAxis(delta.x, Vector3.up) * rotation;
-            _rotation = rotation;
-
-            _pivot = position + rotation * Vector3.forward * _distance;
-
-            if (_moveInput.z > 0)
+            if (!IsBusy && ctx.performed)
             {
-                _motionDirection = Vector3.up;
-            }
-            else if (_moveInput.z < 0)
-            {
-                _motionDirection = Vector3.down;
+                _state.Value = CameraState.Pan;
+                InitializeCameraFrustum(out _worldPerPixelX, out _worldPerPixelY);
             }
 
-            _motionDirection += _rotation * Vector3.forward * _moveInput.y;
-            _motionDirection += _rotation * Vector3.right * _moveInput.x;
-            _pivot += GetMovementDirection();
+            if (ctx.canceled)
+            {
+                _state.Value = CameraState.None;
+            }
         }
         
-        private void Pan()
+        private void HandleZoomAction(InputAction.CallbackContext ctx)
         {
-            if (!_pan)
+            if (!IsBusy && ctx.performed)
             {
-                _lastMousePosition = Input.mousePosition;
-                
-                if (SelectionManager.Instance.HitGameObjects.Count > 0)
+                _state.Value = CameraState.Zoom;
+            }
+            
+            if (ctx.canceled)
+            {
+                _state.Value = CameraState.None;
+            }
+        }
+
+        private void HandleScrollAction(InputAction.CallbackContext ctx)
+        {
+            if (!IsBusy && ctx.performed)
+            {
+                var scroll = _scrollAction.ReadValue<Vector2>().y;
+                _distance -= scroll * _settings.ZoomSensitivity;
+                _distance = Mathf.Clamp(_distance, _settings.MinDistance, _settings.MaxDistance);
+            }
+        }
+
+        private void HandleFocusAction(InputAction.CallbackContext ctx)
+        {
+            if (!IsBusy && ctx.performed)
+            {
+                if (_target.Value == null) return;
+
+                if (_focusedOnBounds)
                 {
-                    _dragPlane = new Plane(-transform.forward,
-                        SelectionManager.Instance.HitGameObjects.First().transform.position);
+                    Focus(_target.Value);
+                    _focusedOnBounds = false; 
                 }
                 else
                 {
-                    var groundPlane = new Plane(Vector3.up, Vector3.zero);
-                    var magnitudeMax = Mathf.Max(100, _distance);
-                    var magnitudeMin = Mathf.Min(10, _distance);
-                    if (groundPlane.Raycast(SelectionManager.Instance.Pointer, out float distance) &&
-                        distance < magnitudeMax)
-                    {
-                        _dragPlane = new Plane(-transform.forward,
-                            SelectionManager.Instance.Pointer.GetPoint(distance));
-                    }
-                    else
-                    {
-                        _dragPlane = new Plane(-transform.forward,
-                            transform.position + transform.forward * magnitudeMin);
-                    }
+                    Focus(_target.Value, true);
+                    _focusedOnBounds = true;
                 }
-                
-                _pan = true;
-                return;
-            }
-            
-            if (GetPointOnPlane(_dragPlane, Input.mousePosition, out Vector3 pointOnDragPlane) && GetPointOnPlane(_dragPlane, _lastMousePosition, out Vector3 lastPointOnDragPlane))
-            {
-                _lastMousePosition = Input.mousePosition;
-                var worldDelta = pointOnDragPlane - lastPointOnDragPlane;
-                if (_sprint)
-                {
-                    worldDelta *= 4;
-                }
-
-                _pivot -= worldDelta;
             }
         }
 
-        public void Zoom()
+        private void HandleFollowAction(InputAction.CallbackContext ctx)
         {
-            _distance -= _zoomInput.y * _scrollSpeed;
-            _distance = Mathf.Min(_distance, 150f);
-            
-            if (_distance < 0.1f)
+            if (!IsBusy && ctx.performed)
             {
-                var delta = 0.1f - _distance;
-                _distance = 0.1f;
-                _pivot += transform.forward * delta;
+                if (_target.Value == null) return;
+                _isLockedToTarget.Value = true;
             }
         }
 
-        private void Orbit()
+        private void FlyMode(float deltaTime)
         {
-            var delta = new Vector2(_lookInput.x, _lookInput.y);
-            if (delta.sqrMagnitude < Mathf.Epsilon) return;
-            delta *= _rotationSpeed;
+            _isLockedToTarget.Value = false;
             
-            var rotation = _rotation;
-            rotation = Quaternion.AngleAxis(-delta.y, rotation * Vector3.right) * rotation;
-            rotation = Quaternion.AngleAxis(delta.x, Vector3.up) * rotation;
-            _rotation = rotation;
+            //MOVE WASD
+            var speed = _settings.MoveSpeed;
+            if (_sprintAction.inProgress) speed *= _settings.FastMoveMultiplier;
+            var delta = _moveAction.ReadValue<Vector3>() * (speed * deltaTime);
+            
+            var cameraPosition = _previousCameraPosition;
+            
+            if (delta.magnitude > EPSILON) cameraPosition = _previousCameraPosition + _previousCameraRotation * delta;
+            
+            //LOOK
+            var lookInput = _mouseAction.ReadValue<Vector2>() * _settings.LookSensitivity;
+            var euler = _previousCameraRotation.eulerAngles;
+            var yaw = euler.y + lookInput.x;
+            var pitch = NormalizeAngle(euler.x - lookInput.y);
+            pitch = Mathf.Clamp(pitch, -85f, 85f);
+            var cameraRotation = Quaternion.Euler(pitch, yaw, 0f);
+            
+            _targetPivotPosition = cameraPosition + cameraRotation * Vector3.forward * _distance;
+            _targetPivotRotation = cameraRotation;
+            
+            Mouse.current.WrapCursorOnScreen();
         }
 
-        public void Focus()
+        private void OrbitMode(float deltaTime)
         {
-            if (_focusTarget == null) return;
+            //LOOK
+            var lookInput = _mouseAction.ReadValue<Vector2>() * _settings.LookSensitivity;
+            var euler = _previousPivotRotation.eulerAngles;
+            var yaw = euler.y + lookInput.x;
+            var pitch = NormalizeAngle(euler.x - lookInput.y);
             
-            StopAllCoroutines();
-
-            if (!_isFocused)
-            {
-                FocusOn(_focusTarget, true);
-                _isFocused = true;
-            }
-            else
-            {
-                FocusOn(_focusTarget);
-                _isFocused = false;
-            }
+            _targetPivotRotation = Quaternion.Euler(pitch, yaw, 0f);
+            
+            Mouse.current.WrapCursorOnScreen();
         }
 
-        public void FocusOn(GameObject target, bool useBounds = false)
+        private void PanMode(float deltaTime)
+        {
+            _isLockedToTarget.Value = false;
+            
+            var cursorDelta = _mouseAction.ReadValue<Vector2>() * _settings.PanSensitivity;
+            var positionDelta = transform.right * (cursorDelta.x * _worldPerPixelX) + transform.up * (cursorDelta.y * _worldPerPixelY);
+            
+            _targetPivotPosition = _previousPivotPosition - positionDelta;
+            
+            Mouse.current.WrapCursorOnScreen();
+        }
+
+        public void Focus(Transform target, bool useBounds = false)
         {
             if (useBounds)
             {
-                var bounds = GetBoundingBoxOfGameObject(target);
-                _distance = bounds.extents.magnitude * DEFAULT_DISTANCE + _camera.nearClipPlane;
-                _pivot = bounds.center;
+                var bounds = GetBoundingBox(target);
+                _distance = bounds.extents.magnitude * _settings.FocusMinDistance;
             }
             else
             {
-                _distance = DEFAULT_DISTANCE;
-                _pivot = target.transform.position;
+                _distance = _settings.FocusMinDistance;
             }
+            
+            _targetPivotPosition = target.transform.position;
+        }
+        
+        private static float NormalizeAngle(float angle)
+        {
+            angle %= 360f;
+            if (angle > 180f) angle -= 360f;
+            return angle;
         }
 
-        private static Bounds GetBoundingBoxOfGameObject(GameObject gameObject)
+        private void InitializeCameraFrustum(out float worldPerPixelX, out float worldPerPixelY)
         {
-            Bounds bounds = new(gameObject.transform.position, Vector3.zero);
-            foreach (var item in gameObject.GetComponentsInChildren<Renderer>())
+            float frustumHeight;
+            float frustumWidth;
+            
+            var lens = _camera.Lens;
+            
+            if (lens.Orthographic)
+            {
+                frustumHeight = lens.OrthographicSize * 2f;
+                frustumWidth = frustumHeight * lens.Aspect;
+            }
+            else
+            {
+                frustumHeight = 2f * _distance * Mathf.Tan(lens.FieldOfView * 0.5f * Mathf.Deg2Rad);
+                frustumWidth = frustumHeight * lens.Aspect;
+            }
+
+            worldPerPixelX = frustumWidth / Screen.width;
+            worldPerPixelY = frustumHeight / Screen.height;
+        }
+        
+        private static Bounds GetBoundingBox(Transform transform)
+        {
+            Bounds bounds = new(transform.position, Vector3.zero);
+            var renderers = transform.GetComponentsInChildren<Renderer>();
+            foreach (var item in renderers)
             {
                 bounds.Encapsulate(item.bounds);
             }
             return bounds;
-        }
-
-        private bool ContextPerformedAndNotOverUI(InputAction.CallbackContext context)
-        {
-            return context.performed && !_isPointerOverUI;
-        }
+        } 
         
-        private void SetPointerPosition()
-        {
-            _isPointerOverUI = AppUI.Instance.IsPointerOverUI;
-        }
-
-        private enum UpdateLoop
-        {
-            Update,
-            FixedUpdate
-        }
-        
-        public enum CameraMode
+        public enum CameraState
         {
             None,
-            FPS,
+            Fly,
             Pan,
             Orbit,
             Zoom
         }
 
-        private float GetDeltaTime()
+        private void OnDrawGizmos()
         {
-            return _updateLoop switch
-            {
-                UpdateLoop.Update => Time.unscaledDeltaTime,
-                UpdateLoop.FixedUpdate => Time.fixedUnscaledDeltaTime,
-                _ => throw new ArgumentOutOfRangeException()
-            };
-        }
-        
-        private void SetCursor(CameraMode type)
-        {
-            switch (type)
-            {
-                case CameraMode.None:
-                    Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
-                    break;
-                case CameraMode.Pan:
-                    Cursor.SetCursor(_panIcon, Vector2.zero, CursorMode.Auto);
-                    break;
-                case CameraMode.Orbit:
-                    Cursor.SetCursor(_orbitIcon, Vector2.zero, CursorMode.Auto);
-                    break;
-                case CameraMode.Zoom:
-                    Cursor.SetCursor(_zoomIcon, Vector2.zero, CursorMode.Auto);
-                    break;
-                case CameraMode.FPS:
-                    Cursor.SetCursor(_fpsIcon, Vector2.zero, CursorMode.Auto);
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(type), type, null);
-            }
-        }
-
-        private bool GetPointOnPlane(Plane plane, Vector3 mouse, out Vector3 point)
-        {
-            var ray = _camera.ScreenPointToRay(mouse);
-            if (plane.Raycast(ray, out var distance))
-            {
-                point = ray.GetPoint(distance);
-                return true;
-            }
-            
-            point = Vector3.zero;
-            return false;
+            if (!_debug) return;
+            Gizmos.color = Color.red;
+            Gizmos.DrawLine(transform.position, _pivot.position);
+#if UNITY_EDITOR
+            UnityEditor.Handles.DoPositionHandle(_pivot.position, _pivot.rotation);
+#endif
         }
     }
 }

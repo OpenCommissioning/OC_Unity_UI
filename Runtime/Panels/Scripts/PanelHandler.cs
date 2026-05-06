@@ -63,9 +63,10 @@ namespace OC.UI.Panel
 
         public void Focus()
         {
-            if (Camera.main == null) return;
-            var movableCamera = Camera.main.gameObject.GetComponent<CameraController>();
-            movableCamera.FocusOn(Target.gameObject, true);
+            //TODO
+            //if (Camera.main == null) return;
+            //var movableCamera = Camera.main.gameObject.GetComponent<CameraController>();
+            //movableCamera.FocusOn(Target.gameObject, true);
         }
     }
 }

@@ -1,9 +1,10 @@
 using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace OC.UI
 {
-    [RequireComponent(typeof(MainCameraController))]
+    [RequireComponent(typeof(CameraController))]
     public class CursorIconController : MonoBehaviour
     {
         [SerializeField]
@@ -12,42 +13,43 @@ namespace OC.UI
         private Texture2D _iconOrbit;
         [SerializeField]
         private Texture2D _iconFree;
+        [FormerlySerializedAs("_mainCameraController")]
         [SerializeField]
-        private MainCameraController _mainCameraController;
+        private CameraController _cameraController;
 
         private void OnEnable()
         {
-            _mainCameraController.State.Subscribe(OnCameraStateChanged);
+            _cameraController.State.Subscribe(OnCameraStateChanged);
         }
         
         private void OnDisable()
         {
-            OnCameraStateChanged(MainCameraController.CameraState.None);
-            _mainCameraController.State.Unsubscribe(OnCameraStateChanged);
+            OnCameraStateChanged(CameraController.CameraState.None);
+            _cameraController.State.Unsubscribe(OnCameraStateChanged);
         }
 
         private void Reset()
         {
-            TryGetComponent(out _mainCameraController);
+            TryGetComponent(out _cameraController);
         }
 
-        private void OnCameraStateChanged(MainCameraController.CameraState state)
+        private void OnCameraStateChanged(CameraController.CameraState state)
         {
             switch (state)
             {
-                case MainCameraController.CameraState.None:
+                case CameraController.CameraState.None:
                     Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
                     break;
-                case MainCameraController.CameraState.Fly:
+                case CameraController.CameraState.Fly:
                     Cursor.SetCursor(_iconFree, Vector2.zero, CursorMode.Auto);
                     break;
-                case MainCameraController.CameraState.Pan:
+                case CameraController.CameraState.Pan:
                     Cursor.SetCursor(_iconPan, Vector2.zero, CursorMode.Auto);
                     break;
-                case MainCameraController.CameraState.Orbit:
+                case CameraController.CameraState.Orbit:
                     Cursor.SetCursor(_iconOrbit, Vector2.zero, CursorMode.Auto);
                     break;
-                case MainCameraController.CameraState.Zoom:
+                case CameraController.CameraState.Zoom:
                     Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
                     break;
                 default:
