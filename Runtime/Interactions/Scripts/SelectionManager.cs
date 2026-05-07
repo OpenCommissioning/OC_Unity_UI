@@ -3,11 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using OC.Interactions;
-using OC.UI.Toolbar;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
-using UnityEngine.Serialization;
 
 namespace OC.UI.Interactions
 {
@@ -51,7 +49,6 @@ namespace OC.UI.Interactions
         
         [SerializeField]
         private KeyCode _multiSelectKey = KeyCode.LeftControl;
-        [FormerlySerializedAs("_layermask")]
         [SerializeField]
         private LayerMask _layerMask;
 
@@ -111,8 +108,6 @@ namespace OC.UI.Interactions
             _selectionCollider = GetComponent<MeshCollider>();
             _selectionCollider.convex = true;
             _selectionCollider.isTrigger = true;
-            
-            UserInteractionManager.Instance.OnInteractionEnableChanged += SetEnable;
 
             SetEnable(false);
             
@@ -126,7 +121,7 @@ namespace OC.UI.Interactions
         
         private void OnDestroy()
         {
-            UserInteractionManager.Instance.OnInteractionEnableChanged -= SetEnable;
+            
         }
         
         private void SetEnable(bool value)

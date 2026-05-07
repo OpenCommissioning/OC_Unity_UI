@@ -4,7 +4,7 @@ using UnityEngine.UIElements;
 
 namespace OC.UI.Toolbar
 {
-    public class FieldsTestSystem : ToolbarSystemPanel
+    public class FieldsTestItem : ToolbarWindow
     {
         private const string UXML = "UXML/panel-field";
 

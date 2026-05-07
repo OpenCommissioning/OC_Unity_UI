@@ -92,7 +92,10 @@ namespace OC.UI.Toolbar
             RuntimeTransformHandle.Instance.OnToolChanged += SetTool;
             RuntimeTransformHandle.Instance.OnHandlePositionChanged += SetHandlePosition;
             RuntimeTransformHandle.Instance.OnHandleRotationChanged += SetHandleRotation;
-            UserInteractionManager.Instance.OnInteractionEnableChanged += SetEnable;
+            
+            //TODO
+            //UserInteractionManager.Instance.OnInteractionEnableChanged += SetEnable;
+            //Tools panel need to be active only for editable elements
 
             SetEnable(false);
         }
@@ -102,7 +105,6 @@ namespace OC.UI.Toolbar
             RuntimeTransformHandle.Instance.OnToolChanged -= SetTool;
             RuntimeTransformHandle.Instance.OnHandlePositionChanged -= SetHandlePosition;
             RuntimeTransformHandle.Instance.OnHandleRotationChanged -= SetHandleRotation;
-            UserInteractionManager.Instance.OnInteractionEnableChanged -= SetEnable;
         }
 
         private void SetEnable(bool value)

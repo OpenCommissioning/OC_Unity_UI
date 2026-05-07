@@ -4,7 +4,7 @@ using UnityEngine.UIElements;
 
 namespace OC.UI.Toolbar
 {
-    public class ToolbarSystem : MonoBehaviour, IPopulateVisualTree
+    public class ToolbarItem : MonoBehaviour, IPopulateVisualTree
     {
         [Header("Settings")]
         [SerializeField]

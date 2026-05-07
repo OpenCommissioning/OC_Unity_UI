@@ -9,7 +9,7 @@ using OC.UI.Panel;
 
 namespace OC.UI.Toolbar
 {
-    public class ConsoleSystem : ToolbarSystemPanel
+    public class ConsoleItem : ToolbarWindow
     {
         [Header("Console Settings")]
         [SerializeField]
@@ -453,7 +453,7 @@ namespace OC.UI.Toolbar
 
         private void BindConsoleLogItem(VisualElement item, int index)
         {
-            var consoleItem = (ConsoleItem)item;
+            var consoleItem = (Console.ConsoleItem)item;
 
             ConsoleItemData logListitem = (ConsoleItemData)_logList[index];
 
@@ -482,7 +482,7 @@ namespace OC.UI.Toolbar
 
         private VisualElement MakeConsoleLogItem()
         {
-            return new ConsoleItem();
+            return new Console.ConsoleItem();
         }
 
         private void OnEnable()

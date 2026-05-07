@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace OC.UI.Toolbar
 {
-    public class CameraSystem : ToolbarSystemPanel
+    public class CameraToolWindow : ToolbarWindow
     {
         private List<CameraController> _cameras;
         private List<PanelToggleSlide> _toggles = new ();

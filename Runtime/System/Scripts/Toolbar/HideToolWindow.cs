@@ -8,7 +8,7 @@ using UnityEngine.UIElements;
 
 namespace OC.UI.Toolbar
 {
-    public class HideSystem : ToolbarSystemPanel
+    public class HideToolWindow : ToolbarWindow
     {
         private List<HideGroup> _hideGroups;
         private List<PanelToggleIcon> _toggleIcons;
@@ -41,10 +41,10 @@ namespace OC.UI.Toolbar
                 subsystemPanel.Add(toggle);
             }
             
-            var hoizontalGroup = new PanelHorizontalGroup();
-            hoizontalGroup.Add(new PanelButton("Hide all", HideAll));
-            hoizontalGroup.Add(new PanelButton("Show all", ShowAll));
-            subsystemPanel.Add(hoizontalGroup);
+            var horizontalGroup = new PanelHorizontalGroup();
+            horizontalGroup.Add(new PanelButton("Hide all", HideAll));
+            horizontalGroup.Add(new PanelButton("Show all", ShowAll));
+            subsystemPanel.Add(horizontalGroup);
         }
 
         private void HideAll()

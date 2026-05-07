@@ -6,7 +6,7 @@ using UnityEngine.Events;
 
 namespace OC.UI.Toolbar
 {
-    public class MacroSystem : ToolbarSystemPanel
+    public class MacroToolWindow : ToolbarWindow
     {
         [SerializeField]
         private List<Macros> _macros;

@@ -3,7 +3,7 @@ using UnityEngine.UIElements;
 
 namespace OC.UI.Toolbar
 {
-    public abstract class ToolbarSystemPanel : ToolbarSystem
+    public abstract class ToolbarWindow : ToolbarItem
     {
         private SubsystemPanel _subsystemPanel;
 

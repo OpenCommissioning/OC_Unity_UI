@@ -2,7 +2,7 @@ using OC.UI.Panel;
 
 namespace OC.UI.Toolbar
 {
-    public class SettingsSystem: ToolbarSystemPanel
+    public class SettingsWindow: ToolbarWindow
     {
         private PanelSliderInt _mouseSensitivity;
 
