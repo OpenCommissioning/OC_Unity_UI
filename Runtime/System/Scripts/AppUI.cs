@@ -13,9 +13,13 @@ namespace OC.UI
     [DisallowMultipleComponent]
     public class AppUI : MonoBehaviourSingleton<AppUI>
     {
-        public bool IsPointerOverUI => _eventSystem.IsPointerOverGameObject();
+        public bool IsPointerOverUI => _isPointerOverUI;
         public bool IsUIFieldSelected => UIFieldSelected();
 
+        [Header("State")]
+        [SerializeField]
+        private bool _isPointerOverUI;
+        
         [Header("Debug")]
         [SerializeField]
         private bool _debug;
@@ -48,6 +52,11 @@ namespace OC.UI
         {
             _actionCancel.performed -= ActionClose;
             _actionWindow.performed -= ActionWindow;
+        }
+
+        private void Update()
+        {
+            _isPointerOverUI = _eventSystem.IsPointerOverGameObject();
         }
 
         private void Initialize()

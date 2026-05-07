@@ -11072,7 +11072,9 @@ PrefabInstance:
       propertyPath: _actionFullScreen.m_Action.m_Name
       value: Action Full Screen
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 0}
+    - {fileID: 0}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -11412,7 +11414,8 @@ PrefabInstance:
       propertyPath: _inputActionWindowMode.m_Name
       value: Input Action Window Mode
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6326463088662102815, guid: 173fe2d5b0ef5d44591fbb838b7ae259, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

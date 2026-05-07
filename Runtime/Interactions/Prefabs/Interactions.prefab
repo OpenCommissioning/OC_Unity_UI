@@ -9,8 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 324930537873914786}
-  - component: {fileID: 3761462697469774819}
-  - component: {fileID: 3097341586915862187}
   - component: {fileID: 4788599389403852118}
   - component: {fileID: 9197280129592338667}
   m_Layer: 0
@@ -37,52 +35,6 @@ Transform:
   - {fileID: 5185776884804010505}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3761462697469774819
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 324930537873914785}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_FirstSelected: {fileID: 0}
-  m_sendNavigationEvents: 1
-  m_DragThreshold: 10
---- !u!114 &3097341586915862187
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 324930537873914785}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 01614664b831546d2ae94a42149d80ac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SendPointerHoverToParent: 1
-  m_MoveRepeatDelay: 0.5
-  m_MoveRepeatRate: 0.1
-  m_XRTrackingOrigin: {fileID: 0}
-  m_ActionsAsset: {fileID: -944628639613478452, guid: 6221e7b8a5138e244916faf73a7bc1f6, type: 3}
-  m_PointAction: {fileID: -1654692200621890270, guid: 6221e7b8a5138e244916faf73a7bc1f6, type: 3}
-  m_MoveAction: {fileID: -8784545083839296357, guid: 6221e7b8a5138e244916faf73a7bc1f6, type: 3}
-  m_SubmitAction: {fileID: 392368643174621059, guid: 6221e7b8a5138e244916faf73a7bc1f6, type: 3}
-  m_CancelAction: {fileID: 7727032971491509709, guid: 6221e7b8a5138e244916faf73a7bc1f6, type: 3}
-  m_LeftClickAction: {fileID: 3001919216989983466, guid: 6221e7b8a5138e244916faf73a7bc1f6, type: 3}
-  m_MiddleClickAction: {fileID: -2185481485913320682, guid: 6221e7b8a5138e244916faf73a7bc1f6, type: 3}
-  m_RightClickAction: {fileID: -4090225696740746782, guid: 6221e7b8a5138e244916faf73a7bc1f6, type: 3}
-  m_ScrollWheelAction: {fileID: 6240969308177333660, guid: 6221e7b8a5138e244916faf73a7bc1f6, type: 3}
-  m_TrackedDevicePositionAction: {fileID: 6564999863303420839, guid: 5801e2976a5a8cb48be3333ec7c1c733, type: 3}
-  m_TrackedDeviceOrientationAction: {fileID: 7970375526676320489, guid: 5801e2976a5a8cb48be3333ec7c1c733, type: 3}
-  m_DeselectOnBackgroundClick: 1
-  m_PointerBehavior: 0
-  m_CursorLockBehavior: 0
-  m_ScrollDeltaPerTick: 6
 --- !u!114 &4788599389403852118
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -97,19 +49,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _visualConfig: {fileID: 11400000, guid: 1398eba0c7ff77e4eaa37ad367bc36fb, type: 2}
   _mouseSensitivity: 5
-  _windowMode: 293
-  _inputActionWindow:
-    m_UseReference: 1
-    m_Action:
-      m_Name: Input Action Window
-      m_Type: 0
-      m_ExpectedControlType: 
-      m_Id: db0f3754-28ae-4efc-a9c6-5fefe6d1f1c8
-      m_Processors: 
-      m_Interactions: 
-      m_SingletonActionBindings: []
-      m_Flags: 0
-    m_Reference: {fileID: -8379866991176095034, guid: 6221e7b8a5138e244916faf73a7bc1f6, type: 3}
   OnSettingsChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -125,54 +64,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95852f97c59be444491852fe8d13a221, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _toolTypeMoveActionProperty:
-    m_UseReference: 1
-    m_Action:
-      m_Name: Tool Type Move Action Property
-      m_Type: 0
-      m_ExpectedControlType: 
-      m_Id: e8ee8d24-73f7-4490-a185-691bc7676f00
-      m_Processors: 
-      m_Interactions: 
-      m_SingletonActionBindings: []
-      m_Flags: 0
-    m_Reference: {fileID: -5107007239970920364, guid: 5801e2976a5a8cb48be3333ec7c1c733, type: 3}
-  _toolTypeRotationActionProperty:
-    m_UseReference: 1
-    m_Action:
-      m_Name: Tool Type Rotation Action Property
-      m_Type: 0
-      m_ExpectedControlType: 
-      m_Id: bdbe0f48-4969-4bad-9bcb-dbe9595ab5a1
-      m_Processors: 
-      m_Interactions: 
-      m_SingletonActionBindings: []
-      m_Flags: 0
-    m_Reference: {fileID: 97083628003718788, guid: 5801e2976a5a8cb48be3333ec7c1c733, type: 3}
-  _toolTypeViewActionProperty:
-    m_UseReference: 1
-    m_Action:
-      m_Name: Tool Type View Action Property
-      m_Type: 0
-      m_ExpectedControlType: 
-      m_Id: 9ef502c0-4fcd-4d16-a6a3-c0d0f83b7009
-      m_Processors: 
-      m_Interactions: 
-      m_SingletonActionBindings: []
-      m_Flags: 0
-    m_Reference: {fileID: 2973488243264904584, guid: 5801e2976a5a8cb48be3333ec7c1c733, type: 3}
-  _escapeActionProperty:
-    m_UseReference: 1
-    m_Action:
-      m_Name: Escape Action Property
-      m_Type: 0
-      m_ExpectedControlType: 
-      m_Id: c850e4b0-efcb-4d0c-84f2-419e660ef09b
-      m_Processors: 
-      m_Interactions: 
-      m_SingletonActionBindings: []
-      m_Flags: 0
-    m_Reference: {fileID: -1202895631932887467, guid: 5801e2976a5a8cb48be3333ec7c1c733, type: 3}
 --- !u!1 &6627891214244880613
 GameObject:
   m_ObjectHideFlags: 0

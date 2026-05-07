@@ -2,16 +2,20 @@ using System;
 using OC.Components;
 using Unity.Cinemachine;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 namespace OC.UI
 {
+    [DefaultExecutionOrder(1000)]
     public class CameraController : MonoBehaviour
     {
         public bool IsBusy => _state.Value != CameraState.None;
         public IProperty<CameraState> State => _state;
         public CameraSettings Settings => _settings;
         
+        private bool IsPointerOverUI => AppUI.Instance.IsPointerOverUI;
+
         protected const float EPSILON = UnityVectorExtensions.Epsilon;
         
         [Header("State")]
@@ -61,6 +65,8 @@ namespace OC.UI
         private InputActionReference _focus;
         [SerializeField]
         private InputActionReference _follow;
+
+        private EventSystem _eventSystem;
         
         private InputAction _moveAction;
         private InputAction _mouseAction;
@@ -263,7 +269,7 @@ namespace OC.UI
         
         private void HandleLookAction(InputAction.CallbackContext ctx)
         {
-            if (!IsBusy && ctx.performed)
+            if (!IsBusy && ctx.performed && !IsPointerOverUI)
             {
                 _state.Value = CameraState.Fly;
             }
@@ -276,7 +282,7 @@ namespace OC.UI
         
         private void HandleOrbitAction(InputAction.CallbackContext ctx)
         {
-            if (!IsBusy && ctx.performed)
+            if (!IsBusy && ctx.performed && !IsPointerOverUI)
             {
                 _state.Value = CameraState.Orbit;
             }
@@ -289,7 +295,7 @@ namespace OC.UI
         
         private void HandlePanAction(InputAction.CallbackContext ctx)
         {
-            if (!IsBusy && ctx.performed)
+            if (!IsBusy && ctx.performed && !IsPointerOverUI)
             {
                 _state.Value = CameraState.Pan;
                 InitializeCameraFrustum(out _worldPerPixelX, out _worldPerPixelY);
@@ -303,7 +309,7 @@ namespace OC.UI
         
         private void HandleZoomAction(InputAction.CallbackContext ctx)
         {
-            if (!IsBusy && ctx.performed)
+            if (!IsBusy && ctx.performed && !IsPointerOverUI)
             {
                 _state.Value = CameraState.Zoom;
             }
@@ -316,7 +322,7 @@ namespace OC.UI
 
         private void HandleScrollAction(InputAction.CallbackContext ctx)
         {
-            if (!IsBusy && ctx.performed)
+            if (!IsBusy && ctx.performed && !IsPointerOverUI)
             {
                 var scroll = _scrollAction.ReadValue<Vector2>().y;
                 _distance -= scroll * _settings.ZoomSensitivity;
@@ -326,7 +332,7 @@ namespace OC.UI
 
         private void HandleFocusAction(InputAction.CallbackContext ctx)
         {
-            if (!IsBusy && ctx.performed)
+            if (!IsBusy && ctx.performed && !IsPointerOverUI)
             {
                 if (_target.Value == null) return;
 
@@ -345,7 +351,7 @@ namespace OC.UI
 
         private void HandleFollowAction(InputAction.CallbackContext ctx)
         {
-            if (!IsBusy && ctx.performed)
+            if (!IsBusy && ctx.performed && !IsPointerOverUI)
             {
                 if (_target.Value == null) return;
                 _isLockedToTarget.Value = true;
@@ -379,6 +385,7 @@ namespace OC.UI
             Mouse.current.WrapCursorOnScreen();
         }
 
+        // ReSharper disable once UnusedParameter.Local
         private void OrbitMode(float deltaTime)
         {
             //LOOK
@@ -392,6 +399,7 @@ namespace OC.UI
             Mouse.current.WrapCursorOnScreen();
         }
 
+        // ReSharper disable once UnusedParameter.Local
         private void PanMode(float deltaTime)
         {
             _isLockedToTarget.Value = false;
