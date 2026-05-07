@@ -150,11 +150,7 @@ namespace OC.UI
             _target.Subscribe(OnTargetChanged);
             
             //INITIALIZE
-            _previousPivotPosition = _pivot.position;
-            _previousPivotRotation = _pivot.rotation;
-            _previousCameraPosition = transform.position;
-            _previousCameraRotation = transform.rotation;
-            _focusedOnBounds = false;
+            Initialize();
         }
 
         private void OnDisable()
@@ -428,6 +424,17 @@ namespace OC.UI
             angle %= 360f;
             if (angle > 180f) angle -= 360f;
             return angle;
+        }
+
+        public void Initialize()
+        {
+            _targetPivotPosition = transform.position + transform.rotation * Vector3.forward * _distance;
+            _targetPivotRotation = transform.rotation;
+            _previousPivotPosition = _targetPivotPosition;
+            _previousPivotRotation = _targetPivotRotation;
+            _previousCameraPosition = transform.position;
+            _previousCameraRotation = transform.rotation;
+            _focusedOnBounds = false;
         }
 
         private void InitializeCameraFrustum(out float worldPerPixelX, out float worldPerPixelY)
