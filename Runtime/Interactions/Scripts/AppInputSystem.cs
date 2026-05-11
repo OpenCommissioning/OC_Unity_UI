@@ -90,8 +90,7 @@ namespace OC.UI.Interactions
 
         private void SelectionUserInputs()
         {
-            if (AppUI.Instance.IsPointerOverUI) return;
-            SelectionManager.Instance.Raycast();
+            //SelectionManager.Instance.HandleRaycastHits();
             //SelectionManager.Instance.ProcessPointerEvents(0);
 
             //TODO Box selection

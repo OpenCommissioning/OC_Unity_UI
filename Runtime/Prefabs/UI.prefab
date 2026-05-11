@@ -133,7 +133,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca184f81c5c4b164ea331ea27c53e06d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _pauseIcon: {fileID: 21300000, guid: 72a482aea3c290649812e203c76c73fb, type: 3}
 --- !u!114 &112820922269108665
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -300,7 +299,7 @@ GameObject:
   - component: {fileID: 4329466780644897165}
   - component: {fileID: 4329466780644897166}
   m_Layer: 5
-  m_Name: Macro Tool
+  m_Name: Macros
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -419,7 +418,7 @@ GameObject:
   - component: {fileID: 4329466781051411314}
   - component: {fileID: 4329466781051411315}
   m_Layer: 5
-  m_Name: Settings Tool
+  m_Name: Settings
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -542,7 +541,7 @@ GameObject:
   - component: {fileID: 4329466781710110152}
   - component: {fileID: 4329466781710110153}
   m_Layer: 5
-  m_Name: Camera Tool
+  m_Name: Cameras
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -591,7 +590,7 @@ GameObject:
   - component: {fileID: 4618057373821969331}
   - component: {fileID: 1751378478137146599}
   m_Layer: 5
-  m_Name: Console Tool
+  m_Name: Console
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

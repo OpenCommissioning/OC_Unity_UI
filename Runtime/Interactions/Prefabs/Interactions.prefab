@@ -73,10 +73,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6366743756768019504}
-  - component: {fileID: 3477439444964481520}
-  - component: {fileID: 468569787546650111}
   - component: {fileID: 1393915437977027500}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: SelectionManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -98,55 +96,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 324930537873914786}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!64 &3477439444964481520
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6627891214244880613}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 1
-  m_CookingOptions: -1
-  m_Mesh: {fileID: 0}
---- !u!54 &468569787546650111
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6627891214244880613}
-  serializedVersion: 5
-  m_Mass: 1
-  m_LinearDamping: 0
-  m_AngularDamping: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!114 &1393915437977027500
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -160,51 +109,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enable: 0
-  _inputActionPropertyClick:
-    m_UseReference: 1
-    m_Action:
-      m_Name: Input Action Property Click
-      m_Type: 0
-      m_ExpectedControlType: 
-      m_Id: e945da40-030c-4eb5-92e0-0f5383e7b4ae
-      m_Processors: 
-      m_Interactions: 
-      m_SingletonActionBindings: []
-      m_Flags: 0
-    m_Reference: {fileID: 3001919216989983466, guid: 6221e7b8a5138e244916faf73a7bc1f6, type: 3}
-  _inputActionPropertyMultiClick:
-    m_UseReference: 1
-    m_Action:
-      m_Name: Input Action Property Multi Click
-      m_Type: 0
-      m_ExpectedControlType: 
-      m_Id: 6bd52c70-f45c-4ce5-b347-e06bf2e99cbc
-      m_Processors: 
-      m_Interactions: 
-      m_SingletonActionBindings: []
-      m_Flags: 0
-    m_Reference: {fileID: -3128002332270249113, guid: 6221e7b8a5138e244916faf73a7bc1f6, type: 3}
-  _inputActionPropertyPointer:
-    m_UseReference: 1
-    m_Action:
-      m_Name: Input Action Property Pointer
-      m_Type: 0
-      m_ExpectedControlType: 
-      m_Id: 23b1a12f-6517-4883-aec2-0fd2204af9f0
-      m_Processors: 
-      m_Interactions: 
-      m_SingletonActionBindings: []
-      m_Flags: 0
-    m_Reference: {fileID: -1654692200621890270, guid: 6221e7b8a5138e244916faf73a7bc1f6, type: 3}
-  _multiSelectKey: 306
+  _hitGameObjects: []
+  _selectedInteractions: []
   _layerMask:
     serializedVersion: 2
     m_Bits: 1024
-  _drawDebugGizmos: 0
-  _hitGameObjects: []
-  _selectedInteractions: []
-  _selectionCollider: {fileID: 0}
-  _isDrawing: 0
+  _click: {fileID: 3001919216989983466, guid: 6221e7b8a5138e244916faf73a7bc1f6, type: 3}
+  _pointer: {fileID: -1654692200621890270, guid: 6221e7b8a5138e244916faf73a7bc1f6, type: 3}
+  _selectModifier: 306
+  _debug: 0
 --- !u!1001 &7485353561520391709
 PrefabInstance:
   m_ObjectHideFlags: 0

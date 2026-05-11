@@ -25,6 +25,7 @@ namespace OC.UI.Toolbar
         private const int COMMAND_BUFFER_CAPACITY = 100;
         private const int FIXED_ITEM_HEIGHT = 45;
 
+        private const string STYLE_PANEL_FIELD = "StyleSheet/panel-field";
         private const string INFO_ICON_RESOURCE = "Icons/d_ConsoleInfoIcon@2x";
         private const string WARNING_ICON_RESOURCE = "Icons/d_ConsoleWarnIcon@2x";
         private const string ERROR_ICON_RESOURCE = "Icons/d_ConsoleErrorIcon@2x";
@@ -101,6 +102,7 @@ namespace OC.UI.Toolbar
         protected override void AddContent(SubsystemPanel panel)
         {
             panel.styleSheets.Add(Resources.Load<StyleSheet>(STYLE_RESOURCE));
+            panel.styleSheets.Remove(Resources.Load<StyleSheet>(STYLE_PANEL_FIELD));
 
             var infoSprite = Resources.Load<Sprite>(INFO_ICON_RESOURCE);
             var warnSprite = Resources.Load<Sprite>(WARNING_ICON_RESOURCE);

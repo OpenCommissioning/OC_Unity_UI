@@ -386,7 +386,7 @@
                 },
                 {
                     "name": "Point",
-                    "type": "PassThrough",
+                    "type": "Value",
                     "id": "32b35790-4ed0-4e9a-aa41-69ac6d629449",
                     "expectedControlType": "Vector2",
                     "processors": "",
@@ -395,9 +395,9 @@
                 },
                 {
                     "name": "Click",
-                    "type": "PassThrough",
+                    "type": "Button",
                     "id": "3c7022bf-7922-4f7c-a998-c437916075ad",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
@@ -437,15 +437,6 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
-                },
-                {
-                    "name": "MultiClick",
-                    "type": "Button",
-                    "id": "525d35ea-a6d1-470e-9338-16a2a1514a2a",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -855,39 +846,6 @@
                     "action": "Window",
                     "isComposite": false,
                     "isPartOfComposite": false
-                },
-                {
-                    "name": "Button With One Modifier",
-                    "id": "eba5d5d4-4c7b-4002-a02f-d6d6e09f98e7",
-                    "path": "ButtonWithOneModifier",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "MultiClick",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "Modifier",
-                    "id": "7eeb0866-4947-44e2-9653-1b7d1e0635f7",
-                    "path": "<Keyboard>/leftCtrl",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Keyboard&Mouse",
-                    "action": "MultiClick",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "Button",
-                    "id": "e459641b-a385-497d-ba5f-73041bba9abc",
-                    "path": "<Mouse>/leftButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Keyboard&Mouse",
-                    "action": "MultiClick",
-                    "isComposite": false,
-                    "isPartOfComposite": true
                 }
             ]
         }
