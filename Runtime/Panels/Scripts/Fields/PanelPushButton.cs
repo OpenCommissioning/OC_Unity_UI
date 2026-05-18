@@ -37,13 +37,18 @@ namespace OC.UI.Panel
         private const string USS_UNITY_BUTTON = "unity-button";
         private const string USS_BUTTON_ACTIVE = "panel-field-button_active";
         
+        private IProperty<bool> _propertyValue;
+        private IProperty<bool> _propertyActivator;
+        
         private readonly MouseEvents _mouseEvents;
         
         private bool _value;
         
+        public PanelPushButton() : this("") { }
 
-        public PanelPushButton()
+        public PanelPushButton(string label)
         {
+            if (!string.IsNullOrEmpty(label)) text = label;
             this.AddDefaultTheme();
             styleSheets.Add(Resources.Load<StyleSheet>(USS));
             AddToClassList(USS_CONTAINER);
@@ -55,19 +60,15 @@ namespace OC.UI.Panel
                 target = this
             };
         }
-        
-        public PanelPushButton(string label, IProperty<bool> property, IProperty<bool> enable) : this()
-        {
-            if (!string.IsNullOrEmpty(label)) text = label;
 
+        public VisualElement Bind(IProperty<bool> property)
+        {
             _mouseEvents.Up += () => property.Value = false;
             _mouseEvents.Down += () => property.Value = true;
             
             property.OnValueChanged += SetValueWithoutNotify;
-            enable.OnValueChanged += SetEnabled;
-
             Value = property.Value;
-            SetEnabled(enable.Value);
+            return this;
         }
         
         private void SetValueWithoutNotify(bool value)

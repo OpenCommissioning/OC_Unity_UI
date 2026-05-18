@@ -24,7 +24,7 @@ namespace OC.UI.Panel
         private const string UXML = "UXML/panel_subsystem";
         private const string STYLE_SHEET = "StyleSheet/panel";
         private const string USS_CONTAINER = "panel-container";
-        private const string USS_CONTAINER_SYBSYSTEM = "panel-container_subsystem";
+        private const string USS_CONTAINER_SUBSYSTEM = "panel-container_subsystem";
         
         private readonly VisualElement _content;
         
@@ -34,7 +34,7 @@ namespace OC.UI.Panel
             this.AddDefaultTheme();
             styleSheets.Add(Resources.Load<StyleSheet>(STYLE_SHEET));
             AddToClassList(USS_CONTAINER);
-            AddToClassList(USS_CONTAINER_SYBSYSTEM);
+            AddToClassList(USS_CONTAINER_SUBSYSTEM);
             
             var container = Resources.Load<VisualTreeAsset>(UXML).Instantiate();
             var header = container.Q("header");

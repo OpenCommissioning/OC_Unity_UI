@@ -1,5 +1,4 @@
 using OC.Interactions;
-using OC.UI.Panel;
 using UnityEditor;
 using UnityEngine;
 
@@ -24,34 +23,6 @@ namespace OC.UI.Editor
         
         [MenuItem ("GameObject/Open Commissioning/Add Interaction", true)]
         public static bool AddInteractionValidation()
-        {
-            return Selection.count > 0;
-        }
-        
-        [MenuItem ("GameObject/Open Commissioning/Add Panel Handler")]
-        public static void AddPanelHandler(MenuCommand menuCommand)
-        {
-            var gameObject = menuCommand.context as GameObject;
-            if (gameObject == null) return;
-
-            var collider = gameObject.GetOrCreateComponent<BoxCollider>();
-            var panelHandler = gameObject.GetOrCreateComponent<PanelHandler>();
-
-            var bounds = gameObject.GetChildMeshBoundBox();
-            collider.center = bounds.center;
-            collider.size = bounds.size;
-            collider.isTrigger = true;
-
-            panelHandler.Mode = Interaction.InteractionMode.Hover | Interaction.InteractionMode.Selection;
-
-            if (gameObject.transform.parent.TryGetComponent<IInteractable>(out _))
-            {
-                panelHandler.Target = gameObject.transform.parent.gameObject;
-            }
-        }
-        
-        [MenuItem ("GameObject/Open Commissioning/Add Panel Handler", true)]
-        public static bool AddPanelHandlerValidation()
         {
             return Selection.count > 0;
         }

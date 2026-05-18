@@ -14,7 +14,7 @@ namespace OC.UI
         public IProperty<CameraState> State => _state;
         public CameraSettings Settings => _settings;
         
-        private bool IsPointerOverUI => AppUI.Instance.IsPointerOverUI;
+        private bool IsPointerValidForAction => AppUI.Instance.IsPointerValidForAction;
 
         protected const float EPSILON = UnityVectorExtensions.Epsilon;
         
@@ -147,15 +147,13 @@ namespace OC.UI
             }
 
             if (_scrollAction != null) _scrollAction.performed += HandleScrollAction;
-
             if (_focusAction != null) _focusAction.performed += HandleFocusAction;
             if (_followAction != null) _followAction.performed += HandleFollowAction;
 
             _state.Subscribe(OnStateChanged);
             _active.Subscribe(OnActiveChanged);
             _target.Subscribe(OnTargetChanged);
-            
-            //INITIALIZE
+           
             Initialize();
         }
 
@@ -191,24 +189,24 @@ namespace OC.UI
         {
             if (!_active.Value) return;
             if (_updateLoop != UpdateLoop.Update) return;
-            Pipeline(Time.deltaTime);
+            LocalUpdate(Time.deltaTime);
         }
         
         private void FixedUpdate()
         {
             if (!_active.Value) return;
             if (_updateLoop != UpdateLoop.FixedUpdate) return;
-            Pipeline(Time.fixedDeltaTime);
+            LocalUpdate(Time.fixedDeltaTime);
         }
         
         private void LateUpdate()
         {
             if (!_active.Value) return;
             if (_updateLoop != UpdateLoop.LateUpdate) return;
-            Pipeline(Time.deltaTime);
+            LocalUpdate(Time.deltaTime);
         }
 
-        private void Pipeline(float deltaTime)
+        private void LocalUpdate(float deltaTime)
         {
             switch (_state.Value)
             {
@@ -269,7 +267,7 @@ namespace OC.UI
         
         private void HandleLookAction(InputAction.CallbackContext ctx)
         {
-            if (!IsBusy && ctx.performed && !IsPointerOverUI)
+            if (!IsBusy && ctx.performed && IsPointerValidForAction)
             {
                 _state.Value = CameraState.Fly;
             }
@@ -282,7 +280,7 @@ namespace OC.UI
         
         private void HandleOrbitAction(InputAction.CallbackContext ctx)
         {
-            if (!IsBusy && ctx.performed && !IsPointerOverUI)
+            if (!IsBusy && ctx.performed && IsPointerValidForAction)
             {
                 _state.Value = CameraState.Orbit;
             }
@@ -295,7 +293,7 @@ namespace OC.UI
         
         private void HandlePanAction(InputAction.CallbackContext ctx)
         {
-            if (!IsBusy && ctx.performed && !IsPointerOverUI)
+            if (!IsBusy && ctx.performed && IsPointerValidForAction)
             {
                 _state.Value = CameraState.Pan;
                 InitializeCameraFrustum(out _worldPerPixelX, out _worldPerPixelY);
@@ -309,7 +307,7 @@ namespace OC.UI
         
         private void HandleZoomAction(InputAction.CallbackContext ctx)
         {
-            if (!IsBusy && ctx.performed && !IsPointerOverUI)
+            if (!IsBusy && ctx.performed && IsPointerValidForAction)
             {
                 _state.Value = CameraState.Zoom;
             }
@@ -322,7 +320,7 @@ namespace OC.UI
 
         private void HandleScrollAction(InputAction.CallbackContext ctx)
         {
-            if (!IsBusy && ctx.performed && !IsPointerOverUI)
+            if (!IsBusy && ctx.performed && IsPointerValidForAction)
             {
                 var scroll = _scrollAction.ReadValue<Vector2>().y;
                 _distance -= scroll * _settings.ZoomSensitivity;
@@ -332,7 +330,7 @@ namespace OC.UI
 
         private void HandleFocusAction(InputAction.CallbackContext ctx)
         {
-            if (!IsBusy && ctx.performed && !IsPointerOverUI)
+            if (!IsBusy && ctx.performed && IsPointerValidForAction)
             {
                 if (_target.Value == null) return;
 
@@ -351,7 +349,7 @@ namespace OC.UI
 
         private void HandleFollowAction(InputAction.CallbackContext ctx)
         {
-            if (!IsBusy && ctx.performed && !IsPointerOverUI)
+            if (!IsBusy && ctx.performed && IsPointerValidForAction)
             {
                 if (_target.Value == null) return;
                 _isLockedToTarget.Value = true;

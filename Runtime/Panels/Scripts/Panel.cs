@@ -1,29 +1,50 @@
 using System;
+using OC.Interactions;
 using UnityEngine;
 using UnityEngine.UIElements;
+using Button = UnityEngine.UIElements.Button;
 
 namespace OC.UI.Panel
 {
-    public class Panel : VisualElement, IFloatingPanel
+    public abstract class Panel<T> : VisualElement, IPanel where T : Component
     {
-        public bool CanClosed
+        public Interaction Interaction => _interaction;
+        public VisualElement Root => this;
+        public Type ReferenceType => typeof(T);
+        
+        public bool ShowCloseButton
         {
-            set => _closeButton.style.display = value ? new StyleEnum<DisplayStyle>(DisplayStyle.Flex) : new StyleEnum<DisplayStyle>(DisplayStyle.None);
+            set => _buttonClose.style.display = value ? new StyleEnum<DisplayStyle>(DisplayStyle.Flex) : new StyleEnum<DisplayStyle>(DisplayStyle.None);
         }
         
-        public bool CanFocus
+        public bool ShowFocusButton
         {
-            set => _focusButton.style.display = value ? new StyleEnum<DisplayStyle>(DisplayStyle.Flex) : new StyleEnum<DisplayStyle>(DisplayStyle.None);
+            set => _buttonFocus.style.display = value ? new StyleEnum<DisplayStyle>(DisplayStyle.Flex) : new StyleEnum<DisplayStyle>(DisplayStyle.None);
         }
         
-        public bool CanPinned
+        public bool ShowPinButton
         {
-            get => _canPinned;
+            set => _buttonPin.style.display = value ? new StyleEnum<DisplayStyle>(DisplayStyle.Flex) : new StyleEnum<DisplayStyle>(DisplayStyle.None);
+        }
+
+        public bool Enable
+        {
+            get => _enable;
             set
             {
-                _canPinned = value;
-                _pinButton.style.display = _canPinned ? new StyleEnum<DisplayStyle>(DisplayStyle.Flex) : new StyleEnum<DisplayStyle>(DisplayStyle.None);
+                if (_enable == value) return;
+                _enable = value;
+                SetEnabled(value);
+                style.display = _enable ? DisplayStyle.Flex : DisplayStyle.None;
             }
+        }
+        
+        public bool Pinned { get; set; }
+
+        public string Title
+        {
+            get => _title.text;
+            set => _title.text = value;
         }
 
         private const string UXML = "UXML/panel_component";
@@ -31,76 +52,91 @@ namespace OC.UI.Panel
         private const string USS_CONTAINER = "panel-container";
         private const string USS_BUTTON_ACTIVE = "panel-header-button-active";
         private const string USS_COMPONENT_PANEL = "component-panel";
-
-        private readonly VisualElement _content;
-        private readonly UnityEngine.UIElements.Button _focusButton;
-        private readonly UnityEngine.UIElements.Button _pinButton;
-        private readonly UnityEngine.UIElements.Button _closeButton;
         
-        private bool _isPinned;
-        private bool _canPinned;
+        private Interaction _interaction;
+        protected T _target;
+        private bool _enable;
+        private readonly VisualElement _content;
+        private readonly Label _title;
+        private readonly Button _buttonFocus;
+        private readonly Button _buttonPin;
+        private readonly Button _buttonClose;
+        
+        protected abstract void Create();
 
-        public event Action OnClose;
-        public event Action OnFocus;
+        public event Action OnFocusClicked;
+        public event Action OnPinClicked;
+        public event Action OnCloseClicked;
 
-        public Panel(string label, bool canClose = true, bool canPinned = false, bool canFocus = false)
+        public Panel()
         {
             styleSheets.Add(Resources.Load<StyleSheet>(USS));
             this.AddDefaultTheme();
             AddToClassList(USS_COMPONENT_PANEL);
             AddToClassList(USS_CONTAINER);
-
+            
             var template = Resources.Load<VisualTreeAsset>(UXML).CloneTree();
             var header = template.Q("header");
             _content = template.Q("content");
             
             hierarchy.Add(header);
             hierarchy.Add(_content);
-            this.AddManipulator(new DragAndDrop(header, this));
-
-            header.Q<Label>("title").text = label;
-
-            _focusButton = header.Q<UnityEngine.UIElements.Button>("focus");
-            _focusButton.clicked += () => { OnFocus?.Invoke(); };
+            this.AddManipulator(new PanelDragAndDrop(this));
             
-            _closeButton = header.Q<UnityEngine.UIElements.Button>("close");
-            _closeButton.clicked += () => { OnClose?.Invoke(); };
-
-            _pinButton = header.Q<UnityEngine.UIElements.Button>("pin");
-            _pinButton.clicked += PinOnclicked;
-
-            InteractionsPanelManager.Instance.Register(this);
-            InteractionsPanelManager.Instance.AddToSidebar(this);
-            AppUI.Instance.Register(this);
+            _title = header.Q<Label>("title");
+            _buttonFocus = header.Q<Button>("focus");
+            _buttonClose = header.Q<Button>("close");
+            _buttonPin = header.Q<Button>("pin");
             
-            CanClosed = canClose;
-            CanFocus = canFocus;
-            CanPinned = canPinned;
+            _buttonFocus.clicked += () => { OnFocusClicked?.Invoke(); };
+            _buttonClose.clicked += () => { OnPinClicked?.Invoke(); };
+            _buttonPin.clicked += OnPinClickedAction;
+            
+            // ReSharper disable once VirtualMemberCallInConstructor
+            Create();
         }
 
-        private void PinOnclicked()
+        public void Bind(Interaction interaction)
         {
-            _isPinned = !_isPinned;
-            _pinButton.EnableInClassList(USS_BUTTON_ACTIVE, _isPinned);
+            _interaction = interaction;
+
+            if (_interaction.Interactable == null)
+            {
+                throw new ArgumentException("Interaction must have an interactable");
+            }
+
+            _target = _interaction.Interactable.Component as T;
+
+            if (_target == null)
+            {
+                throw new AggregateException("Interaction target must be of type " + typeof(T).Name + "");
+            }
+            
+            Title = _interaction.Target.name;
+            
+            InternalBind(_target);
         }
 
-        public new void Add(VisualElement visualElement)
+        public void Unbind()
+        {
+            if (_target == null) return;
+            InternalUnbind();
+        }
+
+        protected abstract void InternalBind(T component); 
+        protected abstract void InternalUnbind();
+    
+
+        protected new void Add(VisualElement visualElement)
         {
             _content.Add(visualElement);
         }
 
-        public void Close()
+        private void OnPinClickedAction()
         {
-            if (!_canPinned) return;
-            if (_isPinned) return;
-            OnClose?.Invoke();
-        }
-        
-        public void Delete()
-        {
-            RemoveFromHierarchy();
-            InteractionsPanelManager.Instance.Unregister(this);
-            AppUI.Instance.Unregister(this);
+            Pinned = !Pinned;
+            _buttonPin.EnableInClassList(USS_BUTTON_ACTIVE, Pinned);
+            OnCloseClicked?.Invoke();
         }
     }
 }

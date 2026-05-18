@@ -9,6 +9,10 @@ namespace OC.UI.Panel
         private const string USS = "StyleSheet/panel-field";
         private const string USS_BINARY_STATUS = "panel-field-binary-status_checkbox";
         private const string USS_BOX_INDICATOR_ACTIVE = "panel-field-progress-bar_indicator-active";
+        
+        private readonly PanelStringField _typeField;
+        private readonly PanelStringField _pathField;
+        private Link _link;
 
         public bool Status
         {
@@ -31,7 +35,7 @@ namespace OC.UI.Panel
         private bool _status;
         private readonly VisualElement _indicator;
         
-        public PanelLinkStatus(Link link)
+        public PanelLinkStatus()
         {
             styleSheets.Add(Resources.Load<StyleSheet>(USS));
             
@@ -41,19 +45,40 @@ namespace OC.UI.Panel
             _indicator.AddToClassList(USS_BINARY_STATUS);
             group.AddToHeader(_indicator);
 
-            var stringFieldType = new PanelStringField("", link.Type);
-            var stringFieldPath = new PanelStringField("", link.ClientPath);
+            _typeField = new PanelStringField("");
+            _pathField = new PanelStringField("");
 
-            stringFieldType.SetTextInputAlign(TextAnchor.MiddleLeft);
-            stringFieldPath.SetTextInputAlign(TextAnchor.MiddleLeft);
+            _typeField.SetTextInputAlign(TextAnchor.MiddleLeft);
+            _pathField.SetTextInputAlign(TextAnchor.MiddleLeft);
 
-            group.Add(stringFieldType);
-            group.Add(stringFieldPath);
+            group.Add(_typeField);
+            group.Add(_pathField);
             Add(group);
+        }
 
-            link.Connected.OnValueChanged += value => Status = value;
+        public PanelLinkStatus(Link link) : this()
+        {
+            Bind(link);
+        }
 
-            Status = link.Connected.Value;
+        public void Bind(Link link)
+        {
+            _link = link;
+            _typeField.SetValueWithoutNotify(_link.Type);
+            _pathField.SetValueWithoutNotify(_link.ClientPath);
+            
+            Status = _link.Connected.Value;
+            _link.Connected.OnValueChanged += OnConnectedChanged;
+        }
+
+        public void Unbind()
+        {
+            if(_link != null)  _link.Connected.OnValueChanged -= OnConnectedChanged;
+        }
+        
+        private void OnConnectedChanged(bool value)
+        {
+            Status = value;
         }
     }
 }

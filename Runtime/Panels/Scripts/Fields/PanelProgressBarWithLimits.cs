@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -105,6 +104,7 @@ namespace OC.UI.Panel
 
         private bool _min;
         private bool _max;
+        private IPropertyReadOnly<float> _property;
         
         private const string USS = "StyleSheet/panel-field";
         private const string USS_CONTAINER = "panel-field-container";
@@ -112,9 +112,12 @@ namespace OC.UI.Panel
         private const string USS_BOX_INDICATOR = "panel-field-progress-bar_indicator";
         private const string USS_BOX_INDICATOR_ACTIVE = "panel-field-progress-bar_indicator-active";
 
+        
+        public PanelProgressBarWithLimits() : this("") { }
 
-        public PanelProgressBarWithLimits()
+        public PanelProgressBarWithLimits(string title)
         {
+            this.title = title;
             styleSheets.Add(Resources.Load<StyleSheet>(USS));
             AddToClassList(USS_CONTAINER);
             AddToClassList(USS_PROGRESS_BAR_FIELD);
@@ -135,17 +138,23 @@ namespace OC.UI.Panel
             container.Add(_indicatorMax);
             _indicatorMax.BringToFront();
         }
-
-        public PanelProgressBarWithLimits(string title, IPropertyReadOnly<float> property, float low = 0, float high = 1) : this()
+        
+        public PanelProgressBarWithLimits(string title, IPropertyReadOnly<float> property, float low = 0, float high = 1) : this(title)
         {
-            this.title = title;
+            Bind(property, low, high);
+        }
+
+        public void Bind(IPropertyReadOnly<float> property, float low = 0, float high = 1)
+        {
+            _property = property;
+            
             lowValue = low;
             highValue = high;
 
-            property.OnValueChanged += OnPropertyValueChanged;
-            OnPropertyValueChanged(property.Value);
+            _property.OnValueChanged += OnPropertyValueChanged;
+            OnPropertyValueChanged(_property.Value);
         }
-
+        
         private void OnPropertyValueChanged(float propertyValue)
         {
             value = propertyValue;

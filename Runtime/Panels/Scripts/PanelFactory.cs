@@ -5,7 +5,7 @@ namespace OC.UI.Panel
 {
     public static class PanelFactory
     {
-        public static Panel Create(PanelHandler panelHandler)
+        /*public static Panel Create(PanelHandler panelHandler)
         {
             if (panelHandler.Component == null) return null;
 
@@ -293,52 +293,6 @@ namespace OC.UI.Panel
             return panel;
         }
 
-        public static Panel Create(GenericPanelHandler genericPanelHandler)
-        {
-            if (genericPanelHandler.Component == null) return null;
-
-            var panel = new Panel(genericPanelHandler.Target.name, true, true, true);
-            panel.OnFocus += genericPanelHandler.Focus;
-            panel.OnClose += genericPanelHandler.Delete;
-
-            foreach (var binding in genericPanelHandler.Bindings)
-            {
-                if (!genericPanelHandler.PossibleBindings.Contains(binding.Property))
-                {
-                    Debug.Log($"Can't find Property of name <b>{binding.Property}</b> in <b>{genericPanelHandler.Component.name}</b>");
-                    continue;
-                }
-
-                var propertyInfo = genericPanelHandler.Component.GetType().GetProperty(binding.Property);
-
-                if (propertyInfo == null) continue;
-
-                var isReadOnly = !propertyInfo.CanWrite || binding.IsReadOnly;
-
-                var property = (IProperty)propertyInfo.GetValue(genericPanelHandler.Component);
-
-                if (property == null) continue;
-
-                panel.Add(property switch
-                {
-                    IProperty<float> prop => new PanelFloatField(propertyInfo.Name, prop, isReadOnly),
-                    IProperty<int> prop => new PanelIntegerField(propertyInfo.Name, prop, isReadOnly),
-                    IProperty<uint> prop => new PanelUIntegerField(propertyInfo.Name, prop, isReadOnly),
-                    IProperty<long> prop => new PanelLongField(propertyInfo.Name, prop, isReadOnly),
-                    IProperty<ulong> prop => new PanelULongField(propertyInfo.Name, prop, isReadOnly),
-                    IProperty<Vector2> prop => new PanelVector2Field(propertyInfo.Name, prop, isReadOnly),
-                    IProperty<Vector2Int> prop => new PanelVector2IntField(propertyInfo.Name, prop, isReadOnly),
-                    IProperty<Vector3> prop => new PanelVector3Field(propertyInfo.Name, prop, isReadOnly),
-                    IProperty<Vector3Int> prop => new PanelVector3IntField(propertyInfo.Name, prop, isReadOnly),
-                    IProperty<bool> prop => MakeBoolField(propertyInfo.Name, prop, isReadOnly),
-                    IProperty<string> prop => new PanelStringField(propertyInfo.Name, prop, isReadOnly),
-                    _ => null
-                });
-            }
-
-            return panel;
-        }
-
         private static VisualElement MakeBoolField(string name, IProperty<bool> prop, bool isReadOnly)
         {
             if (isReadOnly)
@@ -359,6 +313,6 @@ namespace OC.UI.Panel
             {
                 panel.Add(new PanelEntityTagContainer(entityTag, directoryId));
             }
-        }
+        }*/
     }
 }

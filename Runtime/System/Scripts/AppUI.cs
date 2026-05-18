@@ -14,11 +14,20 @@ namespace OC.UI
     public class AppUI : MonoBehaviourSingleton<AppUI>
     {
         public bool IsPointerOverUI => _isPointerOverUI;
+        public bool IsPointerFocused => _isPointerFocused;
+        public bool IsPointerInsideScreen => _isPointerInsideScreen;
+        public bool IsPointerValidForAction => !IsPointerOverUI && IsPointerFocused && IsPointerInsideScreen;
+        
         public bool IsUIFieldSelected => UIFieldSelected();
+        public VisualElement Root => _root;
 
         [Header("State")]
         [SerializeField]
         private bool _isPointerOverUI;
+        [SerializeField]
+        private bool _isPointerFocused;
+        [SerializeField]
+        private bool _isPointerInsideScreen;
         
         [Header("Debug")]
         [SerializeField]
@@ -57,6 +66,8 @@ namespace OC.UI
         private void Update()
         {
             _isPointerOverUI = _eventSystem.IsPointerOverGameObject();
+            _isPointerInsideScreen = CheckPointerInsideScreen();
+            _isPointerFocused = Application.isFocused;
         }
 
         private void Initialize()
@@ -94,6 +105,18 @@ namespace OC.UI
         {
             if (!_floatingPanels.Contains(panel)) return;
             _floatingPanels.Remove(panel);
+        }
+
+        private bool CheckPointerInsideScreen()
+        {
+            if (Mouse.current == null) return false;
+
+            var position = Mouse.current.position.ReadValue();
+            
+            return position.x >= 0 &&
+                   position.y >= 0 &&
+                   position.x < Screen.width &&
+                   position.y < Screen.height;
         }
 
         private void ActionClose(InputAction.CallbackContext context)

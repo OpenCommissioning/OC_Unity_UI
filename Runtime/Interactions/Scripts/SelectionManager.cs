@@ -5,6 +5,7 @@ using OC.Interactions;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Controls;
 
 namespace OC.UI.Interactions
 {
@@ -48,8 +49,6 @@ namespace OC.UI.Interactions
         private InputActionReference _click;
         [SerializeField]
         private InputActionReference _pointer;
-        [SerializeField]
-        private KeyCode _selectModifier = KeyCode.LeftControl;
         
         [Header("Debug")] 
         [SerializeField]
@@ -89,7 +88,9 @@ namespace OC.UI.Interactions
 
         private void OnDisable()
         {
-            throw new NotImplementedException();
+            _clickAction.started -= HandleClickAction;
+            _clickAction.performed -= HandleClickAction;
+            _clickAction.canceled -= HandleClickAction;
         }
 
         private void Update()
@@ -103,6 +104,7 @@ namespace OC.UI.Interactions
         {
             if (!_enable) return;
             if (_hitHandle) return;
+            if (AppUI.Instance.IsPointerOverUI) return;
             
             if (_debug) Debug.Log($"Handle Click action: {context.phase}");
             
@@ -110,16 +112,18 @@ namespace OC.UI.Interactions
             {
                 if (_hitGameObjects.Count > 0)
                 {
+                    var modifier = Keyboard.current.leftCtrlKey.wasPressedThisFrame;
+                    
                     if (_selectedInteractions.Count > 0)
                     {
                         var index = (_hitGameObjects.IndexOf(_selectedInteractions.First().gameObject) + 1) % _hitGameObjects.Count;
                         var nextHitGameObject = _hitGameObjects[index];
-                        Select(nextHitGameObject, _clickAction.IsPressed());
+                        Select(nextHitGameObject, modifier);
                         PointerDownEvent(nextHitGameObject);
                     }
                     else
                     {
-                        Select(_closestHitGameObject, _clickAction.IsPressed());
+                        Select(_closestHitGameObject, modifier);
                         PointerDownEvent(_closestHitGameObject);
                     }
                 }
