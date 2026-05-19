@@ -335,7 +335,7 @@ MonoBehaviour:
       m_Interactions: 
       m_SingletonActionBindings: []
       m_Flags: 0
-    m_Reference: {fileID: 3001919216989983466, guid: 6221e7b8a5138e244916faf73a7bc1f6, type: 3}
+    m_Reference: {fileID: -4915780649344919496, guid: 6221e7b8a5138e244916faf73a7bc1f6, type: 3}
   _inputActionPropertyPointer:
     m_UseReference: 1
     m_Action:
@@ -347,7 +347,7 @@ MonoBehaviour:
       m_Interactions: 
       m_SingletonActionBindings: []
       m_Flags: 0
-    m_Reference: {fileID: -1654692200621890270, guid: 6221e7b8a5138e244916faf73a7bc1f6, type: 3}
+    m_Reference: {fileID: -2241394411367102424, guid: 6221e7b8a5138e244916faf73a7bc1f6, type: 3}
 --- !u!1 &2449076663448038350
 GameObject:
   m_ObjectHideFlags: 0

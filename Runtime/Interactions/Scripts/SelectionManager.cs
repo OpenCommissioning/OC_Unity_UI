@@ -5,14 +5,13 @@ using OC.Interactions;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.Controls;
 
 namespace OC.UI.Interactions
 {
     [DefaultExecutionOrder(-1000)]
     public class SelectionManager : MonoBehaviourSingleton<SelectionManager>
     {
-        public IEnumerable<Interaction> SelectedInteractions => _selectedInteractions;
+        public List<Interaction> SelectedInteractions => _selectedInteractions;
         public List<GameObject> HitGameObjects => _hitGameObjects;
         
         public event Action<List<Interaction>> OnSelectionChanged;
@@ -110,9 +109,10 @@ namespace OC.UI.Interactions
             
             if (context.performed)
             {
+                // Mouse down
                 if (_hitGameObjects.Count > 0)
                 {
-                    var modifier = Keyboard.current.leftCtrlKey.wasPressedThisFrame;
+                    var modifier = Keyboard.current.leftCtrlKey.isPressed;
                     
                     if (_selectedInteractions.Count > 0)
                     {
@@ -138,6 +138,8 @@ namespace OC.UI.Interactions
 
             if (context.canceled)
             {
+                // Mouse up
+                
                 if (_hitGameObjects.Count > 0)
                 {
                     PointerClickEvent(_closestHitGameObject);

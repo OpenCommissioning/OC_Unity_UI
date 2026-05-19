@@ -7,10 +7,10 @@ namespace OC.UI.Panel
     public class PanelHandlerCylinder : PanelHandler
     {
         public override Type ReferenceType => typeof(Cylinder);
-        public override IPanel Create() => new CylinderPanel();
+        public override IPanel Create() => new PanelCylinder();
     }
 
-    public class CylinderPanel : Panel<Cylinder>
+    public class PanelCylinder : Panel<Cylinder>
     {
         private PanelBinaryStatusField _isActive;
         private PanelProgressBarWithLimits _progress;

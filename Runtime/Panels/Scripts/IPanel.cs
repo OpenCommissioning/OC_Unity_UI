@@ -16,8 +16,8 @@ namespace OC.UI.Panel
         public void Bind(Interaction target);
         public void Unbind();
         
-        public event Action OnFocusClicked;
-        public event Action OnPinClicked;
-        public event Action OnCloseClicked;
+        public event Action<IPanel> OnFocusClicked;
+        public event Action<IPanel> OnPinClicked;
+        public event Action<IPanel> OnCloseClicked;
     }
 }

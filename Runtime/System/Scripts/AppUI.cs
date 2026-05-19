@@ -17,8 +17,6 @@ namespace OC.UI
         public bool IsPointerFocused => _isPointerFocused;
         public bool IsPointerInsideScreen => _isPointerInsideScreen;
         public bool IsPointerValidForAction => !IsPointerOverUI && IsPointerFocused && IsPointerInsideScreen;
-        
-        public bool IsUIFieldSelected => UIFieldSelected();
         public VisualElement Root => _root;
 
         [Header("State")]
@@ -29,38 +27,80 @@ namespace OC.UI
         [SerializeField]
         private bool _isPointerInsideScreen;
         
-        [Header("Debug")]
+        [Header("Settings")]
         [SerializeField]
         private bool _debug;
         
-        private InputAction _actionCancel;
-        private InputAction _actionWindow;
+        [Header("Input Actions")]
+        [SerializeField]
+        private InputActionReference _cancel;
+        [SerializeField]
+        private InputActionReference _window;
+        [SerializeField]
+        private InputActionReference _delete;
         
-
         private VisualElement _root;
         private EventSystem _eventSystem;
         private ExitPopup _exitPopup;
         private readonly List<IFloatingPanel> _floatingPanels = new();
+        
+        private InputAction _cancelAction;
+        private InputAction _windowAction;
+        private InputAction _deleteAction;
 
         protected new void Awake()
         {
             base.Awake();
             Initialize();
             
-            _actionCancel = InputSystem.actions.FindAction("Cancel");
-            _actionWindow = InputSystem.actions.FindAction("Window");
+            
         }
 
         private void OnEnable()
         {
-            _actionCancel.performed += ActionClose;
-            _actionWindow.performed += ActionWindow;
+            _deleteAction = _delete.action;
+            _cancelAction = _cancel.action;
+            _windowAction = _window.action;
+            
+            _deleteAction.started += CancelAction;
+            _deleteAction.performed += CancelAction;
+            _deleteAction.canceled += CancelAction;
+            
+            _cancelAction.started += CancelAction;
+            _cancelAction.performed += CancelAction;
+            _cancelAction.canceled += CancelAction;
+            
+            _windowAction.started += WindowAction;
+            _windowAction.performed += WindowAction;
+            _windowAction.canceled += WindowAction;
+            
+            _cancelAction?.Enable();
+            _windowAction?.Enable();
+            _deleteAction?.Enable();
         }
 
         private void OnDisable()
         {
-            _actionCancel.performed -= ActionClose;
-            _actionWindow.performed -= ActionWindow;
+            if (_deleteAction != null)
+            {
+                _deleteAction.started -= CancelAction;
+                _deleteAction.performed -= CancelAction;
+                _deleteAction.canceled -= CancelAction;
+            }
+
+            if (_cancelAction != null)
+            {
+                _cancelAction.started -= CancelAction;
+                _cancelAction.performed -= CancelAction;
+                _cancelAction.canceled -= CancelAction;
+            }
+
+            if (_windowAction != null)
+            {
+                _windowAction.started -= WindowAction;
+                _windowAction.performed -= WindowAction;
+                _windowAction.canceled -= WindowAction;
+            }
         }
 
         private void Update()
@@ -88,11 +128,48 @@ namespace OC.UI
             _exitPopup.BringToFront();
             _exitPopup.OnClose += Application.Quit;
         }
-
-        private bool UIFieldSelected()
+        
+        private void CancelAction(InputAction.CallbackContext ctx)
         {
-            if (_eventSystem.currentSelectedGameObject == null) return false;
-            return _eventSystem.currentSelectedGameObject.TryGetComponent<PanelEventHandler>(out var _);
+            if (!ctx.performed) return;
+            if (_debug) Debug.Log("Cancel Action");
+            
+            if (SelectionManager.Instance.SelectedInteractions.Any())
+            {
+                SelectionManager.Instance.Deselect(SelectionManager.Instance.SelectedInteractions.Last());
+                return;
+            }
+            
+            if (_floatingPanels.Count > 0)
+            {
+                _floatingPanels.Last().Close();
+                return;
+            }
+            
+            _exitPopup.Enable = !_exitPopup.Enable;
+        }
+        
+        private void WindowAction(InputAction.CallbackContext ctx)
+        {
+            if (!ctx.performed) return;
+            if(_debug) Debug.Log("Window Action");
+            
+            Screen.fullScreenMode = 
+                Screen.fullScreenMode != FullScreenMode.Windowed ? 
+                    FullScreenMode.Windowed : 
+                    FullScreenMode.FullScreenWindow;
+        }
+
+        private void DeleteAction(InputAction.CallbackContext ctx)
+        {
+            if (!ctx.performed) return;
+            if (_debug) Debug.Log("Delete Action");
+
+            foreach (var interaction in SelectionManager.Instance.SelectedInteractions)
+            {
+                //TODO
+                Debug.Log($"Delete Action NOT IMPLEMENTED: {interaction}");
+            }
         }
 
         public void Register(IFloatingPanel panel)
@@ -117,38 +194,6 @@ namespace OC.UI
                    position.y >= 0 &&
                    position.x < Screen.width &&
                    position.y < Screen.height;
-        }
-
-        private void ActionClose(InputAction.CallbackContext context)
-        {
-            if (_debug)
-            {
-                Debug.Log("ActionClose", this);
-            }
-
-            if (SelectionManager.Instance.SelectedInteractions.Any())
-            {
-                SelectionManager.Instance.Deselect(SelectionManager.Instance.SelectedInteractions.Last());
-                return;
-            }
-            
-            if (_floatingPanels.Count > 0)
-            {
-                _floatingPanels.Last().Close();
-                return;
-            }
-            
-            _exitPopup.Enable = !_exitPopup.Enable;
-        }
-
-        private void ActionWindow(InputAction.CallbackContext context)
-        {
-            if (_debug)
-            {
-                Debug.Log("ActionWindow", this);
-            }
-
-            Screen.fullScreenMode = Screen.fullScreenMode != FullScreenMode.Windowed ? FullScreenMode.Windowed : FullScreenMode.FullScreenWindow;
         }
     }
 }

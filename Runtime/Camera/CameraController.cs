@@ -1,5 +1,7 @@
 using System;
+using System.Linq;
 using OC.Components;
+using OC.UI.Interactions;
 using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -13,10 +15,8 @@ namespace OC.UI
         public bool IsBusy => _state.Value != CameraState.None;
         public IProperty<CameraState> State => _state;
         public CameraSettings Settings => _settings;
-        
-        private bool IsPointerValidForAction => AppUI.Instance.IsPointerValidForAction;
-
-        protected const float EPSILON = UnityVectorExtensions.Epsilon;
+        public bool IsStatic => _isStatic;
+        public IProperty<Transform> Target => _target;
         
         [Header("State")]
         [SerializeField]
@@ -29,6 +29,10 @@ namespace OC.UI
         private float _distance = 8;
         
         [Header("Settings")]
+        [SerializeField]
+        private bool _isStatic;
+        [SerializeField]
+        private bool _focusOnSelection;
         [SerializeField]
         private CameraSettings _settings;
         [SerializeField]
@@ -65,6 +69,9 @@ namespace OC.UI
         private InputActionReference _focus;
         [SerializeField]
         private InputActionReference _follow;
+        
+        private bool IsPointerValidForAction => AppUI.Instance.IsPointerValidForAction;
+        private const float EPSILON = UnityVectorExtensions.Epsilon;
 
         private EventSystem _eventSystem;
         
@@ -92,6 +99,17 @@ namespace OC.UI
         private float _worldPerPixelX;
         private float _worldPerPixelY;
         private bool _focusedOnBounds;
+        
+        private Plane _panPlane;
+        private Vector3 _panStartPoint;
+        private Vector3 _panStartPivotPosition;
+        private bool _hasPanStartPoint;
+        private Camera _cameraMain;
+
+        private void Awake()
+        {
+            _cameraMain = Camera.main;
+        }
 
         private void OnEnable()
         {
@@ -232,7 +250,7 @@ namespace OC.UI
 
         private void RefreshState()
         {
-            if (_isLockedToTarget.Value && _target.Value != null)
+            if (_isLockedToTarget.Value && _target.Value)
             {
                 _targetPivotPosition = _target.Value.position;
             }
@@ -262,12 +280,12 @@ namespace OC.UI
         
         private void OnTargetChanged(Transform target)
         {
-            _focusedOnBounds = false;
+            _focusedOnBounds = true;
         }
         
         private void HandleLookAction(InputAction.CallbackContext ctx)
         {
-            if (!IsBusy && ctx.performed && IsPointerValidForAction)
+            if (!IsBusy && !_isStatic && ctx.performed && IsPointerValidForAction)
             {
                 _state.Value = CameraState.Fly;
             }
@@ -280,7 +298,7 @@ namespace OC.UI
         
         private void HandleOrbitAction(InputAction.CallbackContext ctx)
         {
-            if (!IsBusy && ctx.performed && IsPointerValidForAction)
+            if (!IsBusy && !_isStatic && ctx.performed && IsPointerValidForAction)
             {
                 _state.Value = CameraState.Orbit;
             }
@@ -293,21 +311,22 @@ namespace OC.UI
         
         private void HandlePanAction(InputAction.CallbackContext ctx)
         {
-            if (!IsBusy && ctx.performed && IsPointerValidForAction)
+            if (!IsBusy && !_isStatic && ctx.performed && IsPointerValidForAction)
             {
                 _state.Value = CameraState.Pan;
-                InitializeCameraFrustum(out _worldPerPixelX, out _worldPerPixelY);
+                BeginPan();
             }
 
             if (ctx.canceled)
             {
                 _state.Value = CameraState.None;
+                _hasPanStartPoint = false;
             }
         }
         
         private void HandleZoomAction(InputAction.CallbackContext ctx)
         {
-            if (!IsBusy && ctx.performed && IsPointerValidForAction)
+            if (!IsBusy && !_isStatic && ctx.performed && IsPointerValidForAction)
             {
                 _state.Value = CameraState.Zoom;
             }
@@ -320,7 +339,7 @@ namespace OC.UI
 
         private void HandleScrollAction(InputAction.CallbackContext ctx)
         {
-            if (!IsBusy && ctx.performed && IsPointerValidForAction)
+            if (!IsBusy && !_isStatic && ctx.performed && IsPointerValidForAction)
             {
                 var scroll = _scrollAction.ReadValue<Vector2>().y;
                 _distance -= scroll * _settings.ZoomSensitivity;
@@ -330,26 +349,29 @@ namespace OC.UI
 
         private void HandleFocusAction(InputAction.CallbackContext ctx)
         {
-            if (!IsBusy && ctx.performed && IsPointerValidForAction)
+            if (!IsBusy && !_isStatic && ctx.performed && IsPointerValidForAction)
             {
-                if (_target.Value == null) return;
-
-                if (_focusedOnBounds)
+                if (_focusOnSelection)
                 {
-                    Focus(_target.Value);
-                    _focusedOnBounds = false; 
+                    var selection = SelectionManager.Instance.SelectedInteractions;
+                    if (selection is { Count: > 0 })
+                    {
+                        var interactable = selection.First().Interactable;
+                        if (interactable != null) _target.Value = interactable.Component.transform;
+                    }
+                    else
+                    {
+                        _target.Value = null;
+                    }
                 }
-                else
-                {
-                    Focus(_target.Value, true);
-                    _focusedOnBounds = true;
-                }
+                
+                FocusOnTarget();
             }
         }
 
         private void HandleFollowAction(InputAction.CallbackContext ctx)
         {
-            if (!IsBusy && ctx.performed && IsPointerValidForAction)
+            if (!IsBusy && !_isStatic && ctx.performed && IsPointerValidForAction)
             {
                 if (_target.Value == null) return;
                 _isLockedToTarget.Value = true;
@@ -387,10 +409,11 @@ namespace OC.UI
         private void OrbitMode(float deltaTime)
         {
             //LOOK
-            var lookInput = _mouseAction.ReadValue<Vector2>() * _settings.LookSensitivity;
+            var lookInput = _mouseAction.ReadValue<Vector2>() * _settings.OrbitSensitivity;
             var euler = _previousPivotRotation.eulerAngles;
             var yaw = euler.y + lookInput.x;
             var pitch = NormalizeAngle(euler.x - lookInput.y);
+            pitch = Mathf.Clamp(pitch, _settings.MinPitch, _settings.MaxPitch);
             
             _targetPivotRotation = Quaternion.Euler(pitch, yaw, 0f);
             
@@ -401,20 +424,31 @@ namespace OC.UI
         private void PanMode(float deltaTime)
         {
             _isLockedToTarget.Value = false;
-            
-            var cursorDelta = _mouseAction.ReadValue<Vector2>() * _settings.PanSensitivity;
-            var positionDelta = transform.right * (cursorDelta.x * _worldPerPixelX) + transform.up * (cursorDelta.y * _worldPerPixelY);
-            
-            _targetPivotPosition = _previousPivotPosition - positionDelta;
-            
+
+            if (!_hasPanStartPoint)
+            {
+                BeginPan();
+                return;
+            }
+
+            if (!TryGetPanPoint(out var currentPoint))
+                return;
+
+            var delta = _panStartPoint - currentPoint;
+
+            _targetPivotPosition = _panStartPivotPosition + delta;
+
             Mouse.current.WrapCursorOnScreen();
         }
 
-        public void Focus(Transform target, bool useBounds = false)
+        public void FocusOnTarget()
         {
-            if (useBounds)
+            if (_isStatic) return;
+            if (_target.Value == null) return;
+            
+            if (_focusedOnBounds)
             {
-                var bounds = GetBoundingBox(target);
+                var bounds = GetBoundingBox(_target);
                 _distance = bounds.extents.magnitude * _settings.FocusMinDistance;
             }
             else
@@ -422,7 +456,8 @@ namespace OC.UI
                 _distance = _settings.FocusMinDistance;
             }
             
-            _targetPivotPosition = target.transform.position;
+            _focusedOnBounds = !_focusedOnBounds;
+            _targetPivotPosition = _target.Value.transform.position;
         }
         
         private static float NormalizeAngle(float angle)
@@ -432,7 +467,7 @@ namespace OC.UI
             return angle;
         }
 
-        public void Initialize()
+        private void Initialize()
         {
             _targetPivotPosition = transform.position + transform.rotation * Vector3.forward * _distance;
             _targetPivotRotation = transform.rotation;
@@ -440,7 +475,7 @@ namespace OC.UI
             _previousPivotRotation = _targetPivotRotation;
             _previousCameraPosition = transform.position;
             _previousCameraRotation = transform.rotation;
-            _focusedOnBounds = false;
+            _focusedOnBounds = true;
         }
 
         private void InitializeCameraFrustum(out float worldPerPixelX, out float worldPerPixelY)
@@ -475,6 +510,35 @@ namespace OC.UI
             }
             return bounds;
         } 
+        
+        private void BeginPan()
+        {
+            _isLockedToTarget.Value = false;
+
+            // Plane through pivot/target, parallel to camera view
+            _panPlane = new Plane(transform.forward, _targetPivotPosition);
+
+            _panStartPivotPosition = _targetPivotPosition;
+            _hasPanStartPoint = TryGetPanPoint(out _panStartPoint);
+        }
+
+        private bool TryGetPanPoint(out Vector3 point)
+        {
+            var mousePosition = Mouse.current.position.ReadValue();
+            if (_cameraMain)
+            {
+                var ray = _cameraMain.ScreenPointToRay(mousePosition);
+
+                if (_panPlane.Raycast(ray, out var enter))
+                {
+                    point = ray.GetPoint(enter);
+                    return true;
+                }
+            }
+
+            point = default;
+            return false;
+        }
         
         public enum CameraState
         {

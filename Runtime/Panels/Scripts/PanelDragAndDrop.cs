@@ -89,9 +89,8 @@ namespace OC.UI.Panel
             
             var targetPosInScreen = target.parent.ChangeCoordinatesTo(_screen, target.layout.position);
 
-            target.RemoveFromHierarchy();
-            _screen.Add(target);
-            target.style.position = Position.Absolute;
+            PanelManager.Instance?.AddToScreen(target);
+            
             target.style.left = targetPosInScreen.x;
             target.style.top = targetPosInScreen.y;
             target.style.right = StyleKeyword.Auto;
@@ -111,18 +110,10 @@ namespace OC.UI.Panel
             
             if (!_dragging) return;
             _dragging = false;
-            
-            var droppedOnSideBar = _sideBar.worldBound.Contains(evt.position);
 
-            if (droppedOnSideBar)
+            if (_sideBar.worldBound.Contains(evt.position))
             {
-                target.RemoveFromHierarchy();
-                _sideBar.Add(target);
-                target.style.position = Position.Relative;
-                target.style.left = StyleKeyword.Auto;
-                target.style.top = StyleKeyword.Auto;
-                target.style.right = StyleKeyword.Auto;
-                target.style.bottom = StyleKeyword.Auto;
+                PanelManager.Instance?.AddToSidebar(target);
             }
             
             evt.StopPropagation();

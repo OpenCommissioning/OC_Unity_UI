@@ -15,8 +15,7 @@ namespace OC.UI.Panel
     {
         public VisualElement Sidebar => _sidebar;
         public VisualElement Screen => _appUiRoot;
-        
-        public float DockThreshold => _dockThreshold;
+        public IReadOnlyList<IPanel> ActivePanels => _activePanels;
         
         [Header("Component Panels")]
         [SerializeField]
@@ -72,6 +71,7 @@ namespace OC.UI.Panel
         
         public void AddToScreen(VisualElement visualElement)
         {
+            visualElement.RemoveFromHierarchy();
             _appUiRoot.Add(visualElement);
             visualElement.style.position = Position.Absolute;
             visualElement.RemoveFromClassList(USS_DOCKED_PANEL);
@@ -80,8 +80,13 @@ namespace OC.UI.Panel
         
         public void AddToSidebar(VisualElement visualElement)
         {
+            visualElement.RemoveFromHierarchy();
             _sidebar.Add(visualElement);
             visualElement.style.position = Position.Relative;
+            visualElement.style.left = StyleKeyword.Auto;
+            visualElement.style.top = StyleKeyword.Auto;
+            visualElement.style.right = StyleKeyword.Auto;
+            visualElement.style.bottom = StyleKeyword.Auto;
             visualElement.AddToClassList(USS_DOCKED_PANEL);
             RefreshScrollViewStyle();
         }
@@ -134,6 +139,9 @@ namespace OC.UI.Panel
             
             panel.Enable = true;
             panel.Bind(interaction);
+            panel.OnCloseClicked += DisablePanel;
+            panel.OnFocusClicked += FocusPanelObject;
+            
             AddToSidebar(panel.Root);
         }
 
@@ -141,7 +149,23 @@ namespace OC.UI.Panel
         {
             _activePanels.Remove(panel);
             panel.Enable = false;
+            panel.Pinned = false;
             panel.Unbind();
+            panel.OnCloseClicked -= DisablePanel;
+            panel.OnFocusClicked -= FocusPanelObject;
+        }
+
+        private void FocusPanelObject(IPanel panel)
+        {
+            if (panel.Interaction.Interactable != null)
+            {
+                var activeCamera = CamerasManager.Instance.ActiveCamera;
+                if (activeCamera != null)
+                {
+                    activeCamera.Target.Value = panel.Interaction.Interactable.Component.transform;
+                    activeCamera.FocusOnTarget();
+                }
+            }
         }
 
         private IPanel CreateOrGetPanel(Type type)

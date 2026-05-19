@@ -37,8 +37,7 @@ namespace OC.UI.Panel
         private const string USS_UNITY_BUTTON = "unity-button";
         private const string USS_BUTTON_ACTIVE = "panel-field-button_active";
         
-        private IProperty<bool> _propertyValue;
-        private IProperty<bool> _propertyActivator;
+        private IProperty<bool> _property;
         
         private readonly MouseEvents _mouseEvents;
         
@@ -63,11 +62,19 @@ namespace OC.UI.Panel
 
         public VisualElement Bind(IProperty<bool> property)
         {
-            _mouseEvents.Up += () => property.Value = false;
-            _mouseEvents.Down += () => property.Value = true;
-            
-            property.OnValueChanged += SetValueWithoutNotify;
-            Value = property.Value;
+            _property = property;
+            _mouseEvents.Up += OnMouseUpEvent;
+            _mouseEvents.Down += OnMouseDownEvent;
+            _property.Subscribe(SetValueWithoutNotify);
+            return this;
+        }
+
+        public VisualElement Unbind()
+        {
+            _mouseEvents.Up -= OnMouseUpEvent;
+            _mouseEvents.Down -= OnMouseDownEvent;
+            _property?.Unsubscribe(SetValueWithoutNotify);
+            _property = null;
             return this;
         }
         
@@ -75,6 +82,16 @@ namespace OC.UI.Panel
         {
             _value = value;
             EnableInClassList(USS_BUTTON_ACTIVE, value);
+        }
+        
+        private void OnMouseDownEvent()
+        {
+            _property.Value = true;
+        }
+
+        private void OnMouseUpEvent()
+        {
+            _property.Value = false;
         }
     }
 }

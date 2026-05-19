@@ -72,10 +72,10 @@ namespace OC.UI
             Enable(false);
         }
 
-        private void Enable(bool enalbe)
+        private void Enable(bool enable)
         {
             if (_container == null) return;
-            _enabled = enalbe;
+            _enabled = enable;
             _container.EnableInClassList("show", _enabled);
             _container.EnableInClassList("hide", !_enabled);
         }

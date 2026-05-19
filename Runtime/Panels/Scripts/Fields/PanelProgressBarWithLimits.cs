@@ -146,13 +146,16 @@ namespace OC.UI.Panel
 
         public void Bind(IPropertyReadOnly<float> property, float low = 0, float high = 1)
         {
-            _property = property;
-            
             lowValue = low;
             highValue = high;
+            
+            _property = property;
+            _property.Subscribe(OnPropertyValueChanged);
+        }
 
-            _property.OnValueChanged += OnPropertyValueChanged;
-            OnPropertyValueChanged(_property.Value);
+        public void Unbind()
+        {
+            _property?.Unsubscribe(OnPropertyValueChanged);
         }
         
         private void OnPropertyValueChanged(float propertyValue)

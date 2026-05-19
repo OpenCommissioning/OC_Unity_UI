@@ -68,12 +68,12 @@ namespace OC.UI.Panel
             _pathField.SetValueWithoutNotify(_link.ClientPath);
             
             Status = _link.Connected.Value;
-            _link.Connected.OnValueChanged += OnConnectedChanged;
+            _link.Connected.Subscribe(OnConnectedChanged);
         }
 
         public void Unbind()
         {
-            if(_link != null)  _link.Connected.OnValueChanged -= OnConnectedChanged;
+            _link?.Connected.Unsubscribe(OnConnectedChanged);
         }
         
         private void OnConnectedChanged(bool value)

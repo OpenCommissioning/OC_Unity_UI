@@ -64,9 +64,9 @@ namespace OC.UI.Panel
         
         protected abstract void Create();
 
-        public event Action OnFocusClicked;
-        public event Action OnPinClicked;
-        public event Action OnCloseClicked;
+        public event Action<IPanel> OnFocusClicked;
+        public event Action<IPanel> OnPinClicked;
+        public event Action<IPanel> OnCloseClicked;
 
         public Panel()
         {
@@ -88,8 +88,8 @@ namespace OC.UI.Panel
             _buttonClose = header.Q<Button>("close");
             _buttonPin = header.Q<Button>("pin");
             
-            _buttonFocus.clicked += () => { OnFocusClicked?.Invoke(); };
-            _buttonClose.clicked += () => { OnPinClicked?.Invoke(); };
+            _buttonFocus.clicked += () => { OnFocusClicked?.Invoke(this); };
+            _buttonClose.clicked += () => { OnCloseClicked?.Invoke(this); };
             _buttonPin.clicked += OnPinClickedAction;
             
             // ReSharper disable once VirtualMemberCallInConstructor
@@ -136,7 +136,7 @@ namespace OC.UI.Panel
         {
             Pinned = !Pinned;
             _buttonPin.EnableInClassList(USS_BUTTON_ACTIVE, Pinned);
-            OnCloseClicked?.Invoke();
+            OnPinClicked?.Invoke(this);
         }
     }
 }

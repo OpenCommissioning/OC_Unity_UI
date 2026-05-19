@@ -14,16 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: OC.UI::OC.UI.CameraSettings
   MoveSpeed: 10
   FastMoveMultiplier: 4
-  LookSensitivity: 0.15
-  OrbitSensitivity: 0.25
+  LookSensitivity: 0.5
+  OrbitSensitivity: 0.5
   PanSensitivity: 1
   ZoomSensitivity: 1
-  DefaultDistance: 8
   MinDistance: 0.5
   MaxDistance: 200
   MinPitch: -85
   MaxPitch: 85
-  FocusDistanceMultiplier: 2.2
   FocusMinDistance: 2
   PositionLerpSpeed: 15
   RotationLerpSpeed: 15

@@ -6,11 +6,11 @@ namespace OC.UI
     public class CameraSettings : ScriptableObject
     {
         [Header("Movement")]
-        public float MoveSpeed = 8f;
+        public float MoveSpeed = 10f;
         public float FastMoveMultiplier = 4f;
         
         [Header("Rotation")]
-        public float LookSensitivity = 0.15f;
+        public float LookSensitivity = 0.5f;
         public float OrbitSensitivity = 0.25f;
         
         [Header("Pan")]
@@ -20,7 +20,6 @@ namespace OC.UI
         public float ZoomSensitivity = 1f;
         
         [Header("Distance")]
-        public float DefaultDistance = 8f;
         public float MinDistance = 0.5f;
         public float MaxDistance = 200f;
         

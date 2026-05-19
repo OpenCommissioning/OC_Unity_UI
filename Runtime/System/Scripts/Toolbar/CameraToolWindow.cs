@@ -1,57 +1,53 @@
 using System.Collections.Generic;
-using System.Linq;
 using OC.UI.Panel;
-using UnityEngine;
 
 namespace OC.UI.Toolbar
 {
     public class CameraToolWindow : ToolbarWindow
     {
         private List<CameraController> _cameras;
-        private List<PanelToggleSlide> _toggles = new ();
+        private readonly List<PanelToggleSlide> _toggles = new ();
 
         protected override void AddContent(SubsystemPanel subsystemPanel)
         {
-#if UNITY_6000_3_OR_NEWER
-            _cameras = FindObjectsByType<CameraController>(FindObjectsInactive.Exclude).ToList();
-#else
-            _cameraControllers = FindObjectsByType<CameraController>(FindObjectsSortMode.InstanceID).ToList();
-#endif  
+            _cameras = CamerasManager.Instance.Cameras;
 
             for (var i = 0; i < _cameras.Count; i++)
             {
                 var toggle = new PanelToggleSlide(_cameras[i].name);
                 var index = i;
-                toggle.OnValueChanged += b =>
+                toggle.OnValueChanged += isOn =>
                 {
-                    SetVirtualCameraState(index, b);
+                    SetCameraState(index, isOn);
                 };
                 _toggles.Add(toggle);
                 subsystemPanel.Add(toggle);
             }
 
-            DisableAll();
-            SetVirtualCameraState(0, true);
+            if (_cameras.Count > 0)
+            {
+                SetCameraState(0, true);
+            }
         }
 
-        private void SetVirtualCameraState(int index, bool enable)
+        private void SetCameraState(int index, bool enable)
         {
-            DisableAll();
-            _toggles[index].SetValueWithoutNotify(true);
-            _cameras[index].enabled = enable;
-        }
-
-        private void DisableAll()
-        {
-            foreach (var cameraController in _cameras)
+            if (!enable)
             {
-                cameraController.enabled = false; 
+                if (index == CamerasManager.Instance.ActiveCameraIndex)
+                {
+                    _toggles[index].SetValueWithoutNotify(true);
+                }
+                
+                return;
+            }
+            
+            for (var i = 0; i < _toggles.Count; i++)
+            {
+                _toggles[i].SetValueWithoutNotify(i == index);
             }
 
-            foreach (var toggle in _toggles)
-            {
-                toggle.SetValueWithoutNotify(false);
-            }
+            CamerasManager.Instance.SetCameraActive(index);
         }
     }
 } 

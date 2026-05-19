@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 324930537873914786}
   - component: {fileID: 4788599389403852118}
-  - component: {fileID: 9197280129592338667}
   m_Layer: 0
   m_Name: Interactions
   m_TagString: Untagged
@@ -52,18 +51,6 @@ MonoBehaviour:
   OnSettingsChanged:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &9197280129592338667
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 324930537873914785}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 95852f97c59be444491852fe8d13a221, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &6627891214244880613
 GameObject:
   m_ObjectHideFlags: 0
@@ -116,7 +103,6 @@ MonoBehaviour:
     m_Bits: 1024
   _click: {fileID: 3001919216989983466, guid: 6221e7b8a5138e244916faf73a7bc1f6, type: 3}
   _pointer: {fileID: -1654692200621890270, guid: 6221e7b8a5138e244916faf73a7bc1f6, type: 3}
-  _selectModifier: 306
   _debug: 0
 --- !u!1001 &7485353561520391709
 PrefabInstance:
