@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using OC.Interactions;
 using OC.UI.Interactions;
@@ -8,46 +7,11 @@ using UnityEngine.InputSystem;
 
 namespace OC.UI.TransformHandles
 {
-    public class RuntimeTransformHandle : MonoBehaviour
+    public class RuntimeTransformHandle : MonoBehaviourSingleton<RuntimeTransformHandle>
     {
-        public static RuntimeTransformHandle Instance;
-
-        public event Action<ToolType> OnToolChanged;
-        public event Action<HandlePosition> OnHandlePositionChanged;
-        public event Action<HandleRotation> OnHandleRotationChanged;
-
-        public ToolType ToolType
-        {
-            get => _toolType;
-            set
-            {
-                if (_toolType == value) return;
-                _toolType = value;
-                OnToolChanged?.Invoke(value);
-            }
-        }
-
-        public HandlePosition HandlePosition
-        {
-            get => _handlePosition;
-            set
-            {
-                if (_handlePosition == value) return;
-                _handlePosition = value;
-                OnHandlePositionChanged?.Invoke(value);
-            }
-        }
-
-        public HandleRotation HandleRotation
-        {
-            get => _handleRotation;
-            set
-            {
-                if (_handleRotation == value) return;
-                _handleRotation = value;
-                OnHandleRotationChanged?.Invoke(_handleRotation);
-            }
-        }
+        public IProperty<ToolType> Tool => _toolType;
+        public IProperty<PivotMode> Pivot => _pivotMode;
+        public IProperty<CoordinateSpace> Coordinate => _coordinateSpace;
 
         public List<Transform> Targets
         {
@@ -56,11 +20,11 @@ namespace OC.UI.TransformHandles
         }
 
         [SerializeField] 
-        private ToolType _toolType = ToolType.View;
+        private Property<ToolType> _toolType = new (ToolType.View);
         [SerializeField] 
-        private HandlePosition _handlePosition = HandlePosition.Pivot;
+        private Property<PivotMode> _pivotMode = new (PivotMode.Pivot);
         [SerializeField] 
-        private HandleRotation _handleRotation = HandleRotation.Local;
+        private Property<CoordinateSpace> _coordinateSpace = new(CoordinateSpace.Local);
 
         [HideInInspector] 
         public Camera HandleCamera;
@@ -89,12 +53,6 @@ namespace OC.UI.TransformHandles
         private Camera _camera;
         private InputAction _inputActionClick;
         private InputAction _inputActionPointer;
-
-        private void Awake()
-        {
-            if (Instance == null) Instance = this;
-            else if (Instance != this) Destroy(gameObject);
-        }
 
         private void Start()
         {
@@ -198,7 +156,7 @@ namespace OC.UI.TransformHandles
                 return;
             }
 
-            switch (_toolType)
+            switch (_toolType.Value)
             {
                 case ToolType.View:
                     _positionHandle.SetActive(false);
@@ -227,19 +185,19 @@ namespace OC.UI.TransformHandles
         {
             if (_targets.Count > 0)
             {
-                if (_handlePosition == HandlePosition.Center && !_rotating)
+                if (_pivotMode == PivotMode.Center && !_rotating)
                 {
                     transform.position = GetCommonCenter();
                     transform.rotation = _targets.Last().rotation;
                 }
-                else if (_handlePosition == HandlePosition.Pivot)
+                else if (_pivotMode == PivotMode.Pivot)
                 {
                     transform.position = _targets.Last().position;
                     transform.rotation = _targets.Last().rotation;
                 }
             }
 
-            if (_handleRotation == HandleRotation.World)
+            if (_coordinateSpace == CoordinateSpace.World)
             {
                 transform.rotation = Quaternion.identity;
             }
@@ -312,13 +270,13 @@ public enum ToolType
     Rotation
 }
 
-public enum HandlePosition
+public enum PivotMode
 {
     Pivot,
     Center
 }
 
-public enum HandleRotation
+public enum CoordinateSpace
 {
     Local,
     World

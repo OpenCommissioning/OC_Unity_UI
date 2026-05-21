@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using OC.Interactions;
+using OC.UI.Interactions;
 using OC.UI.TransformHandles;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -8,10 +10,8 @@ namespace OC.UI.Toolbar
 {
     [RequireComponent(typeof(UIDocument))]
     [DisallowMultipleComponent]
-    public class EditorToolsPanel : MonoBehaviour
+    public class EditorToolsPanel : MonoBehaviourSingleton<EditorToolsPanel>
     {
-        public static EditorToolsPanel Instance { get; private set; }
-        
         public bool Enable
         {
             get => _enable;
@@ -50,12 +50,6 @@ namespace OC.UI.Toolbar
         private VisualElement _toolbar;
         private const string UXML = "UXML/toolbar_editorTools";
         private const string STYLE_SHEET = "StyleSheet/toolbar";
-
-        private void Awake()
-        {
-            if (Instance == null) Instance = this;
-            else if (Instance != this) Destroy(gameObject);
-        }
         
         private void Start()
         {
@@ -79,32 +73,31 @@ namespace OC.UI.Toolbar
             _global.DefaultIcon = _globalDefaultIcon;
             _global.ActiveIcon = _globalActiveIcon;
 
-            SetTool(RuntimeTransformHandle.Instance.ToolType);
-            SetHandlePosition(RuntimeTransformHandle.Instance.HandlePosition);
-            SetHandleRotation(RuntimeTransformHandle.Instance.HandleRotation);
-
-            _view.RegisterCallback<ChangeEvent<bool>>(_ => RuntimeTransformHandle.Instance.ToolType = ToolType.View);
-            _move.RegisterCallback<ChangeEvent<bool>>(_ => RuntimeTransformHandle.Instance.ToolType = ToolType.Move);
-            _rotate.RegisterCallback<ChangeEvent<bool>>(_ => RuntimeTransformHandle.Instance.ToolType = ToolType.Rotation);
+            _view.RegisterCallback<ChangeEvent<bool>>(_ => RuntimeTransformHandle.Instance.Tool.Value = ToolType.View);
+            _move.RegisterCallback<ChangeEvent<bool>>(_ => RuntimeTransformHandle.Instance.Tool.Value = ToolType.Move);
+            _rotate.RegisterCallback<ChangeEvent<bool>>(_ => RuntimeTransformHandle.Instance.Tool.Value= ToolType.Rotation);
             _center.RegisterCallback<ChangeEvent<bool>>(evt => SetHandlePosition(evt.newValue));
             _global.RegisterCallback<ChangeEvent<bool>>(evt => SetHandleRotation(evt.newValue));
-
-            RuntimeTransformHandle.Instance.OnToolChanged += SetTool;
-            RuntimeTransformHandle.Instance.OnHandlePositionChanged += SetHandlePosition;
-            RuntimeTransformHandle.Instance.OnHandleRotationChanged += SetHandleRotation;
             
-            //TODO
-            //UserInteractionManager.Instance.OnInteractionEnableChanged += SetEnable;
-            //Tools panel need to be active only for editable elements
+            RuntimeTransformHandle.Instance.Tool.Subscribe(SetTool);
+            RuntimeTransformHandle.Instance.Pivot.Subscribe(SetHandlePosition);
+            RuntimeTransformHandle.Instance.Coordinate.Subscribe(SetHandleRotation);
+            SelectionManager.Instance.OnSelectionChanged += OnSelectionChanged;
 
             SetEnable(false);
         }
-
+        
         private void OnDestroy()
         {
-            RuntimeTransformHandle.Instance.OnToolChanged -= SetTool;
-            RuntimeTransformHandle.Instance.OnHandlePositionChanged -= SetHandlePosition;
-            RuntimeTransformHandle.Instance.OnHandleRotationChanged -= SetHandleRotation;
+            RuntimeTransformHandle.Instance.Tool.Unsubscribe(SetTool);
+            RuntimeTransformHandle.Instance.Pivot.Unsubscribe(SetHandlePosition);
+            RuntimeTransformHandle.Instance.Coordinate.Unsubscribe(SetHandleRotation);
+            SelectionManager.Instance.OnSelectionChanged -= OnSelectionChanged;
+        }
+        
+        private void OnSelectionChanged(List<Interaction> interactions)
+        {
+            SetEnable(interactions.Count > 0);
         }
 
         private void SetEnable(bool value)
@@ -113,27 +106,27 @@ namespace OC.UI.Toolbar
             _toolbar.style.display = _enable
                 ? new StyleEnum<DisplayStyle>(DisplayStyle.Flex)
                 : new StyleEnum<DisplayStyle>(DisplayStyle.None);
-            if (!_enable) RuntimeTransformHandle.Instance.ToolType = ToolType.View;
+            if (!_enable) RuntimeTransformHandle.Instance.Tool.Value = ToolType.View;
         }
 
         private void SetHandlePosition(bool enable)
         {
-            RuntimeTransformHandle.Instance.HandlePosition = enable ? HandlePosition.Center : HandlePosition.Pivot;
+            RuntimeTransformHandle.Instance.Pivot.Value = enable ? PivotMode.Center : PivotMode.Pivot;
         }
         
         private void SetHandleRotation(bool enable)
         {
-            RuntimeTransformHandle.Instance.HandleRotation = enable ? HandleRotation.World : HandleRotation.Local;
+            RuntimeTransformHandle.Instance.Coordinate.Value = enable ? CoordinateSpace.World : CoordinateSpace.Local;
         }
 
-        private void SetHandlePosition(HandlePosition handlePosition)
+        private void SetHandlePosition(PivotMode pivotMode)
         {
-            _center.SetValueWithoutNotify(handlePosition == HandlePosition.Center);
+            _center.SetValueWithoutNotify(pivotMode == PivotMode.Center);
         }
         
-        private void SetHandleRotation(HandleRotation handleRotation)
+        private void SetHandleRotation(CoordinateSpace coordinateSpace)
         {
-            _global.SetValueWithoutNotify(handleRotation == HandleRotation.World);
+            _global.SetValueWithoutNotify(coordinateSpace == CoordinateSpace.World);
         }
 
         private void SetTool(ToolType toolType)

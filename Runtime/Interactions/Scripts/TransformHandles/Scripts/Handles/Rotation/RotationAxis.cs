@@ -34,7 +34,7 @@ namespace OC.UI.TransformHandles
                 angleRadians = angleDegrees * Mathf.Deg2Rad;
             }
             
-            if (_parentTransformHandle.HandleRotation == HandleRotation.Local)
+            if (_parentTransformHandle.Coordinate.Value == CoordinateSpace.Local)
             {
                 for (int i = 0; i < _parentTransformHandle.Targets.Count; i++)
                 {
@@ -83,14 +83,14 @@ namespace OC.UI.TransformHandles
 
         public void SetStartRotations()
         {
-            _startRotation = _parentTransformHandle.HandleRotation == HandleRotation.Local ? _parentTransformHandle.transform.localRotation : _parentTransformHandle.transform.rotation;
+            _startRotation = _parentTransformHandle.Coordinate.Value == CoordinateSpace.Local ? _parentTransformHandle.transform.localRotation : _parentTransformHandle.transform.rotation;
 
             foreach (Transform target in _parentTransformHandle.Targets)
             {
                 _targetStartRotations.Add(target.rotation);
             }
             
-            if (_parentTransformHandle.HandleRotation == HandleRotation.Local)
+            if (_parentTransformHandle.Coordinate.Value == CoordinateSpace.Local)
             {
                 _rotatedAxis = _startRotation * _axis;
             }

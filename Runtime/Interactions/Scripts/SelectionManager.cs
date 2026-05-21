@@ -13,6 +13,7 @@ namespace OC.UI.Interactions
     {
         public List<Interaction> SelectedInteractions => _selectedInteractions;
         public List<GameObject> HitGameObjects => _hitGameObjects;
+        public List<GameObject> HitHandles => _hitHandles;
         
         public event Action<List<Interaction>> OnSelectionChanged;
 
@@ -36,6 +37,8 @@ namespace OC.UI.Interactions
         private bool _enable;
         [SerializeField] 
         private List<GameObject> _hitGameObjects = new ();
+        [SerializeField] 
+        private List<GameObject> _hitHandles = new ();
         [SerializeField]
         private List<Interaction> _selectedInteractions = new();
         
@@ -60,7 +63,6 @@ namespace OC.UI.Interactions
         
         private Camera _camera;
         private GameObject _closestHitGameObject;
-        private bool _hitHandle;
         
         private InputAction _clickAction;
         private InputAction _pointerAction;
@@ -102,7 +104,7 @@ namespace OC.UI.Interactions
         private void HandleClickAction(InputAction.CallbackContext context)
         {
             if (!_enable) return;
-            if (_hitHandle) return;
+            if (_hitHandles.Count > 0) return;
             if (AppUI.Instance.IsPointerOverUI) return;
             
             if (_debug) Debug.Log($"Handle Click action: {context.phase}");
@@ -147,16 +149,16 @@ namespace OC.UI.Interactions
                 }
             }
         }
-        
-        public void HandleRaycastHits()
+
+        private void HandleRaycastHits()
         {
             Array.Clear(_raycastHits, 0, _hitsCount);
             _hitGameObjects.Clear();
-            _hitHandle = false;
+            _hitHandles.Clear();
             
             var mousePosition = _pointerAction.ReadValue<Vector2>();
             var ray = _camera.ScreenPointToRay(mousePosition);
-            _hitsCount = Physics.RaycastNonAlloc(ray.origin, ray.direction, _raycastHits, MAX_DISTANCE, _layerMask);
+            _hitsCount = Physics.RaycastNonAlloc(ray.origin, ray.direction, _raycastHits, MAX_DISTANCE, _layerMask.value);
 
             if (_hitsCount == 0)
             {
@@ -170,10 +172,12 @@ namespace OC.UI.Interactions
                 if (raycast.distance < OC.Utils.TOLERANCE) continue;
                 if (raycast.collider.gameObject.CompareTag($"Handles"))
                 {
-                    _hitHandle = true;
-                    continue;
+                    _hitHandles.Add(raycast.collider.gameObject);
                 }
-                _hitGameObjects.Add(raycast.collider.gameObject);
+                else
+                {
+                    _hitGameObjects.Add(raycast.collider.gameObject);
+                }
             }
 
             if (_hitGameObjects.Count < 1)
@@ -183,17 +187,18 @@ namespace OC.UI.Interactions
             }
             
             if (_hitGameObjects.First() == _closestHitGameObject) return;
-            if (_closestHitGameObject != null) PointerExitEvent(_closestHitGameObject);
+            if (_closestHitGameObject is not null) PointerExitEvent(_closestHitGameObject);
 
             _closestHitGameObject = _hitGameObjects.First();
             PointerEnterEvent(_closestHitGameObject);
         }
 
-        public void ResetHit()
+        private void ResetHit()
         {
             PointerUpEvent(_closestHitGameObject);
             PointerExitEvent(_closestHitGameObject);
             _hitGameObjects.Clear();
+            //_hitHandles.Clear();
             _closestHitGameObject = null;
         }
 
@@ -205,15 +210,8 @@ namespace OC.UI.Interactions
             if (interaction.State.Value.HasFlag(InteractionState.Disabled)) return;
             if (!interaction.Mode.HasFlag(Interaction.InteractionMode.Selection)) return;
 
-            if (multiple)
-            {
-                TrySelection(interaction);
-            }
-            else
-            {
-                ClearSelection();
-                TrySelection(interaction);
-            }
+            if (!multiple) ClearSelection();
+            TrySelection(interaction);
         }
         
         private void TrySelection(Interaction interaction)

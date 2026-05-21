@@ -61,6 +61,8 @@ namespace OC.UI.Panel
         private readonly Button _buttonFocus;
         private readonly Button _buttonPin;
         private readonly Button _buttonClose;
+
+        private readonly TransformComponent _transformComponent;
         
         protected abstract void Create();
 
@@ -92,6 +94,8 @@ namespace OC.UI.Panel
             _buttonClose.clicked += () => { OnCloseClicked?.Invoke(this); };
             _buttonPin.clicked += OnPinClickedAction;
             
+            Add(_transformComponent = new TransformComponent());
+            
             // ReSharper disable once VirtualMemberCallInConstructor
             Create();
         }
@@ -114,6 +118,8 @@ namespace OC.UI.Panel
             
             Title = _interaction.Target.name;
             
+            _transformComponent.Bind(_target.transform);
+            
             InternalBind(_target);
         }
 
@@ -121,6 +127,7 @@ namespace OC.UI.Panel
         {
             if (_target == null) return;
             InternalUnbind();
+            _transformComponent.Unbind();
         }
 
         protected abstract void InternalBind(T component); 

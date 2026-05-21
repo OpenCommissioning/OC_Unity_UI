@@ -6,19 +6,24 @@ namespace OC.UI.TransformHandles
     {
         [SerializeField]
         protected Vector3 _axis;
-        protected Vector3 _startPosition;
+        
+        private Vector3 _startPosition;
         private Vector3 _interactionOffset;
         private Ray _axisRay;
+        
         public override void StartInteraction(Vector3 hitPoint)
         {
             base.StartInteraction(hitPoint);
             _startPosition = _parentTransformHandle.transform.position;
-            foreach (Transform target in _parentTransformHandle.Targets)
+            
+            foreach (var target in _parentTransformHandle.Targets)
             {
                 _targetStartPositions.Add(target.position);
             }
-            Vector3 raxis = _parentTransformHandle.HandleRotation == HandleRotation.Local ? _parentTransformHandle.transform.rotation * _axis : _axis;
-            _axisRay = new Ray(_startPosition, raxis);
+            
+            var direction = _parentTransformHandle.Coordinate.Value == CoordinateSpace.Local ? _parentTransformHandle.transform.rotation * _axis : _axis;
+            
+            _axisRay = new Ray(_startPosition, direction);
             Ray cameraRay = Camera.main.ScreenPointToRay(Input.mousePosition);
             float closestPoint = HandleMathUtils.ClosestPointOnRay(_axisRay, cameraRay);
             Vector3 axisHitPoint = _axisRay.GetPoint(closestPoint);

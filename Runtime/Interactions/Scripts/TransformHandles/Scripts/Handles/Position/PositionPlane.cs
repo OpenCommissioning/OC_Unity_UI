@@ -16,12 +16,12 @@ namespace OC.UI.TransformHandles
         private void Update()
         {
             Vector3 axis1 = _axis1;
-            Vector3 raxis1 = _parentTransformHandle.HandleRotation == HandleRotation.Local ? _parentTransformHandle.transform.rotation * axis1 : axis1;
+            Vector3 raxis1 = _parentTransformHandle.Coordinate.Value == CoordinateSpace.Local ? _parentTransformHandle.transform.rotation * axis1 : axis1;
             float angle1 = Vector3.Angle(_parentTransformHandle.HandleCamera.transform.forward, raxis1);
             if (angle1 < 90) axis1 = -axis1;
 
             Vector3 axis2 = _axis2;
-            Vector3 raxis2 = _parentTransformHandle.HandleRotation == HandleRotation.Local ? _parentTransformHandle.transform.rotation * axis2 : axis2;
+            Vector3 raxis2 = _parentTransformHandle.Coordinate.Value == CoordinateSpace.Local ? _parentTransformHandle.transform.rotation * axis2 : axis2;
             float angle2 = Vector3.Angle(_parentTransformHandle.HandleCamera.transform.forward, raxis2);
             if (angle2 < 90) axis2 = -axis2;
 
@@ -29,7 +29,7 @@ namespace OC.UI.TransformHandles
         }
         public override void StartInteraction(Vector3 point)
         {
-            Vector3 rperp = _parentTransformHandle.HandleRotation == HandleRotation.Local ? _parentTransformHandle.transform.rotation * _perpendicularAxis : _perpendicularAxis;
+            Vector3 rperp = _parentTransformHandle.Coordinate.Value == CoordinateSpace.Local ? _parentTransformHandle.transform.rotation * _perpendicularAxis : _perpendicularAxis;
 
             _plane = new Plane(rperp, _parentTransformHandle.transform.position);
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
