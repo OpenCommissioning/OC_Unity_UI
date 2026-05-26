@@ -32,7 +32,7 @@ namespace OC.UI.Editor
             var result = gameObject.GetComponent<T>();
             if (result == null)
             {
-                result = Undo.AddComponent<T>(gameObject);
+                result = UnityEditor.Undo.AddComponent<T>(gameObject);
             }
             return result;
         }

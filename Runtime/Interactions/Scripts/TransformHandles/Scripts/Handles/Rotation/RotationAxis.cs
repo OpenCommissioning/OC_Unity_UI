@@ -39,6 +39,7 @@ namespace OC.UI.TransformHandles
                 for (int i = 0; i < _parentTransformHandle.Targets.Count; i++)
                 {
                     _parentTransformHandle.Targets[i].transform.rotation = _targetStartRotations[i] * Quaternion.AngleAxis(angleDegrees, _axis);
+                    _transformUndoActions[i].Capture(_parentTransformHandle.Targets[i].transform);
                 }
             }
             else
@@ -46,6 +47,7 @@ namespace OC.UI.TransformHandles
                 for (int i = 0; i < _parentTransformHandle.Targets.Count; i++)
                 {
                     _parentTransformHandle.Targets[i].transform.RotateAround(_parentTransformHandle.transform.position, _axis, angleDegrees);
+                    _transformUndoActions[i].Capture(_parentTransformHandle.Targets[i].transform);
                 }
                 CalculateTangents(mousePosition, hitPoint);
             }

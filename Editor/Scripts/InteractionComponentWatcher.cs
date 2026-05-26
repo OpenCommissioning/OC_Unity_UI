@@ -21,7 +21,7 @@ namespace OC.UI.Editor
             {
                 if (gameObject.GetComponent<Outline>() == null)
                 {
-                    Undo.AddComponent<Outline>(gameObject);
+                    UnityEditor.Undo.AddComponent<Outline>(gameObject);
                     Logging.Logger.Log(LogType.Log, $"Added Outline to {gameObject.name}", gameObject);
                 }
             }

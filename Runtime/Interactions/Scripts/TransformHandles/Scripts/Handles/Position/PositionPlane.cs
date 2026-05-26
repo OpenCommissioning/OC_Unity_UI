@@ -56,7 +56,9 @@ namespace OC.UI.TransformHandles
             Vector3 offset = hitPoint + _interactionOffset - _startPosition;
             for (int i = 0; i < _parentTransformHandle.Targets.Count; i++)
             {
-                _parentTransformHandle.Targets[i].transform.position = _targetStartPositions[i] + offset;
+                var newPosition = _targetStartPositions[i] + offset;
+                _parentTransformHandle.Targets[i].transform.position = newPosition;
+                _transformUndoActions[i].NewPosition = newPosition;
             }
         }
         

@@ -1,3 +1,4 @@
+using OC.UI.Undo;
 using UnityEngine;
 
 namespace OC.UI.TransformHandles
@@ -16,6 +17,7 @@ namespace OC.UI.TransformHandles
             base.StartInteraction(mousePosition, hitPoint);
             _startPosition = _parentTransformHandle.transform.position;
             
+            
             foreach (var target in _parentTransformHandle.Targets)
             {
                 _targetStartPositions.Add(target.position);
@@ -28,6 +30,7 @@ namespace OC.UI.TransformHandles
             float closestPoint = HandleMathUtils.ClosestPointOnRay(_axisRay, cameraRay);
             Vector3 axisHitPoint = _axisRay.GetPoint(closestPoint);
             _interactionOffset = _startPosition - axisHitPoint;
+            
         }
         public override void Interact(Vector3 mousePosition)
         {
@@ -40,7 +43,9 @@ namespace OC.UI.TransformHandles
 
             for (int i = 0; i < _parentTransformHandle.Targets.Count; i++)
             {
-                _parentTransformHandle.Targets[i].transform.position = _targetStartPositions[i] + offset;
+                var newPosition = _targetStartPositions[i] + offset;
+                _parentTransformHandle.Targets[i].transform.position = newPosition;
+                _transformUndoActions[i].NewPosition = newPosition;
             }
         }
         public override void EndInteraction(Vector3 mousePosition)

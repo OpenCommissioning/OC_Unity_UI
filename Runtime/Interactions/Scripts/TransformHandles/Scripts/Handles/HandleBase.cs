@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using OC.UI.Undo;
 using UnityEngine;
 
 namespace OC.UI.TransformHandles
@@ -22,6 +23,9 @@ namespace OC.UI.TransformHandles
         
         protected Camera _camera;
 
+        private readonly UndoCommandGroup _undoCommandGroup = new ();
+        protected readonly List<TransformUndoAction> _transformUndoActions = new ();
+
         private void Awake()
         {
             _camera = Camera.main;
@@ -38,6 +42,19 @@ namespace OC.UI.TransformHandles
         public virtual void StartInteraction(Vector3 mousePosition, Vector3 hitPoint)
         {
             _isInteracting = true;
+            
+            _undoCommandGroup.Clear();
+            _transformUndoActions.Clear();
+            
+            foreach (var target in _parentTransformHandle.Targets)
+            {
+                _transformUndoActions.Add(new TransformUndoAction(target));
+            }
+
+            foreach (var command in _transformUndoActions)
+            {
+                _undoCommandGroup.Add(command);
+            }
         }
         
         public virtual void Interact(Vector3 mousePosition){}
@@ -46,6 +63,8 @@ namespace OC.UI.TransformHandles
         {
             _isInteracting = false;
             SetColor(_defaultColor);
+            
+            _undoCommandGroup.Execute();
         }
     }
 }
