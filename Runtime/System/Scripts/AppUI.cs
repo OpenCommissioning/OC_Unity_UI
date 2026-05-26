@@ -36,8 +36,6 @@ namespace OC.UI
         private InputActionReference _cancel;
         [SerializeField]
         private InputActionReference _window;
-        [SerializeField]
-        private InputActionReference _delete;
         
         private VisualElement _root;
         private EventSystem _eventSystem;
@@ -46,25 +44,17 @@ namespace OC.UI
         
         private InputAction _cancelAction;
         private InputAction _windowAction;
-        private InputAction _deleteAction;
 
         protected new void Awake()
         {
             base.Awake();
             Initialize();
-            
-            
         }
 
         private void OnEnable()
         {
-            _deleteAction = _delete.action;
             _cancelAction = _cancel.action;
             _windowAction = _window.action;
-            
-            _deleteAction.started += CancelAction;
-            _deleteAction.performed += CancelAction;
-            _deleteAction.canceled += CancelAction;
             
             _cancelAction.started += CancelAction;
             _cancelAction.performed += CancelAction;
@@ -76,18 +66,10 @@ namespace OC.UI
             
             _cancelAction?.Enable();
             _windowAction?.Enable();
-            _deleteAction?.Enable();
         }
 
         private void OnDisable()
         {
-            if (_deleteAction != null)
-            {
-                _deleteAction.started -= CancelAction;
-                _deleteAction.performed -= CancelAction;
-                _deleteAction.canceled -= CancelAction;
-            }
-
             if (_cancelAction != null)
             {
                 _cancelAction.started -= CancelAction;
@@ -158,18 +140,6 @@ namespace OC.UI
                 Screen.fullScreenMode != FullScreenMode.Windowed ? 
                     FullScreenMode.Windowed : 
                     FullScreenMode.FullScreenWindow;
-        }
-
-        private void DeleteAction(InputAction.CallbackContext ctx)
-        {
-            if (!ctx.performed) return;
-            if (_debug) Debug.Log("Delete Action");
-
-            foreach (var interaction in SelectionManager.Instance.SelectedInteractions)
-            {
-                //TODO
-                Debug.Log($"Delete Action NOT IMPLEMENTED: {interaction}");
-            }
         }
 
         public void Register(IFloatingPanel panel)

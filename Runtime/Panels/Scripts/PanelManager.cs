@@ -134,6 +134,12 @@ namespace OC.UI.Panel
             if (interaction.Interactable == null) return;
             
             var panel = CreateOrGetPanel(interaction.Interactable.ReferenceType);
+
+            if (panel == null)
+            {
+                Debug.LogError($"No panel found for {interaction.Interactable.ReferenceType}");
+                return;
+            }
             
             _activePanels.Add(panel);
             

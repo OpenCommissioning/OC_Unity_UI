@@ -34,18 +34,18 @@ namespace OC.UI.Undo
         public TransformUndoAction(Transform target)
         {
             _target = target;
-            _oldPosition = target.position;
-            _oldRotation = target.rotation;
+            _oldPosition = target.localPosition;
+            _oldRotation = target.localRotation;
             _oldScale = target.localScale;
-            _newPosition = target.position;
-            _newRotation = target.rotation;
+            _newPosition = target.localPosition;
+            _newRotation = target.localRotation;
             _newScale = target.localScale;
         }
 
         public void Capture(Transform target)
         {
-            _newPosition = target.position;
-            _newRotation = target.rotation;
+            _newPosition = target.localPosition;
+            _newRotation = target.localRotation;
             _newScale = target.localScale;
         }
 
@@ -58,8 +58,8 @@ namespace OC.UI.Undo
         {
             if (_target == null) return;
             
-            _target.position = _oldPosition;
-            _target.rotation = _oldRotation;
+            _target.localPosition = _oldPosition;
+            _target.localRotation = _oldRotation;
             _target.localScale = _oldScale;
         }
 

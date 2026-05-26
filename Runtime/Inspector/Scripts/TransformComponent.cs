@@ -1,6 +1,7 @@
 using System;
 using OC.UI.Inspector;
 using OC.UI.TransformHandles;
+using OC.UI.Undo;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -68,8 +69,8 @@ namespace OC.UI
             }
             
             _positionField.RegisterValueChangedCallback(OnPositionChanged);
-            _rotationField.RegisterValueChangedCallback(OnPositionChanged);
-            _scaleField.RegisterValueChangedCallback(OnPositionChanged);
+            _rotationField.RegisterValueChangedCallback(OnRotationChanged);
+            _scaleField.RegisterValueChangedCallback(OnScaleChanged);
             Visible = true;
         }
 
@@ -84,8 +85,8 @@ namespace OC.UI
             _scaleField.SetEnabled(false);
             
             _positionField.UnregisterValueChangedCallback(OnPositionChanged);
-            _rotationField.UnregisterValueChangedCallback(OnPositionChanged);
-            _scaleField.UnregisterValueChangedCallback(OnPositionChanged);
+            _rotationField.UnregisterValueChangedCallback(OnRotationChanged);
+            _scaleField.UnregisterValueChangedCallback(OnScaleChanged);
         }
 
         private void Refresh()
@@ -108,20 +109,55 @@ namespace OC.UI
                     throw new ArgumentOutOfRangeException();
             }
         }
-        
+
         private void OnPositionChanged(ChangeEvent<Vector3> changeEvent)
         {
-            _transform.position = changeEvent.newValue;
+            var transformUndoAction = new TransformUndoAction(_transform);
+
+            switch (RuntimeTransformHandle.Instance.Coordinate.Value)
+            {
+                case CoordinateSpace.Local:
+                    _transform.localPosition = changeEvent.newValue;
+                    break;
+                case CoordinateSpace.World:
+                    _transform.position = changeEvent.newValue;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+
+            }
+
+            transformUndoAction.Capture(_transform);
+            RuntimeUndoSystem.Instance.Execute(transformUndoAction);
         }
-        
+
         private void OnRotationChanged(ChangeEvent<Vector3> changeEvent)
         {
-            throw new System.NotImplementedException();
+            var transformUndoAction = new TransformUndoAction(_transform);
+
+            switch (RuntimeTransformHandle.Instance.Coordinate.Value)
+            {
+                case CoordinateSpace.Local:
+                    _transform.localEulerAngles = changeEvent.newValue;
+                    break;
+                case CoordinateSpace.World:
+                    _transform.eulerAngles = changeEvent.newValue;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+
+            }
+
+            transformUndoAction.Capture(_transform);
+            RuntimeUndoSystem.Instance.Execute(transformUndoAction);
         }
         
         private void OnScaleChanged(ChangeEvent<Vector3> changeEvent)
         {
-            throw new System.NotImplementedException();
+            var transformUndoAction = new TransformUndoAction(_transform);
+            _transform.localScale = changeEvent.newValue;
+            transformUndoAction.Capture(_transform);
+            RuntimeUndoSystem.Instance.Execute(transformUndoAction);
         }
     }
 }

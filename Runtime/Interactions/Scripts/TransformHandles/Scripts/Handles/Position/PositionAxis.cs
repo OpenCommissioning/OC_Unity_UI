@@ -1,4 +1,3 @@
-using OC.UI.Undo;
 using UnityEngine;
 
 namespace OC.UI.TransformHandles
@@ -20,7 +19,7 @@ namespace OC.UI.TransformHandles
             
             foreach (var target in _parentTransformHandle.Targets)
             {
-                _targetStartPositions.Add(target.position);
+                _targetStartPositions.Add(target.transform.position);
             }
             
             var direction = _parentTransformHandle.Coordinate.Value == CoordinateSpace.Local ? _parentTransformHandle.transform.rotation * _axis : _axis;

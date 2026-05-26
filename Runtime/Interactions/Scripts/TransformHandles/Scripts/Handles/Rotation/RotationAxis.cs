@@ -87,9 +87,9 @@ namespace OC.UI.TransformHandles
         {
             _startRotation = _parentTransformHandle.Coordinate.Value == CoordinateSpace.Local ? _parentTransformHandle.transform.localRotation : _parentTransformHandle.transform.rotation;
 
-            foreach (Transform target in _parentTransformHandle.Targets)
+            foreach (var runtimeInspector in _parentTransformHandle.Targets)
             {
-                _targetStartRotations.Add(target.rotation);
+                _targetStartRotations.Add(runtimeInspector.transform.rotation);
             }
             
             if (_parentTransformHandle.Coordinate.Value == CoordinateSpace.Local)

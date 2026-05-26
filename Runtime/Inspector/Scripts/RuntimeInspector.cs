@@ -7,18 +7,12 @@ namespace OC.UI.Inspector
     {
         public TransformType TransformType => _transformType;
         public bool CanDestroyed => _canDestroyed;
-        public bool CanDisabled => _canDisabled;
-        public bool CanDuplicated => _canDuplicated;
         
         [Header("Settings")]
         [SerializeField]
         private TransformType _transformType = TransformType.Position | TransformType.Rotation;
         [SerializeField]
         private bool _canDestroyed;
-        [SerializeField]
-        private bool _canDisabled;
-        [SerializeField]
-        private bool _canDuplicated;
     }
 
     [Flags]

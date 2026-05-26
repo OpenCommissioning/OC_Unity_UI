@@ -1220,10 +1220,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfbc42bdec254952a962548c672ef447, type: 3}
   m_Name: 
   m_EditorClassIdentifier: OC.UI::OC.UI.Inspector.RuntimeInspector
-  _transformType: 3
+  _transformType: 1
   _canDestroyed: 0
-  _canDisabled: 0
-  _canDuplicated: 0
 --- !u!1 &213885625
 GameObject:
   m_ObjectHideFlags: 0
@@ -6880,6 +6878,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1207663283}
   - component: {fileID: 1207663284}
+  - component: {fileID: 1207663285}
   m_Layer: 0
   m_Name: Cylinder_3
   m_TagString: Untagged
@@ -6994,6 +6993,20 @@ MonoBehaviour:
     _parent: {fileID: 0}
     _attributes: []
     _variablesDescription: []
+--- !u!114 &1207663285
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1207663282}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dfbc42bdec254952a962548c672ef447, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: OC.UI::OC.UI.Inspector.RuntimeInspector
+  _transformType: 3
+  _canDestroyed: 0
 --- !u!1 &1237805922
 GameObject:
   m_ObjectHideFlags: 0
@@ -9755,6 +9768,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1726639119}
   - component: {fileID: 1726639120}
+  - component: {fileID: 1726639121}
   m_Layer: 0
   m_Name: Cylinder_2
   m_TagString: Untagged
@@ -9869,6 +9883,20 @@ MonoBehaviour:
     _parent: {fileID: 0}
     _attributes: []
     _variablesDescription: []
+--- !u!114 &1726639121
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1726639118}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dfbc42bdec254952a962548c672ef447, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: OC.UI::OC.UI.Inspector.RuntimeInspector
+  _transformType: 2
+  _canDestroyed: 0
 --- !u!1 &1738973010
 GameObject:
   m_ObjectHideFlags: 0

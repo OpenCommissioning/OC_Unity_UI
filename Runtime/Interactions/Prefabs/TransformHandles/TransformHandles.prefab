@@ -280,11 +280,12 @@ MonoBehaviour:
   _autoScale: 1
   _autoScaleFactor: 1
   _rotationSnap: 0
-  _positionHandle: {fileID: 4766390435177591033}
-  _rotationHandle: {fileID: 7175227830661577764}
+  _positionHandle: {fileID: 8973946257541635108}
+  _rotationHandle: {fileID: 2188155797288434698}
   _debug: 0
   _click: {fileID: -4915780649344919496, guid: 6221e7b8a5138e244916faf73a7bc1f6, type: 3}
   _pointer: {fileID: -2241394411367102424, guid: 6221e7b8a5138e244916faf73a7bc1f6, type: 3}
+  _delete: {fileID: -247229018837162649, guid: 6221e7b8a5138e244916faf73a7bc1f6, type: 3}
 --- !u!1 &2449076663448038350
 GameObject:
   m_ObjectHideFlags: 0
@@ -331,6 +332,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d71686958d04dd4bbcdb353ff4c95e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _enabled: 0
+  _hovered: 0
   _isInteracting: 0
   _targetStartPositions: []
   _targetStartRotations: []
@@ -473,6 +476,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a5015f7e5184426a12b667bac91ff94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _enabled: 0
+  _hovered: 0
   _isInteracting: 0
   _targetStartPositions: []
   _targetStartRotations: []
@@ -559,6 +564,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a5015f7e5184426a12b667bac91ff94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _enabled: 0
+  _hovered: 0
   _isInteracting: 0
   _targetStartPositions: []
   _targetStartRotations: []
@@ -613,6 +620,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 887cfee69e3349bc94c52b27882d2a32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _enabled: 0
+  _hovered: 0
   _isInteracting: 0
   _targetStartPositions: []
   _targetStartRotations: []
@@ -975,6 +984,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3112567589464284165}
+  - component: {fileID: 8973946257541635108}
   m_Layer: 0
   m_Name: PositionHandle
   m_TagString: Untagged
@@ -1003,6 +1013,26 @@ Transform:
   - {fileID: 1436489562544815243}
   m_Father: {fileID: 2312253154949596180}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8973946257541635108
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4766390435177591033}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: abb06bc3873ff4e429ab556e35288506, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: OC.UI::OC.UI.Handle
+  _enabled: 0
+  _handles:
+  - {fileID: 1859535197507101852}
+  - {fileID: 619548831174358208}
+  - {fileID: 2397294957276799602}
+  - {fileID: 85003959491021232}
+  - {fileID: 3980027437851154001}
+  - {fileID: 54166286428006451}
 --- !u!1 &4963408775451898286
 GameObject:
   m_ObjectHideFlags: 0
@@ -1788,6 +1818,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a5015f7e5184426a12b667bac91ff94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _enabled: 0
+  _hovered: 0
   _isInteracting: 0
   _targetStartPositions: []
   _targetStartRotations: []
@@ -1805,6 +1837,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6686195906275150233}
+  - component: {fileID: 2188155797288434698}
   m_Layer: 0
   m_Name: RotationHandle
   m_TagString: Untagged
@@ -1830,6 +1863,23 @@ Transform:
   - {fileID: 7568262793538013621}
   m_Father: {fileID: 2312253154949596180}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2188155797288434698
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7175227830661577764}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: abb06bc3873ff4e429ab556e35288506, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: OC.UI::OC.UI.Handle
+  _enabled: 0
+  _handles:
+  - {fileID: 8235856692782216083}
+  - {fileID: 6985493067863568552}
+  - {fileID: 5524721800845761658}
 --- !u!1 &7640708498572133574
 GameObject:
   m_ObjectHideFlags: 0
@@ -1876,6 +1926,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d71686958d04dd4bbcdb353ff4c95e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _enabled: 0
+  _hovered: 0
   _isInteracting: 0
   _targetStartPositions: []
   _targetStartRotations: []
@@ -1928,6 +1980,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 887cfee69e3349bc94c52b27882d2a32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _enabled: 0
+  _hovered: 0
   _isInteracting: 0
   _targetStartPositions: []
   _targetStartRotations: []
@@ -1981,6 +2035,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d71686958d04dd4bbcdb353ff4c95e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _enabled: 0
+  _hovered: 0
   _isInteracting: 0
   _targetStartPositions: []
   _targetStartRotations: []
@@ -2280,6 +2336,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 887cfee69e3349bc94c52b27882d2a32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _enabled: 0
+  _hovered: 0
   _isInteracting: 0
   _targetStartPositions: []
   _targetStartRotations: []

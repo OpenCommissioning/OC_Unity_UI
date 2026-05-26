@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using OC.Interactions;
+using OC.MaterialFlow;
+using OC.UI.Inspector;
 using OC.UI.Interactions;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace OC.UI.TransformHandles
 {
+    [DefaultExecutionOrder(100)]
     public class RuntimeTransformHandle : MonoBehaviourSingleton<RuntimeTransformHandle>
     {
         public IProperty<ToolType> Tool => _toolType;
@@ -18,7 +21,7 @@ namespace OC.UI.TransformHandles
         
         public float RotationSnap => _rotationSnap;
 
-        public List<Transform> Targets
+        public List<RuntimeInspector> Targets
         {
             get => _targets;
             set => _targets = value;
@@ -28,7 +31,7 @@ namespace OC.UI.TransformHandles
         [SerializeField] 
         private bool _dragged;
         [SerializeField] 
-        private List<Transform> _targets = new ();
+        private List<RuntimeInspector> _targets = new ();
         [SerializeField] 
         private Property<ToolType> _toolType = new (ToolType.View);
         [SerializeField] 
@@ -44,9 +47,9 @@ namespace OC.UI.TransformHandles
         [SerializeField] 
         private float _rotationSnap;
         [SerializeField] 
-        private GameObject _positionHandle;
+        private Handle _positionHandle;
         [SerializeField] 
-        private GameObject _rotationHandle;
+        private Handle _rotationHandle;
         
         [Header("Debug")]
         [SerializeField] 
@@ -57,6 +60,8 @@ namespace OC.UI.TransformHandles
         private InputActionReference _click;
         [SerializeField]
         private InputActionReference _pointer;
+        [SerializeField]
+        private InputActionReference _delete;
 
         private Vector3 _previousMousePosition;
         private HandleBase _previousHandle;
@@ -66,6 +71,7 @@ namespace OC.UI.TransformHandles
         private Camera _camera;
         private InputAction _clickAction;
         private InputAction _pointerAction;
+        private InputAction _deleteAction;
         private HandleRaycastHit _handleRaycastHit;
 
         private void Start()
@@ -84,15 +90,22 @@ namespace OC.UI.TransformHandles
             
             _clickAction = _click.action;
             _pointerAction = _pointer.action;
+            _deleteAction = _delete.action;
             
             _clickAction?.Enable();
             _pointerAction?.Enable();
+            _deleteAction?.Enable();
 
             if (_clickAction != null)
             {
                 _clickAction.started += HandleClickAction;
                 _clickAction.performed += HandleClickAction;
                 _clickAction.canceled += HandleClickAction;
+            }
+
+            if (_deleteAction != null)
+            {
+                _deleteAction.performed += DeleteActionOnPerformed;
             }
         }
         
@@ -103,6 +116,7 @@ namespace OC.UI.TransformHandles
             _clickAction.started -= HandleClickAction;
             _clickAction.performed -= HandleClickAction;
             _clickAction.canceled -= HandleClickAction;
+            _deleteAction.performed -= DeleteActionOnPerformed;
         }
         
         private void SelectedObjectsChanged(List<Interaction> selectedObjects)
@@ -113,7 +127,13 @@ namespace OC.UI.TransformHandles
                 return;
             }
 
-            _targets = selectedObjects.Select(x => x.Target.transform).ToList();
+            foreach (var selectedObject in selectedObjects)
+            {
+                if (selectedObject.Target.TryGetComponent<RuntimeInspector>(out var runtimeInspector))
+                {
+                    _targets.Add(runtimeInspector);
+                }
+            }
         }
 
         private void Update()
@@ -165,48 +185,48 @@ namespace OC.UI.TransformHandles
                 _dragged = false;
             }
         }
-
-        public void AddGameObjectToTargets(GameObject go)
+        
+        private void DeleteActionOnPerformed(InputAction.CallbackContext context)
         {
-            _targets.Add(go.transform);
-            _targets = _targets.Distinct().ToList();
-        }
-
-        public void RemoveGameObjectFromTargets(GameObject go)
-        {
-            _targets.Remove(go.transform);
-            _targets = _targets.Distinct().ToList();
-        }
-
-        public void ClearTargets()
-        {
-            _targets.Clear();
-            _targets = _targets.Distinct().ToList();
-
+            foreach (var target in _targets)
+            {
+                if (target.TryGetComponent(out Payload payload))
+                {
+                    Pool.Instance.PoolManager.Destroy(payload, 0.1f);
+                }
+            }
         }
 
         private void ManageHandles()
         {
             if (_targets.Count == 0)
             {
-                _positionHandle.SetActive(false);
-                _rotationHandle.SetActive(false);
+                _positionHandle.gameObject.SetActive(false);
+                _rotationHandle.gameObject.SetActive(false);
                 return;
             }
-
+            
             switch (_toolType.Value)
             {
                 case ToolType.View:
-                    _positionHandle.SetActive(false);
-                    _rotationHandle.SetActive(false);
+                    _positionHandle.gameObject.SetActive(false);
+                    _rotationHandle.gameObject.SetActive(false);
                     break;
                 case ToolType.Move:
-                    _positionHandle.SetActive(true);
-                    _rotationHandle.SetActive(false);
+                    
+                    _positionHandle.gameObject.SetActive(true);
+                    _rotationHandle.gameObject.SetActive(false);
+                    
+                    var moveOk = _targets.All(inspector => inspector.TransformType.HasFlag(TransformType.Position));
+                    _positionHandle.Enabled = moveOk;
+                    
                     break;
                 case ToolType.Rotation:
-                    _positionHandle.SetActive(false);
-                    _rotationHandle.SetActive(true);
+                    _positionHandle.gameObject.SetActive(false);
+                    _rotationHandle.gameObject.SetActive(true);
+                    
+                    var rotateOk = _targets.All(inspector => inspector.TransformType.HasFlag(TransformType.Rotation));
+                    _rotationHandle.Enabled = rotateOk;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -228,12 +248,12 @@ namespace OC.UI.TransformHandles
                 if (_pivotMode == PivotMode.Center && !_rotating)
                 {
                     transform.position = GetCommonCenter();
-                    transform.rotation = _targets.Last().rotation;
+                    transform.rotation = _targets.Last().transform.rotation;
                 }
                 else if (_pivotMode == PivotMode.Pivot)
                 {
-                    transform.position = _targets.Last().position;
-                    transform.rotation = _targets.Last().rotation;
+                    transform.position = _targets.Last().transform.position;
+                    transform.rotation = _targets.Last().transform.rotation;
                 }
             }
 
@@ -249,14 +269,14 @@ namespace OC.UI.TransformHandles
             {
                 if (_previousHandle is not null && _previousHandle != handle)
                 {
-                    _previousHandle.SetColor(_previousHandle.DefaultColor);
+                    _previousHandle.Hovered = false;
                 }
-                
-                handle.SetColor(Color.yellow);
+
+                handle.Hovered = true;
             }
             else
             {
-                _previousHandle?.SetColor(_previousHandle.DefaultColor);
+                if (_previousHandle is not null) _previousHandle.Hovered = false;
             }
             
             _previousHandle = handle;
@@ -269,14 +289,14 @@ namespace OC.UI.TransformHandles
 
         private Vector3 GetCommonCenter()
         {
-            var lowX = _targets.Min(t => t.position.x);
-            var highX = _targets.Max(t => t.position.x);
+            var lowX = _targets.Min(t => t.transform.position.x);
+            var highX = _targets.Max(t => t.transform.position.x);
 
-            var lowY = _targets.Min(t => t.position.y);
-            var highY = _targets.Max(t => t.position.y);
+            var lowY = _targets.Min(t => t.transform.position.y);
+            var highY = _targets.Max(t => t.transform.position.y);
 
-            var lowZ = _targets.Min(t => t.position.z);
-            var highZ = _targets.Max(t => t.position.z);
+            var lowZ = _targets.Min(t => t.transform.position.z);
+            var highZ = _targets.Max(t => t.transform.position.z);
 
             var x = lowX + (highX - lowX) / 2;
             var y = lowY + (highY - lowY) / 2;

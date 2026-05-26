@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using OC.Interactions;
+using OC.MaterialFlow;
 using OC.UI.TransformHandles;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -9,7 +10,7 @@ using UnityEngine.InputSystem;
 
 namespace OC.UI.Interactions
 {
-    [DefaultExecutionOrder(-1000)]
+    [DefaultExecutionOrder(-900)]
     public class SelectionManager : MonoBehaviourSingleton<SelectionManager>
     {
         public List<Interaction> SelectedInteractions => _selectedInteractions;
@@ -17,6 +18,7 @@ namespace OC.UI.Interactions
         public HandleRaycastHit HandleRaycastHit => _handleRaycastHit;
         
         public event Action<List<Interaction>> OnSelectionChanged;
+        public event Action<Interaction> OnDestroy;
 
         public bool Enable
         {
@@ -86,13 +88,17 @@ namespace OC.UI.Interactions
                 _clickAction.performed += HandleClickAction;
                 _clickAction.canceled += HandleClickAction;
             }
+            
+            Pool.Instance.PoolManager.OnDestroyAction += PoolManagerOnDestroyAction;
         }
-
+        
         private void OnDisable()
         {
             _clickAction.started -= HandleClickAction;
             _clickAction.performed -= HandleClickAction;
             _clickAction.canceled -= HandleClickAction;
+            
+            Pool.Instance.PoolManager.OnDestroyAction -= PoolManagerOnDestroyAction;
         }
 
         private void Update()
@@ -255,6 +261,21 @@ namespace OC.UI.Interactions
         private void PointerEnterEvent(GameObject target)
         {
             ExecuteEvents.Execute(target, new PointerEventData(EventSystem.current), ExecuteEvents.pointerEnterHandler);
+        }
+        
+        private void PoolManagerOnDestroyAction(Payload payload)
+        {
+            foreach (var interaction in _selectedInteractions)
+            {
+                if (interaction.Target.TryGetComponent<Payload>(out var targetPayload))
+                {
+                    if (targetPayload == payload)
+                    {
+                        OnDestroy?.Invoke(interaction);
+                        RemoveSelection(interaction);
+                    }
+                }
+            }
         }
         
         private void PointerExitEvent(GameObject target)

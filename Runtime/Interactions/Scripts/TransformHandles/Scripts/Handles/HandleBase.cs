@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using OC.UI.Undo;
 using UnityEngine;
 
@@ -6,9 +7,30 @@ namespace OC.UI.TransformHandles
 {
     public abstract class HandleBase : MonoBehaviour
     {
-        public Color DefaultColor => _defaultColor;
-        
-        public Camera Camera => _camera;
+        public bool Enabled
+        {
+            get => _enabled;
+            set
+            {
+                _enabled = value;
+                Refresh();
+            }
+        }
+
+        public bool Hovered
+        {
+            get => _hovered;
+            set
+            {
+                _hovered = value;
+                Refresh();
+            }
+        }
+
+        [SerializeField]
+        private bool _enabled;
+        [SerializeField]
+        private bool _hovered;
         
         [SerializeField]
         protected bool _isInteracting;
@@ -25,18 +47,14 @@ namespace OC.UI.TransformHandles
 
         private readonly UndoCommandGroup _undoCommandGroup = new ();
         protected readonly List<TransformUndoAction> _transformUndoActions = new ();
+        private List<Renderer> _renderers = new ();
+        private List<Collider> _colliders = new ();
 
         private void Awake()
         {
             _camera = Camera.main;
-        }
-        
-        public void SetColor(Color color)
-        {
-            foreach (var item in GetComponentsInChildren<Renderer>())
-            {
-                item.material.color = color;
-            }
+            _renderers = GetComponentsInChildren<Renderer>().ToList();
+            _colliders = GetComponentsInChildren<Collider>().ToList();
         }
         
         public virtual void StartInteraction(Vector3 mousePosition, Vector3 hitPoint)
@@ -48,7 +66,7 @@ namespace OC.UI.TransformHandles
             
             foreach (var target in _parentTransformHandle.Targets)
             {
-                _transformUndoActions.Add(new TransformUndoAction(target));
+                _transformUndoActions.Add(new TransformUndoAction(target.transform));
             }
 
             foreach (var command in _transformUndoActions)
@@ -65,6 +83,33 @@ namespace OC.UI.TransformHandles
             SetColor(_defaultColor);
             
             _undoCommandGroup.Execute();
+        }
+
+        private void Refresh()
+        {
+            if (_enabled)
+            {
+                if (_hovered)
+                {
+                    SetColor(Color.yellow);
+                }
+                else
+                {
+                    SetColor(_defaultColor);
+                }
+            }
+            else
+            {
+                SetColor(Color.gray);
+            }
+        }
+        
+        private void SetColor(Color color)
+        {
+            foreach (var item in _renderers)
+            {
+                item.material.color = color;
+            }
         }
     }
 }

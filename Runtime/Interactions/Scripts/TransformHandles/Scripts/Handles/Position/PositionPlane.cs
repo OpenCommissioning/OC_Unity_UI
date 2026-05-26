@@ -40,9 +40,9 @@ namespace OC.UI.TransformHandles
             Vector3 hitPoint = ray.GetPoint(p);
             _startPosition = _parentTransformHandle.transform.position;
             _interactionOffset = _startPosition - hitPoint;
-            foreach (Transform target in _parentTransformHandle.Targets)
+            foreach (var target in _parentTransformHandle.Targets)
             {
-                _targetStartPositions.Add(target.position);
+                _targetStartPositions.Add(target.transform.position);
             }
         }
         
