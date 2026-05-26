@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using OC.Interactions;
 using OC.UI.Interactions;
@@ -12,6 +13,10 @@ namespace OC.UI.TransformHandles
         public IProperty<ToolType> Tool => _toolType;
         public IProperty<PivotMode> Pivot => _pivotMode;
         public IProperty<CoordinateSpace> Coordinate => _coordinateSpace;
+        
+        public Camera Camera => _camera;
+        
+        public float RotationSnap => _rotationSnap;
 
         public List<Transform> Targets
         {
@@ -19,31 +24,39 @@ namespace OC.UI.TransformHandles
             set => _targets = value;
         }
 
+        [Header("State")]
+        [SerializeField] 
+        private bool _dragged;
+        [SerializeField] 
+        private List<Transform> _targets = new ();
         [SerializeField] 
         private Property<ToolType> _toolType = new (ToolType.View);
         [SerializeField] 
         private Property<PivotMode> _pivotMode = new (PivotMode.Pivot);
         [SerializeField] 
         private Property<CoordinateSpace> _coordinateSpace = new(CoordinateSpace.Local);
-
-        [HideInInspector] 
-        public Camera HandleCamera;
-        [HideInInspector] 
-        public float RotationSnap;
+        
+        [Header("Settings")]
         [SerializeField] 
         private bool _autoScale = true;
         [SerializeField] 
-        public float AutoScaleFactor = 1;
+        private float _autoScaleFactor = 1;
+        [SerializeField] 
+        private float _rotationSnap;
         [SerializeField] 
         private GameObject _positionHandle;
         [SerializeField] 
         private GameObject _rotationHandle;
+        
+        [Header("Debug")]
         [SerializeField] 
-        private List<Transform> _targets;
+        private bool _debug;
+        
+        [Header("Input Actions")]
         [SerializeField]
-        private InputActionProperty _inputActionPropertyClick;
+        private InputActionReference _click;
         [SerializeField]
-        private InputActionProperty _inputActionPropertyPointer;
+        private InputActionReference _pointer;
 
         private Vector3 _previousMousePosition;
         private HandleBase _previousHandle;
@@ -51,32 +64,47 @@ namespace OC.UI.TransformHandles
         private bool _rotating;
 
         private Camera _camera;
-        private InputAction _inputActionClick;
-        private InputAction _inputActionPointer;
+        private InputAction _clickAction;
+        private InputAction _pointerAction;
+        private HandleRaycastHit _handleRaycastHit;
 
         private void Start()
         {
             _camera = Camera.main;
-            
-            if (HandleCamera == null) HandleCamera = Camera.main;
-            if (_targets == null) _targets[0] = transform;
 
             foreach (var item in GetComponentsInChildren<Renderer>())
             {
                 item.enabled = false;
             }
-
-            SelectionManager.Instance.OnSelectionChanged += SelectedObjectsChanged;
-
-            _inputActionClick = _inputActionPropertyClick.reference.action;
-            _inputActionPointer = _inputActionPropertyPointer.reference.action;
         }
 
+        private void OnEnable()
+        {
+            SelectionManager.Instance.OnSelectionChanged += SelectedObjectsChanged;
+            
+            _clickAction = _click.action;
+            _pointerAction = _pointer.action;
+            
+            _clickAction?.Enable();
+            _pointerAction?.Enable();
+
+            if (_clickAction != null)
+            {
+                _clickAction.started += HandleClickAction;
+                _clickAction.performed += HandleClickAction;
+                _clickAction.canceled += HandleClickAction;
+            }
+        }
+        
         private void OnDisable()
         {
             SelectionManager.Instance.OnSelectionChanged -= SelectedObjectsChanged;
+            
+            _clickAction.started -= HandleClickAction;
+            _clickAction.performed -= HandleClickAction;
+            _clickAction.canceled -= HandleClickAction;
         }
-
+        
         private void SelectedObjectsChanged(List<Interaction> selectedObjects)
         {
             if (selectedObjects.Count == 0)
@@ -90,42 +118,52 @@ namespace OC.UI.TransformHandles
 
         private void Update()
         {
+            _handleRaycastHit = SelectionManager.Instance.HandleRaycastHit;
+            
             ManageHandles();
             ManageScale();
-
-            HandleBase handle = null;
-            Vector3 hitPoint = Vector3.zero;
-            GetHandle(ref handle, ref hitPoint);
-
-            HandleOverEffect(handle);
             ManageHandleTransform();
+            HandleOverEffect();
 
-            if (_inputActionClick.IsPressed() && _draggingHandle != null)
+            if (_dragged && _draggingHandle is not null)
             {
-                _draggingHandle.Interact(_previousMousePosition);
+                if (_debug) Debug.Log($"Drag Action");
+                
+                _draggingHandle.Interact(_pointerAction.ReadValue<Vector2>());
                 if (_draggingHandle is RotationAxis) _rotating = true;
             }
-
-            if (_inputActionClick.IsPressed())
+        }
+        
+        private void HandleClickAction(InputAction.CallbackContext context)
+        {
+            if (context.started)
             {
-                GetHandle(ref handle, ref hitPoint);
-                if (handle != null)
-                {
-                    _draggingHandle = handle;
-                    _draggingHandle.StartInteraction(hitPoint);
-                }
-
-                HandleOverEffect(_draggingHandle);
+                if (AppUI.Instance.IsPointerOverUI) return;
+                if (!_handleRaycastHit.Hit) return;
+                
+                if (_debug) Debug.Log($"Handle Click action: {context.phase}");
+                
+                _draggingHandle = _handleRaycastHit.HitHandle;
+                _draggingHandle.StartInteraction(_pointerAction.ReadValue<Vector2>(), _handleRaycastHit.RaycastHit.point);
+                _dragged = true;
             }
 
-            if (!_inputActionClick.IsPressed() && _draggingHandle != null)
+            if (context.performed)
             {
-                _draggingHandle.EndInteraction();
-                if (_draggingHandle is RotationAxis) _rotating = false;
-                _draggingHandle = null;
+                
             }
             
-            _previousMousePosition = _inputActionPointer.ReadValue<Vector2>();
+            if (context.canceled)
+            {
+                if (_draggingHandle == null) return;
+                
+                if (_debug) Debug.Log($"Handle Click action: {context.phase}");
+                
+                _draggingHandle.EndInteraction(_pointerAction.ReadValue<Vector2>());
+                if (_draggingHandle is RotationAxis) _rotating = false;
+                _draggingHandle = null;
+                _dragged = false;
+            }
         }
 
         public void AddGameObjectToTargets(GameObject go)
@@ -170,15 +208,17 @@ namespace OC.UI.TransformHandles
                     _positionHandle.SetActive(false);
                     _rotationHandle.SetActive(true);
                     break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
         }
 
         private void ManageScale()
         {
             if (_autoScale)
-                transform.localScale =
-                    Vector3.one * (Vector3.Distance(HandleCamera.transform.position, transform.position) *
-                                   AutoScaleFactor) / 15;
+            {
+                transform.localScale = Vector3.one * (Vector3.Distance(Camera.transform.position, transform.position) * _autoScaleFactor) / 15;
+            }
         }
 
         private void ManageHandleTransform()
@@ -203,46 +243,31 @@ namespace OC.UI.TransformHandles
             }
         }
 
-        private void HandleOverEffect(HandleBase handle)
+        private void ActivateHandle(HandleBase handle)
         {
-            if (_draggingHandle == null && _previousHandle != null && _previousHandle != handle)
+            if (handle is not null)
             {
-                _previousHandle.SetColor(_previousHandle._defaultColor);
-            }
-
-            if (handle != null && _draggingHandle == null)
-            {
+                if (_previousHandle is not null && _previousHandle != handle)
+                {
+                    _previousHandle.SetColor(_previousHandle.DefaultColor);
+                }
+                
                 handle.SetColor(Color.yellow);
             }
-
+            else
+            {
+                _previousHandle?.SetColor(_previousHandle.DefaultColor);
+            }
+            
             _previousHandle = handle;
         }
 
-        private void GetHandle(ref HandleBase handle, ref Vector3 hitPoint)
+        private void HandleOverEffect()
         {
-            //TODO Need to refactor. The same Raycast is in the SelectionManager class
-            
-            var pointerPosition = _inputActionPointer.ReadValue<Vector2>();
-            
-            if (pointerPosition.sqrMagnitude > 1e16) return;
-            
-            var ray = _camera.ScreenPointToRay(pointerPosition);
-            RaycastHit[] hits = Physics.RaycastAll(ray);
-            if (hits.Length == 0) return;
-
-            foreach (RaycastHit hit in hits)
-            {
-                handle = hit.collider.gameObject.GetComponentInParent<HandleBase>();
-
-                if (handle != null)
-                {
-                    hitPoint = hit.point;
-                    return;
-                }
-            }
+            ActivateHandle(_draggingHandle ?? _handleRaycastHit.HitHandle);
         }
 
-        public Vector3 GetCommonCenter()
+        private Vector3 GetCommonCenter()
         {
             var lowX = _targets.Min(t => t.position.x);
             var highX = _targets.Max(t => t.position.x);
@@ -257,7 +282,7 @@ namespace OC.UI.TransformHandles
             var y = lowY + (highY - lowY) / 2;
             var z = lowZ + (highZ - lowZ) / 2;
             
-            return new Vector3(x, y, z);;
+            return new Vector3(x, y, z);
         }
     }
 }

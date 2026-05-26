@@ -5,6 +5,10 @@ namespace OC.UI.TransformHandles
 {
     public abstract class HandleBase : MonoBehaviour
     {
+        public Color DefaultColor => _defaultColor;
+        
+        public Camera Camera => _camera;
+        
         [SerializeField]
         protected bool _isInteracting;
         [SerializeField]
@@ -14,10 +18,14 @@ namespace OC.UI.TransformHandles
         [SerializeField]
         protected RuntimeTransformHandle _parentTransformHandle;
         [SerializeField]
-        public Color _defaultColor;
+        private Color _defaultColor;
         
-        protected Material _material;
-        protected Vector3 _hitPoint;
+        protected Camera _camera;
+
+        private void Awake()
+        {
+            _camera = Camera.main;
+        }
         
         public void SetColor(Color color)
         {
@@ -26,15 +34,15 @@ namespace OC.UI.TransformHandles
                 item.material.color = color;
             }
         }
-        public virtual void StartInteraction(Vector3 hitPoint)
+        
+        public virtual void StartInteraction(Vector3 mousePosition, Vector3 hitPoint)
         {
             _isInteracting = true;
         }
-        public virtual void Interact(Vector3 previousPosition)
-        {
-        }
+        
+        public virtual void Interact(Vector3 mousePosition){}
 
-        public virtual void EndInteraction()
+        public virtual void EndInteraction(Vector3 mousePosition)
         {
             _isInteracting = false;
             SetColor(_defaultColor);

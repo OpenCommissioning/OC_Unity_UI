@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using OC.Interactions;
+using OC.UI.TransformHandles;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -13,7 +14,7 @@ namespace OC.UI.Interactions
     {
         public List<Interaction> SelectedInteractions => _selectedInteractions;
         public List<GameObject> HitGameObjects => _hitGameObjects;
-        public List<GameObject> HitHandles => _hitHandles;
+        public HandleRaycastHit HandleRaycastHit => _handleRaycastHit;
         
         public event Action<List<Interaction>> OnSelectionChanged;
 
@@ -38,7 +39,7 @@ namespace OC.UI.Interactions
         [SerializeField] 
         private List<GameObject> _hitGameObjects = new ();
         [SerializeField] 
-        private List<GameObject> _hitHandles = new ();
+        private HandleRaycastHit _handleRaycastHit;
         [SerializeField]
         private List<Interaction> _selectedInteractions = new();
         
@@ -104,7 +105,7 @@ namespace OC.UI.Interactions
         private void HandleClickAction(InputAction.CallbackContext context)
         {
             if (!_enable) return;
-            if (_hitHandles.Count > 0) return;
+            if (_handleRaycastHit.Hit) return;
             if (AppUI.Instance.IsPointerOverUI) return;
             
             if (_debug) Debug.Log($"Handle Click action: {context.phase}");
@@ -154,7 +155,7 @@ namespace OC.UI.Interactions
         {
             Array.Clear(_raycastHits, 0, _hitsCount);
             _hitGameObjects.Clear();
-            _hitHandles.Clear();
+            _handleRaycastHit.Clear();
             
             var mousePosition = _pointerAction.ReadValue<Vector2>();
             var ray = _camera.ScreenPointToRay(mousePosition);
@@ -172,7 +173,7 @@ namespace OC.UI.Interactions
                 if (raycast.distance < OC.Utils.TOLERANCE) continue;
                 if (raycast.collider.gameObject.CompareTag($"Handles"))
                 {
-                    _hitHandles.Add(raycast.collider.gameObject);
+                    _handleRaycastHit.Set(raycast.collider, raycast);
                 }
                 else
                 {
@@ -198,7 +199,6 @@ namespace OC.UI.Interactions
             PointerUpEvent(_closestHitGameObject);
             PointerExitEvent(_closestHitGameObject);
             _hitGameObjects.Clear();
-            //_hitHandles.Clear();
             _closestHitGameObject = null;
         }
 
@@ -285,6 +285,47 @@ namespace OC.UI.Interactions
         private void PointerUpEvent(GameObject target)
         {
             ExecuteEvents.Execute(target, new PointerEventData(EventSystem.current), ExecuteEvents.pointerUpHandler);
+        }
+    }
+    
+    [Serializable]
+    public class HandleRaycastHit
+    {
+        public bool Hit => _hit;
+        public GameObject HitGameObject => _hitGameObject;
+        public HandleBase HitHandle => _hitHandle;
+        public RaycastHit RaycastHit => _raycastHit;
+        
+        [SerializeField]
+        private bool _hit;
+        [SerializeField]
+        private GameObject _hitGameObject;
+        [SerializeField]
+        private HandleBase _hitHandle;
+        [SerializeField]
+        private RaycastHit _raycastHit;
+
+        public void Set(Collider collider, RaycastHit raycastHit)
+        {
+            if (collider.TryGetComponent<HandleCollider>(out var handleCollider))
+            {
+                _hit = true;
+                _hitGameObject = handleCollider.gameObject;
+                _hitHandle = handleCollider.Handle;
+                _raycastHit = raycastHit;
+            }
+            else
+            {
+                Clear();
+            }
+        }
+        
+        public void Clear()
+        {
+            _hit = false;
+            _hitGameObject = null;
+            _hitHandle = null;
+            _raycastHit = default;
         }
     }
 }

@@ -13,9 +13,9 @@ namespace OC.UI.TransformHandles
         [SerializeField]
         private Quaternion _startRotation;
 
-        public override void Interact(Vector3 previousPosition)
+        public override void Interact(Vector3 mousePosition)
         {
-            Ray cameraRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+            Ray cameraRay = _camera.ScreenPointToRay(mousePosition);
 
             if (!_axisPlane.Raycast(cameraRay, out float hitT))
             {
@@ -47,28 +47,28 @@ namespace OC.UI.TransformHandles
                 {
                     _parentTransformHandle.Targets[i].transform.RotateAround(_parentTransformHandle.transform.position, _axis, angleDegrees);
                 }
-                CalculateTangents(hitPoint);
+                CalculateTangents(mousePosition, hitPoint);
             }
         }
 
-        public override void StartInteraction(Vector3 hitPoint)
+        public override void StartInteraction(Vector3 mousePosition, Vector3 hitPoint)
         {
-            base.StartInteraction(hitPoint);
+            base.StartInteraction(mousePosition, hitPoint);
             SetStartRotations();
-            CalculateTangents(hitPoint);
+            CalculateTangents(mousePosition, hitPoint);
         }
 
-        public override void EndInteraction()
+        public override void EndInteraction(Vector3 mousePosition)
         {
-            base.EndInteraction();
+            base.EndInteraction(mousePosition);
             _targetStartRotations.Clear();
         }
 
-        private void CalculateTangents(Vector3 hitPoint)
+        private void CalculateTangents(Vector3 mousePosition, Vector3 hitPoint)
         {
             _axisPlane = new Plane(_rotatedAxis, _parentTransformHandle.transform.position);
             Vector3 startHitPoint;
-            Ray cameraRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+            Ray cameraRay = _camera.ScreenPointToRay(mousePosition);
             if (_axisPlane.Raycast(cameraRay, out float lenghtOfPlaneEnterpoint))
             {
                 startHitPoint = cameraRay.GetPoint(lenghtOfPlaneEnterpoint);
