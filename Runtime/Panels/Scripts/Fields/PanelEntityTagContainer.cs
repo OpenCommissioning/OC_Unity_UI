@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using OC.Data;
 using OC.MaterialFlow;
+using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -11,37 +12,53 @@ namespace OC.UI.Panel
     {
         private const string USS = "StyleSheet/panel-field";
 
-        private readonly PayloadTag _entityTag;
-        private readonly int _directoryIndex;
+        private PayloadTag _entityTag;
+        private int _directoryIndex;
+        private List<EntryData> _entryData = new ();
+        
+        private readonly PanelGroupContainer _groupContainer ;
         private readonly Property<bool> _override = new (false);
-        private readonly List<PanelEntryDataField> _entryDataFields = new ();
+        private readonly VisualElement _content;
         private readonly PanelButton _buttonWrite;
+        private readonly PanelButton _buttonRead;
+        private readonly List<PanelEntryDataField> _entryDataFields = new ();
 
-        public PanelEntityTagContainer(PayloadTag entityTag, int directoryIndex)
+        public PanelEntityTagContainer()
         {
             styleSheets.Add(Resources.Load<StyleSheet>(USS));
+            Add(_groupContainer = new PanelGroupContainer());
+            Add(new PanelToggleSlide("Override", _override));
+            Add(_content = new VisualElement());
+            Add(_buttonWrite = new PanelButton("Write", WriteData));
+            Add(_buttonRead = new PanelButton("Read", ReadData));
+            _override.Subscribe(OverrideOnValueChanged);
+        }
 
+        public void Bind(PayloadTag entityTag, int directoryIndex)
+        {
+            _override.Value = false;
             _entityTag = entityTag;
             _directoryIndex = directoryIndex;
-            
-            var entryData = entityTag.GetProductDataContent(directoryIndex);
+            _groupContainer.Label = ProductDataDirectoryManager.Instance.ProductDataDirectories[directoryIndex].Name;
+            _entryData = entityTag.GetProductDataContent(directoryIndex);
 
-            Add(new PanelGroupContainer(ProductDataDirectoryManager.Instance.ProductDataDirectories[directoryIndex].Name));
-            Add(new PanelToggleSlide("Override", _override));
-            foreach (var data in entryData)
+            foreach (var entryData in _entryData)
             {
-                var entryDataFiled = new PanelEntryDataField(data);
+                var entryDataFiled = new PanelEntryDataField(entryData);
                 Add(entryDataFiled);
                 _entryDataFields.Add(entryDataFiled);
             }
+        }
 
-            _buttonWrite = new PanelButton("Write", WriteData);
-
-            Add(_buttonWrite);
-            Add(new PanelButton("Read", ReadData));
-
-            OverrideOnValueChanged(false);
-            _override.OnValueChanged += OverrideOnValueChanged;
+        public void Unbind()
+        {
+            foreach (var dataField in _entryDataFields)
+            {
+                dataField.Unbind();
+            }
+            
+            _entryDataFields.Clear();
+            _content.Clear();
         }
 
         private void OverrideOnValueChanged(bool value)

@@ -188,12 +188,18 @@ namespace OC.UI.TransformHandles
         
         private void DeleteActionOnPerformed(InputAction.CallbackContext context)
         {
+            var listToDelete = new List<Payload>();
             foreach (var target in _targets)
             {
                 if (target.TryGetComponent(out Payload payload))
                 {
-                    Pool.Instance.PoolManager.Destroy(payload, 0.1f);
+                    listToDelete.Add(payload);
                 }
+            }
+
+            for (var i = listToDelete.Count - 1; i >= 0; i--)
+            {
+                Pool.Instance.PoolManager.Destroy(listToDelete[i], 0.1f);
             }
         }
 

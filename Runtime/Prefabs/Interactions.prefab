@@ -44,6 +44,50 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 385ec588857b42058f415c10c7a53a2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: OC.UI::OC.UI.Panel.PanelHandlerCylinder
+--- !u!1 &1898444335551167532
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 448240872266468417}
+  - component: {fileID: 1355131419140143857}
+  m_Layer: 0
+  m_Name: PanelHandlerPayload
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &448240872266468417
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1898444335551167532}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8967247757186641710}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1355131419140143857
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1898444335551167532}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 959fba1be65c4f959c4700d95fda6a9f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: OC.UI::OC.UI.Panel.PanelHandlerPayload
 --- !u!1 &5944085727504648028
 GameObject:
   m_ObjectHideFlags: 0
@@ -312,6 +356,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1862832868559343557}
+  - {fileID: 448240872266468417}
   m_Father: {fileID: 5119013499547594651}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8487941571914066906
@@ -328,6 +373,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: OC.UI::OC.UI.Panel.PanelManager
   _panelHandlers:
   - {fileID: 1617847428874667936}
+  - {fileID: 1355131419140143857}
   _dockThreshold: 10
   _debug: 1
 --- !u!1001 &5461151000317629018

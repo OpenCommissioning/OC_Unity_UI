@@ -265,16 +265,22 @@ namespace OC.UI.Interactions
         
         private void PoolManagerOnDestroyAction(Payload payload)
         {
+            var removeList = new List<Interaction>();
             foreach (var interaction in _selectedInteractions)
             {
                 if (interaction.Target.TryGetComponent<Payload>(out var targetPayload))
                 {
                     if (targetPayload == payload)
                     {
-                        OnDestroy?.Invoke(interaction);
-                        RemoveSelection(interaction);
+                        removeList.Add(interaction);
                     }
                 }
+            }
+            
+            foreach (var interaction in removeList)
+            {
+                OnDestroy?.Invoke(interaction);
+                RemoveSelection(interaction);
             }
         }
         
