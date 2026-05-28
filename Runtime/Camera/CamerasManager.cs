@@ -20,7 +20,9 @@ namespace OC.UI
 
         private void OnEnable()
         {
-            _cameras = FindObjectsByType<CameraController>(FindObjectsInactive.Exclude).ToList();
+            _cameras = FindObjectsByType<CameraController>(FindObjectsInactive.Exclude)
+                .OrderBy(c => GetHierarchyPath(c.transform))
+                .ToList();
             DisableAllCameras();
             
             if (_cameras.Count > 0) SetCameraActive(_cameras[0]);
@@ -59,6 +61,19 @@ namespace OC.UI
             {
                 item.gameObject.SetActive(false);
             }
+        }
+        
+        private string GetHierarchyPath(Transform t)
+        {
+            var path = t.name;
+
+            while (t.parent != null)
+            {
+                t = t.parent;
+                path = t.name + "/" + path;
+            }
+
+            return path;
         }
     }
 }
