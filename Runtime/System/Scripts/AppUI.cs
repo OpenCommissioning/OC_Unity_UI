@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using OC.UI.ComponentLayout;
 using OC.UI.Interactions;
 using OC.UI.Panel;
 using UnityEngine;
@@ -40,6 +41,7 @@ namespace OC.UI
         private VisualElement _root;
         private EventSystem _eventSystem;
         private ExitPopup _exitPopup;
+        private SaveLayoutPopup _saveLayoutPopup;
         private readonly List<IFloatingPanel> _floatingPanels = new();
         
         private InputAction _cancelAction;
@@ -108,7 +110,74 @@ namespace OC.UI
 
             _root.Add(_exitPopup);
             _exitPopup.BringToFront();
-            _exitPopup.OnClose += Application.Quit;
+            _exitPopup.OnClose += OnExitPopupClose;
+
+            _saveLayoutPopup = new SaveLayoutPopup { Enable = false };
+            _saveLayoutPopup.AddDefaultTheme();
+            _root.Add(_saveLayoutPopup);
+            _saveLayoutPopup.BringToFront();
+            _saveLayoutPopup.OnSave += OnSaveLayoutPopupSave;
+            _saveLayoutPopup.OnDiscard += OnSaveLayoutPopupDiscard;
+            _saveLayoutPopup.OnCancel += () => _saveLayoutPopup.Close();
+
+            _pendingQuitOnSaveSuccess = false;
+        }
+
+        private bool _pendingQuitOnSaveSuccess;
+
+        private void OnExitPopupClose()
+        {
+            _exitPopup.Close();
+
+            var layoutSystem = LayoutSaveSystem.Instance;
+            if (layoutSystem == null || !layoutSystem.IsDirty)
+            {
+                Application.Quit();
+                return;
+            }
+
+            ShowSaveLayoutPrompt(quitOnSuccess: true);
+        }
+
+        public void ShowSaveLayoutPrompt(bool quitOnSuccess)
+        {
+            _pendingQuitOnSaveSuccess = quitOnSuccess;
+            _saveLayoutPopup.Enable = true;
+        }
+
+        private void OnSaveLayoutPopupSave()
+        {
+            var layoutSystem = LayoutSaveSystem.Instance;
+            if (layoutSystem == null)
+            {
+                _saveLayoutPopup.Close();
+                if (_pendingQuitOnSaveSuccess)
+                {
+                    Application.Quit();
+                }
+
+                return;
+            }
+
+            layoutSystem.Save(success =>
+            {
+                if (!success) return;
+
+                _saveLayoutPopup.Close();
+                if (_pendingQuitOnSaveSuccess)
+                {
+                    Application.Quit();
+                }
+            });
+        }
+
+        private void OnSaveLayoutPopupDiscard()
+        {
+            _saveLayoutPopup.Close();
+            if (_pendingQuitOnSaveSuccess)
+            {
+                Application.Quit();
+            }
         }
         
         private void CancelAction(InputAction.CallbackContext ctx)

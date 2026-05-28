@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using OC.Interactions;
 using OC.MaterialFlow;
+using OC.UI.ComponentLayout;
 using OC.UI.Inspector;
 using OC.UI.Interactions;
 using UnityEngine;
@@ -183,6 +184,11 @@ namespace OC.UI.TransformHandles
                 if (_draggingHandle is RotationAxis) _rotating = false;
                 _draggingHandle = null;
                 _dragged = false;
+
+                foreach (var target in _targets)
+                {
+                    ComponentLayoutTracker.NotifyTransformChanged(target.transform);
+                }
             }
         }
         

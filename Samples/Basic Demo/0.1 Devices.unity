@@ -2316,6 +2316,7 @@ GameObject:
   - component: {fileID: 414147751}
   - component: {fileID: 414147753}
   - component: {fileID: 414147754}
+  - component: {fileID: 414147755}
   m_Layer: 0
   m_Name: SensorBinary_1
   m_TagString: Untagged
@@ -2452,6 +2453,20 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &414147755
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 414147749}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dfbc42bdec254952a962548c672ef447, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: OC.UI::OC.UI.Inspector.RuntimeInspector
+  _transformType: 3
+  _canDestroyed: 0
 --- !u!1001 &459146628
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6887,6 +6902,7 @@ GameObject:
   - component: {fileID: 1081963573}
   - component: {fileID: 1081963575}
   - component: {fileID: 1081963576}
+  - component: {fileID: 1081963577}
   m_Layer: 0
   m_Name: SensorBinary_3
   m_TagString: Untagged
@@ -7023,6 +7039,20 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &1081963577
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1081963571}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dfbc42bdec254952a962548c672ef447, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: OC.UI::OC.UI.Inspector.RuntimeInspector
+  _transformType: 3
+  _canDestroyed: 0
 --- !u!1 &1104896354
 GameObject:
   m_ObjectHideFlags: 0
@@ -7476,6 +7506,7 @@ GameObject:
   - component: {fileID: 1154275225}
   - component: {fileID: 1154275227}
   - component: {fileID: 1154275228}
+  - component: {fileID: 1154275229}
   m_Layer: 0
   m_Name: SensorBinary_2
   m_TagString: Untagged
@@ -7612,6 +7643,20 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &1154275229
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1154275223}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dfbc42bdec254952a962548c672ef447, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: OC.UI::OC.UI.Inspector.RuntimeInspector
+  _transformType: 3
+  _canDestroyed: 0
 --- !u!1 &1170350338
 GameObject:
   m_ObjectHideFlags: 0

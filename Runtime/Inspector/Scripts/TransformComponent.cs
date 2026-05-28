@@ -1,4 +1,5 @@
 using System;
+using OC.UI.ComponentLayout;
 using OC.UI.Inspector;
 using OC.UI.TransformHandles;
 using OC.UI.Undo;
@@ -129,6 +130,7 @@ namespace OC.UI
 
             transformUndoAction.Capture(_transform);
             RuntimeUndoSystem.Instance.Execute(transformUndoAction);
+            ComponentLayoutTracker.NotifyTransformChanged(_transform);
         }
 
         private void OnRotationChanged(ChangeEvent<Vector3> changeEvent)
@@ -150,6 +152,7 @@ namespace OC.UI
 
             transformUndoAction.Capture(_transform);
             RuntimeUndoSystem.Instance.Execute(transformUndoAction);
+            ComponentLayoutTracker.NotifyTransformChanged(_transform);
         }
         
         private void OnScaleChanged(ChangeEvent<Vector3> changeEvent)

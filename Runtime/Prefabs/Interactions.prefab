@@ -398,6 +398,7 @@ GameObject:
   m_Component:
   - component: {fileID: 596967726196046805}
   - component: {fileID: 9162868965990765414}
+  - component: {fileID: 3847291056382749156}
   m_Layer: 0
   m_Name: SettingsManager
   m_TagString: Untagged
@@ -437,6 +438,18 @@ MonoBehaviour:
   OnSettingsChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &3847291056382749156
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8875851045994871751}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7f4a3b2c1d0654789012345678abcde, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8890766460153951019
 GameObject:
   m_ObjectHideFlags: 0
