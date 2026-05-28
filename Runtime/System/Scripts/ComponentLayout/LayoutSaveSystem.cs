@@ -4,6 +4,7 @@ using System.IO;
 using OC.Components;
 using OC.Communication;
 using OC.Data;
+using OC.UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -19,6 +20,94 @@ namespace OC.UI.ComponentLayout
         private const string FILE_EXTENSION_FILTER = "xml";
 
         private bool _isDirty;
+
+        private void OnEnable()
+        {
+            SceneManager.sceneLoaded += OnSceneLoaded;
+        }
+
+        private void OnDisable()
+        {
+            SceneManager.sceneLoaded -= OnSceneLoaded;
+        }
+
+        private void Start()
+        {
+            TryAutoLoadLatestIfEnabled();
+        }
+
+        private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+        {
+            TryAutoLoadLatestIfEnabled();
+        }
+
+        public void TryAutoLoadLatestIfEnabled()
+        {
+            if (SettingsManager.Instance == null || !SettingsManager.Instance.AutoLoadSave)
+            {
+                return;
+            }
+
+            TryAutoLoadLatest();
+        }
+
+        public bool TryAutoLoadLatest()
+        {
+            var directory = GetLayoutsDirectory();
+            if (!Directory.Exists(directory))
+            {
+                return false;
+            }
+
+            var latestPath = FindLatestLayoutFile(directory);
+            if (string.IsNullOrEmpty(latestPath))
+            {
+                return false;
+            }
+
+            Debug.Log($"[ComponentLayout] Auto-loading latest layout: {latestPath}");
+            return ImportFromFile(latestPath);
+        }
+
+        private string FindLatestLayoutFile(string directory)
+        {
+            var scenePrefix = SanitizeFileName(SceneManager.GetActiveScene().name) + "_";
+            var latestPath = FindLatestMatching(directory, scenePrefix);
+
+            if (!string.IsNullOrEmpty(latestPath))
+            {
+                return latestPath;
+            }
+
+            return FindLatestMatching(directory, null);
+        }
+
+        private static string FindLatestMatching(string directory, string fileNamePrefix)
+        {
+            string latestPath = null;
+            var latestTime = DateTime.MinValue;
+
+            foreach (var file in Directory.GetFiles(directory, $"*{FILE_EXTENSION}"))
+            {
+                var fileName = Path.GetFileName(file);
+                if (fileNamePrefix != null &&
+                    !fileName.StartsWith(fileNamePrefix, StringComparison.OrdinalIgnoreCase))
+                {
+                    continue;
+                }
+
+                var writeTime = File.GetLastWriteTimeUtc(file);
+                if (writeTime <= latestTime)
+                {
+                    continue;
+                }
+
+                latestTime = writeTime;
+                latestPath = file;
+            }
+
+            return latestPath;
+        }
 
         public void MarkDirty()
         {

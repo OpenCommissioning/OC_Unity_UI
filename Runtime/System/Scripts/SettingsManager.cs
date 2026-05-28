@@ -18,6 +18,17 @@ namespace OC.UI
                 OnSettingsChanged?.Invoke();
             } 
         }
+
+        public bool AutoLoadSave
+        {
+            get => _autoLoadSave;
+            set
+            {
+                if (_autoLoadSave == value) return;
+                _autoLoadSave = value;
+                OnSettingsChanged?.Invoke();
+            }
+        }
         
         public VisualConfig VisualConfig => _visualConfig;
 
@@ -28,6 +39,11 @@ namespace OC.UI
         [Header("Settings")]
         [SerializeField]
         private int _mouseSensitivity = 5;
+        [SerializeField]
+        private bool _autoLoadSave;
+
+        private const string MouseSensitivityKey = "MouseSensitivity";
+        private const string AutoLoadSaveKey = "AutoLoadSave";
 
         [Header("Collision")] 
         private bool _isWindowed;
@@ -66,13 +82,19 @@ namespace OC.UI
         
         private void Load()
         {
-            _mouseSensitivity = PlayerPrefs.GetInt("MouseSensitivity");
+            if (PlayerPrefs.HasKey(MouseSensitivityKey))
+            {
+                _mouseSensitivity = PlayerPrefs.GetInt(MouseSensitivityKey);
+            }
+
+            _autoLoadSave = PlayerPrefs.GetInt(AutoLoadSaveKey, 0) == 1;
             OnSettingsChanged?.Invoke();
         }
 
         private void Save()
         {
-            PlayerPrefs.SetInt("MouseSensitivity",_mouseSensitivity);
+            PlayerPrefs.SetInt(MouseSensitivityKey, _mouseSensitivity);
+            PlayerPrefs.SetInt(AutoLoadSaveKey, _autoLoadSave ? 1 : 0);
             PlayerPrefs.Save();
         }
     }
