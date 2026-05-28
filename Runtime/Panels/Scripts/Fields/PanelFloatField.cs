@@ -3,16 +3,9 @@ using UnityEngine.UIElements;
 
 namespace OC.UI.Panel
 {
-#if UNITY_6000_3_OR_NEWER
     [UxmlElement]
     public partial class PanelFloatField : UnityEngine.UIElements.FloatField
     {
-#else
-    public class PanelFloatField : UnityEngine.UIElements.FloatField
-    {
-        public new class UxmlFactory : UxmlFactory<PanelFloatField, UxmlTraits> { }
-#endif
-
         private const string STYLE_SHEET = "StyleSheet/panel-field";
         private const string USS_CONTAINER = "panel-field-container";
         private const string USS_TEXT_INPUT_READ_ONLY = "panel-field-container_readonly";

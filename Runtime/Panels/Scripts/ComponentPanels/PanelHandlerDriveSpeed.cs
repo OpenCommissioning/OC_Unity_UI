@@ -3,46 +3,42 @@ using OC.Components;
 
 namespace OC.UI.Panel
 {
-    public class PanelHandlerCylinder : PanelHandler
+    public class PanelHandlerDriveSpeed : PanelHandler
     {
-        public override Type ReferenceType => typeof(Cylinder);
-        public override IPanel Create() => new PanelCylinder();
+        public override Type ReferenceType => typeof(DriveSpeed);
+        public override IPanel Create() => new PanelDriveSpeed();
     }
 
-    public class PanelCylinder : Panel<Cylinder>
+    public class PanelDriveSpeed : Panel<DriveSpeed>
     {
         private PanelBinaryStatusField _isActive;
-        private PanelProgressBarWithLimits _progress;
+        private PanelFloatField _acceleration;
+        
         private PanelToggleSlide _override;
-        private PanelPushButton _minus;
-        private PanelPushButton _plus;
+        private PanelFloatField _targetValue;
         private PanelLinkStatus _link;
         
         protected override void Create()
         {
             var groupStatus = new PanelGroupContainer("Status");
             groupStatus.Add(_isActive = new PanelBinaryStatusField("Is Active"));
-            groupStatus.Add(_progress= new PanelProgressBarWithLimits("Progress"));
-
+            groupStatus.Add(_acceleration = new PanelFloatField("Acceleration"));
+            
             var groupControl = new PanelGroupContainer("Control");
-            groupControl.Add(_override= new PanelToggleSlide("Override"));
-            var horizontalGroup = new PanelHorizontalGroup();
-            horizontalGroup.Add(_minus = new PanelPushButton("Minus"));
-            horizontalGroup.Add(_plus = new PanelPushButton("Plus"));
-            groupControl.Add(horizontalGroup);
+            groupControl.Add(_override = new PanelToggleSlide("Override"));
+            groupControl.Add(_targetValue = new PanelFloatField("Target"));
 
             Add(groupStatus);
             Add(groupControl);
             Add(_link = new PanelLinkStatus());
         }
         
-        protected override void InternalBind(Cylinder target)
+        protected override void InternalBind(DriveSpeed target)
         {
             _isActive.Bind(_target.IsActive);
-            _progress.Bind(_target.Progress);
+            _acceleration.Bind(_target.Acceleration);
             _override.Bind(_target.Override);
-            _minus.Bind(_target.Minus);
-            _plus.Bind(_target.Plus);
+            _targetValue.Bind(_target.Target);
             _link.Bind(_target.Link);
             
             _target.Override.Subscribe(OnOverrideChanged);
@@ -53,17 +49,15 @@ namespace OC.UI.Panel
             _target.Override.Unsubscribe(OnOverrideChanged);
             
             _isActive.Unbind();
-            _progress.Unbind();
+            _acceleration.Unbind();
             _override.Unbind();
-            _minus.Unbind();
-            _plus.Unbind();
+            _targetValue.Unbind();
             _link.Unbind();
         }
 
         private void OnOverrideChanged(bool value)
         {
-            _minus.SetEnabled(value);
-            _plus.SetEnabled(value);
+            _targetValue.SetEnabled(value);
         }
     }
 }

@@ -3,32 +3,33 @@ using OC.Components;
 
 namespace OC.UI.Panel
 {
-    public class PanelHandlerCylinder : PanelHandler
+    public class PanelHandlerDriveSimple : PanelHandler
     {
-        public override Type ReferenceType => typeof(Cylinder);
-        public override IPanel Create() => new PanelCylinder();
+        public override Type ReferenceType => typeof(DriveSimple);
+        public override IPanel Create() => new PanelDriveSimple();
     }
 
-    public class PanelCylinder : Panel<Cylinder>
+    public class PanelDriveSimple : Panel<DriveSimple>
     {
         private PanelBinaryStatusField _isActive;
-        private PanelProgressBarWithLimits _progress;
+        private PanelFloatField _speed;
+        
         private PanelToggleSlide _override;
-        private PanelPushButton _minus;
-        private PanelPushButton _plus;
+        private PanelToggleButton _backward;
+        private PanelToggleButton _forward;
         private PanelLinkStatus _link;
         
         protected override void Create()
         {
             var groupStatus = new PanelGroupContainer("Status");
             groupStatus.Add(_isActive = new PanelBinaryStatusField("Is Active"));
-            groupStatus.Add(_progress= new PanelProgressBarWithLimits("Progress"));
-
+            groupStatus.Add(_speed = new PanelFloatField("Speed"));
+            
             var groupControl = new PanelGroupContainer("Control");
-            groupControl.Add(_override= new PanelToggleSlide("Override"));
+            groupControl.Add(_override = new PanelToggleSlide("Override"));
             var horizontalGroup = new PanelHorizontalGroup();
-            horizontalGroup.Add(_minus = new PanelPushButton("Minus"));
-            horizontalGroup.Add(_plus = new PanelPushButton("Plus"));
+            horizontalGroup.Add(_backward = new PanelToggleButton("Backward"));
+            horizontalGroup.Add(_forward = new PanelToggleButton("Forward"));
             groupControl.Add(horizontalGroup);
 
             Add(groupStatus);
@@ -36,13 +37,13 @@ namespace OC.UI.Panel
             Add(_link = new PanelLinkStatus());
         }
         
-        protected override void InternalBind(Cylinder target)
+        protected override void InternalBind(DriveSimple target)
         {
             _isActive.Bind(_target.IsActive);
-            _progress.Bind(_target.Progress);
+            _speed.Bind(_target.Speed);
             _override.Bind(_target.Override);
-            _minus.Bind(_target.Minus);
-            _plus.Bind(_target.Plus);
+            _backward.Bind(_target.Backward);
+            _forward.Bind(_target.Forward);
             _link.Bind(_target.Link);
             
             _target.Override.Subscribe(OnOverrideChanged);
@@ -53,17 +54,17 @@ namespace OC.UI.Panel
             _target.Override.Unsubscribe(OnOverrideChanged);
             
             _isActive.Unbind();
-            _progress.Unbind();
+            _speed.Unbind();
             _override.Unbind();
-            _minus.Unbind();
-            _plus.Unbind();
+            _backward.Unbind();
+            _forward.Unbind();
             _link.Unbind();
         }
 
         private void OnOverrideChanged(bool value)
         {
-            _minus.SetEnabled(value);
-            _plus.SetEnabled(value);
+            _backward.SetEnabled(value);
+            _forward.SetEnabled(value);
         }
     }
 }

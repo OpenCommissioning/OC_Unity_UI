@@ -72,15 +72,9 @@ namespace OC.UI.Panel
             IsEnabled = true;
         }
 
-        public PanelToggleSlide(string label, IProperty<bool> property) : this(label)
+        public void Bind()
         {
-            this.BindProperty(property);
-        }
-
-        public PanelToggleSlide(string label, IProperty<bool> property, IProperty<bool> enable) : this(label, property)
-        {
-            IsEnabled = enable.Value;
-            enable.OnValueChanged += value => IsEnabled = value;
+            
         }
 
         private static void OnClick(ClickEvent evt)

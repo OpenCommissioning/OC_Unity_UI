@@ -6,8 +6,6 @@ namespace OC.UI.Panel
 {
     public abstract class PanelTextField<T> : UnityEngine.UIElements.TextField
     {
-    
-    
         public T ValidValue
         {
             get => _validValue;

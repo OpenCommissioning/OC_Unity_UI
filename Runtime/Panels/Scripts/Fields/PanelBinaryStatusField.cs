@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -36,6 +35,7 @@ namespace OC.UI.Panel
         private const string USS_BINARY_STATUS_FIELD = "panel-field-binary-status";
         private const string USS_BINARY_STATUS_FIELD_CHECKBOX = "panel-field-binary-status_checkbox";
         private const string USS_BINARY_STATUS_FIELD_CHECKBOX_CHECKED = "panel-field-binary-status_checkbox__checked";
+        private IProperty<bool> _property;
 
         public PanelBinaryStatusField() : this("") { }
 
@@ -54,16 +54,6 @@ namespace OC.UI.Panel
             _checkMark.AddToClassList(USS_BINARY_STATUS_FIELD_CHECKBOX);
 
             hierarchy.Add(_checkMark);
-        }
-
-        public PanelBinaryStatusField(string label, IProperty<bool> property) : this(label)
-        {
-            this.BindProperty(property);
-        }
-
-        public PanelBinaryStatusField(string label, IPropertyReadOnly<bool> property) : this(label)
-        {
-            this.BindProperty(property);
         }
 
         public sealed override void SetValueWithoutNotify(bool newValue)

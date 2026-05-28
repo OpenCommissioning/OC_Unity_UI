@@ -10,8 +10,20 @@ GameObject:
   m_Component:
   - component: {fileID: 1862832868559343557}
   - component: {fileID: 1617847428874667936}
+  - component: {fileID: 9174880816276318332}
+  - component: {fileID: 8342879074935901778}
+  - component: {fileID: 1396917763014193813}
+  - component: {fileID: 2993933902581069560}
+  - component: {fileID: 2124287315056121198}
+  - component: {fileID: 1382681008628273573}
+  - component: {fileID: 9126405803309619622}
+  - component: {fileID: 9213345918738152875}
+  - component: {fileID: 3838844511251511257}
+  - component: {fileID: 7912946279411434819}
+  - component: {fileID: 7517963253584358675}
+  - component: {fileID: 2458569539202377125}
   m_Layer: 0
-  m_Name: PanelHandlerCylinder
+  m_Name: DefaultPanels
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -44,50 +56,150 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 385ec588857b42058f415c10c7a53a2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: OC.UI::OC.UI.Panel.PanelHandlerCylinder
---- !u!1 &1898444335551167532
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 448240872266468417}
-  - component: {fileID: 1355131419140143857}
-  m_Layer: 0
-  m_Name: PanelHandlerPayload
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &448240872266468417
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1898444335551167532}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 8967247757186641710}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1355131419140143857
+--- !u!114 &9174880816276318332
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1898444335551167532}
+  m_GameObject: {fileID: 1200522142722179043}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8fe260bee684a289588377d15dc5984, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: OC.UI::OC.UI.Panel.PanelHandlerDataReader
+--- !u!114 &8342879074935901778
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1200522142722179043}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81d802c9be6c4be5bfb57dbba8a5491b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: OC.UI::OC.UI.Panel.PanelHandlerDrivePosition
+--- !u!114 &1396917763014193813
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1200522142722179043}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f0c9f340153499085e2bcc0515931c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: OC.UI::OC.UI.Panel.PanelHandlerDriveSimple
+--- !u!114 &2993933902581069560
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1200522142722179043}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38c4d637d6a94608b05fd5de7b6983e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: OC.UI::OC.UI.Panel.PanelHandlerDriveSpeed
+--- !u!114 &2124287315056121198
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1200522142722179043}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cdefeaaa7e284774a42c5ee9b90b7df2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: OC.UI::OC.UI.Panel.PanelHandlerLock
+--- !u!114 &1382681008628273573
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1200522142722179043}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 959fba1be65c4f959c4700d95fda6a9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: OC.UI::OC.UI.Panel.PanelHandlerPayload
+--- !u!114 &9126405803309619622
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1200522142722179043}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58e0833af74f4837abf48110b40fc040, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: OC.UI::OC.UI.Panel.PanelHandlerSensorAnalog
+--- !u!114 &9213345918738152875
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1200522142722179043}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac9d74978d334f04ab2bb98613e52282, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: OC.UI::OC.UI.Panel.PanelHandlerSensorBinary
+--- !u!114 &3838844511251511257
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1200522142722179043}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c35135b58574483984e99ba452030dca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: OC.UI::OC.UI.Panel.PanelHandlerSink
+--- !u!114 &7912946279411434819
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1200522142722179043}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f729249ffc84b1da9b9f953a6b92b0d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: OC.UI::OC.UI.Panel.PanelHandlerSource
+--- !u!114 &7517963253584358675
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1200522142722179043}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b433debeaf74305b2696429b198b23d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: OC.UI::OC.UI.Panel.PanelHandlerTagReader
+--- !u!114 &2458569539202377125
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1200522142722179043}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c46486ffda704f45aa95d7dca15fc586, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: OC.UI::OC.UI.Panel.PanelHandlerTypeChanger
 --- !u!1 &5944085727504648028
 GameObject:
   m_ObjectHideFlags: 0
@@ -356,7 +468,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1862832868559343557}
-  - {fileID: 448240872266468417}
   m_Father: {fileID: 5119013499547594651}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8487941571914066906
@@ -373,7 +484,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: OC.UI::OC.UI.Panel.PanelManager
   _panelHandlers:
   - {fileID: 1617847428874667936}
-  - {fileID: 1355131419140143857}
+  - {fileID: 9174880816276318332}
+  - {fileID: 8342879074935901778}
+  - {fileID: 1396917763014193813}
+  - {fileID: 2993933902581069560}
+  - {fileID: 2124287315056121198}
+  - {fileID: 1382681008628273573}
+  - {fileID: 9126405803309619622}
+  - {fileID: 9213345918738152875}
+  - {fileID: 3838844511251511257}
+  - {fileID: 7912946279411434819}
+  - {fileID: 7517963253584358675}
+  - {fileID: 2458569539202377125}
   _dockThreshold: 10
   _debug: 1
 --- !u!1001 &5461151000317629018

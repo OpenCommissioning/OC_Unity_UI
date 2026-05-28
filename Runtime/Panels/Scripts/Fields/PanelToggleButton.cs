@@ -26,7 +26,7 @@ namespace OC.UI.Panel
             set
             {
                 if (_value == value) return;
-                SetValueWithoutNotify(value);
+                OnValueChanged(value);
             }
         }
         
@@ -37,7 +37,7 @@ namespace OC.UI.Panel
         private const string USS_BUTTON_ACTIVE = "panel-field-button_active";
 
         private bool _value;
-        private readonly IProperty<bool> _property;
+        private IProperty<bool> _property;
 
         public PanelToggleButton()
         {
@@ -46,24 +46,29 @@ namespace OC.UI.Panel
             AddToClassList(USS_CONTAINER);
             AddToClassList(USS_BUTTON);
             AddToClassList(USS_UNITY_BUTTON);
+            RegisterCallback<MouseDownEvent>(OnMouseDownEvent);
         }
         
-        public PanelToggleButton(string label, IProperty<bool> property, IProperty<bool> enable) : this()
+        public PanelToggleButton(string label) : this()
         {
             if (!string.IsNullOrEmpty(label)) text = label;
-
-            _property = property;
-            
-            _property.OnValueChanged += SetValueWithoutNotify;
-            enable.OnValueChanged += SetEnabled;
-
-            RegisterCallback<MouseDownEvent>(OnMouseDownEvent);
-            
-            Value = _property.Value;
-            SetEnabled(enable.Value);
         }
         
-        private void SetValueWithoutNotify(bool value)
+        public VisualElement Bind(IProperty<bool> property)
+        {
+            _property = property;
+            _property.Subscribe(OnValueChanged);
+            return this;
+        }
+
+        public VisualElement Unbind()
+        {
+            _property?.Unsubscribe(OnValueChanged);
+            _property = null;
+            return this;
+        }
+        
+        private void OnValueChanged(bool value)
         {
             _value = value;
             EnableInClassList(USS_BUTTON_ACTIVE, value);

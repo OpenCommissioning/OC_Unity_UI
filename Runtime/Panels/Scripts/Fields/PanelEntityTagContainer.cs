@@ -16,8 +16,10 @@ namespace OC.UI.Panel
         private int _directoryIndex;
         private List<EntryData> _entryData = new ();
         
-        private readonly PanelGroupContainer _groupContainer ;
-        private readonly Property<bool> _override = new (false);
+        private readonly PanelGroupContainer _groupContainer;
+        private readonly Property<bool> _overrideProperty = new (false);
+        
+        private PanelToggleSlide _override;
         private readonly VisualElement _content;
         private readonly PanelButton _buttonWrite;
         private readonly PanelButton _buttonRead;
@@ -27,16 +29,15 @@ namespace OC.UI.Panel
         {
             styleSheets.Add(Resources.Load<StyleSheet>(USS));
             Add(_groupContainer = new PanelGroupContainer());
-            Add(new PanelToggleSlide("Override", _override));
+            Add(_override = new PanelToggleSlide("Override"));
             Add(_content = new VisualElement());
             Add(_buttonWrite = new PanelButton("Write", WriteData));
             Add(_buttonRead = new PanelButton("Read", ReadData));
-            _override.Subscribe(OverrideOnValueChanged);
         }
 
         public void Bind(PayloadTag entityTag, int directoryIndex)
         {
-            _override.Value = false;
+            _override.Bind(_overrideProperty);
             _entityTag = entityTag;
             _directoryIndex = directoryIndex;
             _groupContainer.Label = ProductDataDirectoryManager.Instance.ProductDataDirectories[directoryIndex].Name;
@@ -44,14 +45,20 @@ namespace OC.UI.Panel
 
             foreach (var entryData in _entryData)
             {
-                var entryDataFiled = new PanelEntryDataField(entryData);
-                Add(entryDataFiled);
+                var entryDataFiled = new PanelEntryDataField();
+                entryDataFiled.Bind(entryData);
+                _content.Add(entryDataFiled);
                 _entryDataFields.Add(entryDataFiled);
             }
+            
+            _overrideProperty.Subscribe(OnOverrideChanged);
         }
 
         public void Unbind()
         {
+            _overrideProperty.Unsubscribe(OnOverrideChanged);
+            
+            _override.Unbind();
             foreach (var dataField in _entryDataFields)
             {
                 dataField.Unbind();
@@ -61,7 +68,7 @@ namespace OC.UI.Panel
             _content.Clear();
         }
 
-        private void OverrideOnValueChanged(bool value)
+        private void OnOverrideChanged(bool value)
         {
             foreach (var dataField in _entryDataFields)
             {

@@ -21,8 +21,8 @@ namespace OC.UI.Panel
         protected override void Create()
         {
             var groupData = new PanelGroupContainer("Data");
-            groupData.Add(_typeId = new PanelIntegerField("TypeId"));
-            groupData.Add(_uniqueId = new PanelULongField("UniqueId"));
+            groupData.Add(_typeId = new PanelIntegerField("TypeId", true));
+            groupData.Add(_uniqueId = new PanelULongField("UniqueId", true));
             Add(groupData);
             Add(_content = new VisualElement());
         }

@@ -16,6 +16,7 @@ namespace OC.UI.Panel
         private const string STYLE_SHEET = "StyleSheet/panel-field";
         private const string USS_CONTAINER = "panel-field-container";
         private const string USS_TOGGLE_CHECKBOX = "panel-field-toggle";
+        private IProperty<bool> _property;
 
         public PanelToggle() : this("") {}
 
@@ -29,6 +30,18 @@ namespace OC.UI.Panel
         public PanelToggle(string label, Property<bool> property) : this(label) 
         {
             this.BindProperty(property);
+        }
+        
+        public VisualElement Bind(IProperty<bool> property)
+        {
+            _property = property;
+            _property.Subscribe(SetValueWithoutNotify);
+            return this;
+        }
+
+        public VisualElement Unbind()
+        {
+            return this;
         }
     }
 }

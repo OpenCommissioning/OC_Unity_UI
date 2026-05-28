@@ -195,6 +195,21 @@ namespace OC.UI.Panel
             var visible = _activePanels.Any(panel => panel.Enable);
             _sidebar.EnableInClassList(USS_SIDEBAR_DISABLED, !visible);
         }
+
+        [ContextMenu(nameof(FindPanelsInChildren), false, 100)]
+        public void FindPanelsInChildren()
+        {
+            _panelHandlers.Clear();
+            var panels = GetComponentsInChildren<PanelHandler>(true);
+            foreach (var panel in panels)
+            {
+                _panelHandlers.Add(panel);
+            }
+            
+#if UNITY_EDITOR
+            UnityEditor.EditorUtility.SetDirty(this);
+#endif
+        }
     }
 }
 
