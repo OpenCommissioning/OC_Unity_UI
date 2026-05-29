@@ -2,15 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using OC.Components;
-using OC.Communication;
 using OC.Data;
-using OC.UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace OC.UI.ComponentLayout
 {
-    [DefaultExecutionOrder(-400)]
+    [DefaultExecutionOrder(6000)]
     public class LayoutSaveSystem : MonoBehaviourSingleton<LayoutSaveSystem>
     {
         public bool IsDirty => _isDirty;
@@ -247,7 +245,11 @@ namespace OC.UI.ComponentLayout
                         transform.localPosition = entry.LocalPosition.ToVector3();
                     }
 
-                    if (entry.LocalRotation != null)
+                    if (entry.LocalEulerAngles != null)
+                    {
+                        transform.localEulerAngles = entry.LocalEulerAngles.ToVector3();
+                    }
+                    else if (entry.LocalRotation != null)
                     {
                         transform.localRotation = entry.LocalRotation.ToQuaternion();
                     }
@@ -292,19 +294,19 @@ namespace OC.UI.ComponentLayout
                 SceneName = SceneManager.GetActiveScene().name
             };
 
-            foreach (var sensor in FindObjectsByType<SensorBinary>(FindObjectsInactive.Include, FindObjectsSortMode.None))
+            foreach (var sensor in FindObjectsByType<SensorBinary>(FindObjectsInactive.Include))
             {
-                AddEntry(data, GetEntryId(sensor.Link, sensor.name), nameof(SensorBinary), sensor.transform);
+                AddEntry(data, GetEntryId(sensor.transform), nameof(SensorBinary), sensor.transform);
             }
 
-            foreach (var sensor in FindObjectsByType<SensorAnalog>(FindObjectsInactive.Include, FindObjectsSortMode.None))
+            foreach (var sensor in FindObjectsByType<SensorAnalog>(FindObjectsInactive.Include))
             {
-                AddEntry(data, GetEntryId(sensor.Link, sensor.name), nameof(SensorAnalog), sensor.transform);
+                AddEntry(data, GetEntryId(sensor.transform), nameof(SensorAnalog), sensor.transform);
             }
 
-            foreach (var cylinder in FindObjectsByType<Cylinder>(FindObjectsInactive.Include, FindObjectsSortMode.None))
+            foreach (var cylinder in FindObjectsByType<Cylinder>(FindObjectsInactive.Include))
             {
-                AddEntry(data, GetEntryId(cylinder.Link, cylinder.name), nameof(Cylinder), cylinder.transform);
+                AddEntry(data, GetEntryId(cylinder.transform), nameof(Cylinder), cylinder.transform);
             }
 
             return data;
@@ -322,53 +324,38 @@ namespace OC.UI.ComponentLayout
                 Id = id,
                 Type = type,
                 LocalPosition = XmlVector3.From(transform.localPosition),
-                LocalRotation = XmlQuaternion.From(transform.localRotation)
+                LocalEulerAngles = XmlVector3.From(transform.localEulerAngles)
             });
         }
 
-        private static string GetEntryId(Link link, string fallbackName)
-        {
-            var path = link?.ClientPath;
-            if (!string.IsNullOrEmpty(path))
-            {
-                return path;
-            }
-
-            if (!string.IsNullOrEmpty(fallbackName))
-            {
-                Debug.LogWarning($"[ComponentLayout] Component '{fallbackName}' has no Link.ClientPath; using GameObject name as id.");
-                return fallbackName;
-            }
-
-            return null;
-        }
+        private static string GetEntryId(Transform transform) => transform.GetScenePath();
 
         private static Dictionary<string, Transform> BuildSceneLookup()
         {
             var lookup = new Dictionary<string, Transform>();
 
-            void Add(Link link, string name, Transform transform)
+            void Add(Transform transform)
             {
-                var id = GetEntryId(link, name);
+                var id = GetEntryId(transform);
                 if (!string.IsNullOrEmpty(id) && !lookup.ContainsKey(id))
                 {
                     lookup[id] = transform;
                 }
             }
 
-            foreach (var c in FindObjectsByType<SensorBinary>(FindObjectsInactive.Include, FindObjectsSortMode.None))
+            foreach (var sensor in FindObjectsByType<SensorBinary>(FindObjectsInactive.Include))
             {
-                Add(c.Link, c.name, c.transform);
+                Add(sensor.transform);
             }
 
-            foreach (var c in FindObjectsByType<SensorAnalog>(FindObjectsInactive.Include, FindObjectsSortMode.None))
+            foreach (var sensor in FindObjectsByType<SensorAnalog>(FindObjectsInactive.Include))
             {
-                Add(c.Link, c.name, c.transform);
+                Add(sensor.transform);
             }
 
-            foreach (var c in FindObjectsByType<Cylinder>(FindObjectsInactive.Include, FindObjectsSortMode.None))
+            foreach (var cylinder in FindObjectsByType<Cylinder>(FindObjectsInactive.Include))
             {
-                Add(c.Link, c.name, c.transform);
+                Add(cylinder.transform);
             }
 
             return lookup;

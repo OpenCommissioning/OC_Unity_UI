@@ -31,6 +31,7 @@ namespace OC.UI.TransformHandles
         
         public override void StartInteraction(Vector3 mousePosition, Vector3 point)
         {
+            base.StartInteraction(mousePosition, point);
             Vector3 rperp = _parentTransformHandle.Coordinate.Value == CoordinateSpace.Local ? _parentTransformHandle.transform.rotation * _perpendicularAxis : _perpendicularAxis;
 
             _plane = new Plane(rperp, _parentTransformHandle.transform.position);

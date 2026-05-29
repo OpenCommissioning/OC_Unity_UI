@@ -28,6 +28,10 @@ namespace OC.UI.ComponentLayout
         [XmlElement("LocalPosition")]
         public XmlVector3 LocalPosition;
 
+        [XmlElement("LocalEulerAngles")]
+        public XmlVector3 LocalEulerAngles;
+
+        /// <summary>Legacy quaternion format; used when loading older save files.</summary>
         [XmlElement("LocalRotation")]
         public XmlQuaternion LocalRotation;
     }
