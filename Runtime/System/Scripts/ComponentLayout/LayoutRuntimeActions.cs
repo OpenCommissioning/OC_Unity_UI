@@ -1,3 +1,5 @@
+using Cysharp.Threading.Tasks;
+
 namespace OC.UI.ComponentLayout
 {
     /// <summary>
@@ -7,12 +9,12 @@ namespace OC.UI.ComponentLayout
     {
         public void OnSaveLayoutRequested()
         {
-            LayoutSaveSystem.Instance?.Save();
+            LayoutSaveSystem.Instance?.SaveAsync().Forget();
         }
 
         public void OnOpenImportLayoutRequested()
         {
-            LayoutSaveSystem.Instance?.Load();
+            LayoutSaveSystem.Instance?.LoadAsync().Forget();
         }
     }
 }

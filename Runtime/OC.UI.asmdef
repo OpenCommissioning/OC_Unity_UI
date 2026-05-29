@@ -3,6 +3,7 @@
     "rootNamespace": "OC.UI",
     "references": [
         "OC",
+        "UniTask",
         "Unity.TextMeshPro",
         "NaughtyAttributes.Core",
         "Unity.Cinemachine",

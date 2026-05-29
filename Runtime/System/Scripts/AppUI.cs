@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Cysharp.Threading.Tasks;
 using OC.UI.ComponentLayout;
 using OC.UI.Interactions;
 using OC.UI.Panel;
@@ -159,16 +160,22 @@ namespace OC.UI
                 return;
             }
 
-            layoutSystem.Save(success =>
-            {
-                if (!success) return;
+            OnSaveLayoutPopupSaveAsync(layoutSystem).Forget();
+        }
 
-                _saveLayoutPopup.Close();
-                if (_pendingQuitOnSaveSuccess)
-                {
-                    Application.Quit();
-                }
-            });
+        private async UniTaskVoid OnSaveLayoutPopupSaveAsync(LayoutSaveSystem layoutSystem)
+        {
+            var success = await layoutSystem.SaveAsync();
+            if (!success)
+            {
+                return;
+            }
+
+            _saveLayoutPopup.Close();
+            if (_pendingQuitOnSaveSuccess)
+            {
+                Application.Quit();
+            }
         }
 
         private void OnSaveLayoutPopupDiscard()

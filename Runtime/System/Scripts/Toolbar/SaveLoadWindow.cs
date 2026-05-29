@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using NaughtyAttributes;
 using OC.UI.ComponentLayout;
 using OC.UI.Panel;
@@ -16,13 +17,13 @@ namespace OC.UI
         [Button]
         private void OnSaveClicked()
         {
-            LayoutSaveSystem.Instance.Save();
+            LayoutSaveSystem.Instance.SaveAsync().Forget();
         }
         
         [Button]
         private void OnLoadClicked()
         {
-            LayoutSaveSystem.Instance.Load();
+            LayoutSaveSystem.Instance.LoadAsync().Forget();
         }
     }
 }

@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using OC.UI.ComponentLayout;
 using UnityEngine;
 
@@ -19,7 +20,7 @@ namespace OC.UI.Console.Commands
                 return;
             }
 
-            System.Save();
+            System.SaveAsync().Forget();
         }
 
         [ConsoleMethod("layout.load", "Loads component layout from XML (opens file browser)"), UnityEngine.Scripting.Preserve]
@@ -31,7 +32,7 @@ namespace OC.UI.Console.Commands
                 return;
             }
 
-            System.Load();
+            System.LoadAsync().Forget();
         }
 
         [ConsoleMethod("layout.status", "Shows component layout save status"), UnityEngine.Scripting.Preserve]

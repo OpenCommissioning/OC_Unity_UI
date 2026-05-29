@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using Cysharp.Threading.Tasks;
 using OC.Components;
 using OC.Data;
 using UnityEngine;
@@ -129,52 +130,47 @@ namespace OC.UI.ComponentLayout
             return $"{sceneName}_{timestamp}{FILE_EXTENSION}";
         }
 
-        public void Save(Action<bool> onComplete = null)
+        public async UniTask<bool> SaveAsync()
         {
             EnsureLayoutsDirectory();
             var directory = GetLayoutsDirectory();
             var suggestedFileName = BuildDefaultFileName();
 
-            var path = FileBrowser.SaveFilePanel(
+            var path = await UniTask.RunOnThreadPool(() => FileBrowser.SaveFilePanelAsync(
                 "Save Component Layout",
                 directory,
                 suggestedFileName,
-                FILE_EXTENSION_FILTER);
+                FILE_EXTENSION_FILTER));
+            await UniTask.SwitchToMainThread();
 
             if (string.IsNullOrEmpty(path))
             {
-                onComplete?.Invoke(false);
-                return;
+                return false;
             }
 
-            var success = SaveToFile(path);
-            onComplete?.Invoke(success);
+            return SaveToFile(path);
         }
 
-        public void Load()
-        {
-            OpenAndImport();
-        }
+        public UniTask<bool> LoadAsync() => OpenAndLoadAsync();
 
-        public void OpenAndImport(Action<bool> onComplete = null)
+        public async UniTask<bool> OpenAndLoadAsync()
         {
             EnsureLayoutsDirectory();
             var directory = GetLayoutsDirectory();
 
-            var paths = FileBrowser.OpenFilePanel(
+            var paths = await UniTask.RunOnThreadPool(() => FileBrowser.OpenFilePanelAsync(
                 "Load Component Layout",
                 directory,
                 FILE_EXTENSION_FILTER,
-                multiselect: false);
+                multiselect: false));
+            await UniTask.SwitchToMainThread();
 
             if (paths == null || paths.Length == 0)
             {
-                onComplete?.Invoke(false);
-                return;
+                return false;
             }
 
-            var success = ImportFromFile(paths[0]);
-            onComplete?.Invoke(success);
+            return ImportFromFile(paths[0]);
         }
 
         public bool SaveToFile(string filePath)
