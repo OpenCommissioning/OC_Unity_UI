@@ -1,11 +1,8 @@
-using UnityEngine;
-using UnityEngine.UIElements;
-
 namespace OC.UI.Panel
 {
     public static class PanelFactory
     {
-        public static Panel Create(PanelHandler panelHandler)
+        /*public static Panel Create(PanelHandler panelHandler)
         {
             if (panelHandler.Component == null) return null;
 
@@ -33,18 +30,12 @@ namespace OC.UI.Panel
             var panel = new Panel(panelHandler.Target.name, true, true, true);
             panel.OnFocus += panelHandler.Focus;
             panel.OnClose += panelHandler.Delete;
-            
-            var groupStatus = new GroupContainer("Status");
-            groupStatus.Add(new BinaryStatusField("Collision", target.Collision));
-            groupStatus.Add(new StringField("RawValue", target.RawData));
-            
-            var groupControl = new GroupContainer("Control");
-            groupControl.Add(new StringField("TargetValue", target.TargetData));
-            groupControl.Add(new Button("Write", target.Write));
-            groupControl.Add(new Button("Read", target.Read));
+
+            var groupStatus = new PanelGroupContainer("Status");
+            groupStatus.Add(new PanelBinaryStatusField("Collision", target.Collision));
+            groupStatus.Add(new PanelStringField("Value", target.TargetData));
             
             panel.Add(groupStatus);
-            panel.Add(groupControl);
             
             return panel;
         }
@@ -55,12 +46,12 @@ namespace OC.UI.Panel
             panel.OnFocus += panelHandler.Focus;
             panel.OnClose += panelHandler.Delete;
 
-            var groupStatus = new GroupContainer("Status");
-            groupStatus.Add(new BinaryStatusField("Collision", target.Collision));
+            var groupStatus = new PanelGroupContainer("Status");
+            groupStatus.Add(new PanelBinaryStatusField("Collision", target.Collision));
 
-            var groupControl = new GroupContainer("Control");
-            groupControl.Add(new IntegerField("Type ID", target.TargetTypeID));
-            groupControl.Add(new Button("Replace", target.Replace));
+            var groupControl = new PanelGroupContainer("Control");
+            groupControl.Add(new PanelIntegerField("Type ID", target.TargetTypeID));
+            groupControl.Add(new PanelButton("Replace", target.Replace));
             
             panel.Add(groupStatus);
             panel.Add(groupControl);
@@ -74,17 +65,17 @@ namespace OC.UI.Panel
             panel.OnFocus += panelHandler.Focus;
             panel.OnClose += panelHandler.Delete;
             
-            var groupStatus = new GroupContainer("Status");
-            groupStatus.Add(new BinaryStatusField("Collision", target.Collision));
-            groupStatus.Add(new ULongField("Value", target.Value));
+            var groupStatus = new PanelGroupContainer("Status");
+            groupStatus.Add(new PanelBinaryStatusField("Collision", target.Collision));
+            groupStatus.Add(new PanelULongField("Value", target.Value));
             
-            var groupControl = new GroupContainer("Control");
-            groupControl.Add(new ToggleSlide("Override", target.Override));
-            groupControl.Add(new ULongField("Value", target.Value));
+            var groupControl = new PanelGroupContainer("Control");
+            groupControl.Add(new PanelToggleSlide("Override", target.Override));
+            groupControl.Add(new PanelULongField("Value", target.Value));
 
             panel.Add(groupStatus);
             panel.Add(groupControl);
-            panel.Add(new LinkStatus(target.Link));
+            panel.Add(new PanelLinkStatus(target.Link));
 
             return panel;
         }
@@ -95,16 +86,16 @@ namespace OC.UI.Panel
             panel.OnFocus += panelHandler.Focus;
             panel.OnClose += panelHandler.Delete;
 
-            var groupStatus = new GroupContainer("Status");
-            groupStatus.Add(new FloatField("Value", target.Value, true));
+            var groupStatus = new PanelGroupContainer("Status");
+            groupStatus.Add(new PanelFloatField("Value", target.Value, true));
 
-            var groupControl = new GroupContainer("Control");
-            groupControl.Add(new ToggleSlide("Override", target.Override));
-            groupControl.Add(new FloatField("Target", target.Value, target.Override));
+            var groupControl = new PanelGroupContainer("Control");
+            groupControl.Add(new PanelToggleSlide("Override", target.Override));
+            groupControl.Add(new PanelFloatField("Target", target.Value, target.Override));
 
             panel.Add(groupStatus);
             panel.Add(groupControl);
-            panel.Add(new LinkStatus(target.Link));
+            panel.Add(new PanelLinkStatus(target.Link));
 
             return panel;
         }
@@ -115,16 +106,16 @@ namespace OC.UI.Panel
             panel.OnFocus += panelHandler.Focus;
             panel.OnClose += panelHandler.Delete;
 
-            var groupStatus = new GroupContainer("Status");
-            groupStatus.Add(new BinaryStatusField("Value", target.Value));
+            var groupStatus = new PanelGroupContainer("Status");
+            groupStatus.Add(new PanelBinaryStatusField("Value", target.Value));
 
-            var groupControl = new GroupContainer("Control");
-            groupControl.Add(new ToggleSlide("Override", target.Override));
-            groupControl.Add(new ToggleSlide("State", target.State, target.Override));
+            var groupControl = new PanelGroupContainer("Control");
+            groupControl.Add(new PanelToggleSlide("Override", target.Override));
+            groupControl.Add(new PanelToggleSlide("State", target.State, target.Override));
 
             panel.Add(groupStatus);
             panel.Add(groupControl);
-            panel.Add(new LinkStatus(target.Link));
+            panel.Add(new PanelLinkStatus(target.Link));
 
             return panel;
         }
@@ -135,15 +126,15 @@ namespace OC.UI.Panel
             panel.OnFocus += panelHandler.Focus;
             panel.OnClose += panelHandler.Delete;
 
-            var groupStatus = new GroupContainer("Status");
-            groupStatus.Add(new BinaryStatusField("Collision", target.Collision));
+            var groupStatus = new PanelGroupContainer("Status");
+            groupStatus.Add(new PanelBinaryStatusField("Collision", target.Collision));
 
-            var groupControl = new GroupContainer("Control");
-            groupControl.Add(new ToggleSlide("Auto", target.Auto));
-            groupControl.Add(new IntegerField("TypeId", target.TypeId));
-            groupControl.Add(new ULongField("UniqueId", (IProperty<ulong>)target.UniqueId));
-            groupControl.Add(new Button("Create", target.Create));
-            groupControl.Add(new Button("Delete", target.Delete));
+            var groupControl = new PanelGroupContainer("Control");
+            groupControl.Add(new PanelToggleSlide("Auto", target.Auto));
+            groupControl.Add(new PanelIntegerField("TypeId", target.TypeId));
+            groupControl.Add(new PanelULongField("UniqueId", (IProperty<ulong>)target.UniqueId));
+            groupControl.Add(new PanelButton("Create", target.Create));
+            groupControl.Add(new PanelButton("Delete", target.Delete));
 
             panel.Add(groupStatus);
             panel.Add(groupControl);
@@ -157,9 +148,9 @@ namespace OC.UI.Panel
             panel.OnFocus += panelHandler.Focus;
             panel.OnClose += panelHandler.Delete;
 
-            var groupData = new GroupContainer("Data");
-            groupData.Add(new IntegerField("TypeId", target.TypeId));
-            groupData.Add(new ULongField("UniqueId", target.UniqueId));
+            var groupData = new PanelGroupContainer("Data");
+            groupData.Add(new PanelIntegerField("TypeId", target.TypeId));
+            groupData.Add(new PanelULongField("UniqueId", target.UniqueId));
             
             panel.Add(groupData);
             AddEntityTagContainer(panel, target);
@@ -173,12 +164,12 @@ namespace OC.UI.Panel
             panel.OnFocus += panelHandler.Focus;
             panel.OnClose += panelHandler.Delete;
             
-            var groupStatus = new GroupContainer("Status");
-            groupStatus.Add(new BinaryStatusField("Collision", target.Collision));
+            var groupStatus = new PanelGroupContainer("Status");
+            groupStatus.Add(new PanelBinaryStatusField("Collision", target.Collision));
 
-            var groupControl = new GroupContainer("Control");
-            groupControl.Add(new ToggleSlide("Auto", target.Auto));
-            groupControl.Add(new Button("Delete", target.Delete));
+            var groupControl = new PanelGroupContainer("Control");
+            groupControl.Add(new PanelToggleSlide("Auto", target.Auto));
+            groupControl.Add(new PanelButton("Delete", target.Delete));
 
             panel.Add(groupStatus);
             panel.Add(groupControl);
@@ -192,20 +183,20 @@ namespace OC.UI.Panel
             panel.OnFocus += panelHandler.Focus;
             panel.OnClose += panelHandler.Delete;
 
-            var groupStatus = new GroupContainer("Status");
-            groupStatus.Add(new BinaryStatusField("Is Active", target.IsActive));
-            groupStatus.Add(new ProgressBarWithLimits("Progress", target.Progress));
+            var groupStatus = new PanelGroupContainer("Status");
+            groupStatus.Add(new PanelBinaryStatusField("Is Active", target.IsActive));
+            groupStatus.Add(new PanelProgressBarWithLimits("Progress", target.Progress));
 
-            var groupControl = new GroupContainer("Control");
-            groupControl.Add(new ToggleSlide("Override", target.Override));
-            var hoizontalGroup = new HorizontalGroup();
-            hoizontalGroup.Add(new PushButton("Minus", target.Minus, target.Override));
-            hoizontalGroup.Add(new PushButton("Plus", target.Plus, target.Override));
+            var groupControl = new PanelGroupContainer("Control");
+            groupControl.Add(new PanelToggleSlide("Override", target.Override));
+            var hoizontalGroup = new PanelHorizontalGroup();
+            hoizontalGroup.Add(new PanelPushButton("Minus", target.Minus, target.Override));
+            hoizontalGroup.Add(new PanelPushButton("Plus", target.Plus, target.Override));
             groupControl.Add(hoizontalGroup);
 
             panel.Add(groupStatus);
             panel.Add(groupControl);
-            panel.Add(new LinkStatus(target.Link));
+            panel.Add(new PanelLinkStatus(target.Link));
 
             return panel;
         }
@@ -216,20 +207,20 @@ namespace OC.UI.Panel
             panel.OnFocus += panelHandler.Focus;
             panel.OnClose += panelHandler.Delete;
 
-            var groupStatus = new GroupContainer("Status");
-            groupStatus.Add(new BinaryStatusField("Is Active", target.IsActive));
-            groupStatus.Add(new FloatField("Speed", target.Value));
+            var groupStatus = new PanelGroupContainer("Status");
+            groupStatus.Add(new PanelBinaryStatusField("Is Active", target.IsActive));
+            groupStatus.Add(new PanelFloatField("Speed", target.Value));
             
-            var groupControl = new GroupContainer("Control");
-            groupControl.Add(new ToggleSlide("Override", target.Override));
-            var hoizontalGroup = new HorizontalGroup();
-            hoizontalGroup.Add(new ToggleButton("Backward", target.Backward, target.Override));
-            hoizontalGroup.Add(new ToggleButton("Forward", target.Forward, target.Override));
+            var groupControl = new PanelGroupContainer("Control");
+            groupControl.Add(new PanelToggleSlide("Override", target.Override));
+            var hoizontalGroup = new PanelHorizontalGroup();
+            hoizontalGroup.Add(new PanelToggleButton("Backward", target.Backward, target.Override));
+            hoizontalGroup.Add(new PanelToggleButton("Forward", target.Forward, target.Override));
             groupControl.Add(hoizontalGroup);
             
             panel.Add(groupStatus);
             panel.Add(groupControl);
-            panel.Add(new LinkStatus(target.Link));
+            panel.Add(new PanelLinkStatus(target.Link));
 
             return panel;
         }
@@ -240,17 +231,17 @@ namespace OC.UI.Panel
             panel.OnFocus += panelHandler.Focus;
             panel.OnClose += panelHandler.Delete;
 
-            var groupStatus = new GroupContainer("Status");
-            groupStatus.Add(new BinaryStatusField("Is Active", target.IsActive));
-            groupStatus.Add(new FloatField("Acceleration", target.Value));
+            var groupStatus = new PanelGroupContainer("Status");
+            groupStatus.Add(new PanelBinaryStatusField("Is Active", target.IsActive));
+            groupStatus.Add(new PanelFloatField("Acceleration", target.Value));
 
-            var groupControl = new GroupContainer("Control");
-            groupControl.Add(new ToggleSlide("Override", target.Override));
-            groupControl.Add(new FloatField("Target", target.Target, target.Override));
+            var groupControl = new PanelGroupContainer("Control");
+            groupControl.Add(new PanelToggleSlide("Override", target.Override));
+            groupControl.Add(new PanelFloatField("Target", target.Target, target.Override));
             
             panel.Add(groupStatus);
             panel.Add(groupControl);
-            panel.Add(new LinkStatus(target.Link));
+            panel.Add(new PanelLinkStatus(target.Link));
 
             return panel;
         }
@@ -261,17 +252,17 @@ namespace OC.UI.Panel
             panel.OnFocus += panelHandler.Focus;
             panel.OnClose += panelHandler.Delete;
 
-            var groupStatus = new GroupContainer("Status");
-            groupStatus.Add(new BinaryStatusField("Is Active", target.IsActive));
-            groupStatus.Add(new FloatField("Position", target.Value));
+            var groupStatus = new PanelGroupContainer("Status");
+            groupStatus.Add(new PanelBinaryStatusField("Is Active", target.IsActive));
+            groupStatus.Add(new PanelFloatField("Position", target.Value));
 
-            var groupControl = new GroupContainer("Control");
-            groupControl.Add(new ToggleSlide("Override", target.Override));
-            groupControl.Add(new FloatField("Target", target.Target, target.Override));
+            var groupControl = new PanelGroupContainer("Control");
+            groupControl.Add(new PanelToggleSlide("Override", target.Override));
+            groupControl.Add(new PanelFloatField("Target", target.Target, target.Override));
             
             panel.Add(groupStatus);
             panel.Add(groupControl);
-            panel.Add(new LinkStatus(target.Link));
+            panel.Add(new PanelLinkStatus(target.Link));
 
             return panel;
         }
@@ -282,65 +273,19 @@ namespace OC.UI.Panel
             panel.OnFocus += panelHandler.Focus;
             panel.OnClose += panelHandler.Delete;
 
-            var groupStatus = new GroupContainer("Status");
-            groupStatus.Add(new BinaryStatusField("Closed", target.Closed));
-            groupStatus.Add(new BinaryStatusField("Locked", target.Locked));
+            var groupStatus = new PanelGroupContainer("Status");
+            groupStatus.Add(new PanelBinaryStatusField("Closed", target.Closed));
+            groupStatus.Add(new PanelBinaryStatusField("Locked", target.Locked));
             
-            var groupControl = new GroupContainer("Control");
-            groupControl.Add(new ToggleSlide("Override", target.Override));
-            var hoizontalGroup = new HorizontalGroup();
-            hoizontalGroup.Add(new ToggleButton("Lock", target.LockSignal, target.Override));
+            var groupControl = new PanelGroupContainer("Control");
+            groupControl.Add(new PanelToggleSlide("Override", target.Override));
+            var hoizontalGroup = new PanelHorizontalGroup();
+            hoizontalGroup.Add(new PanelToggleButton("Lock", target.LockSignal, target.Override));
             groupControl.Add(hoizontalGroup);
             
             panel.Add(groupStatus);
             panel.Add(groupControl);
-            panel.Add(new LinkStatus(target.Link));
-
-            return panel;
-        }
-
-        public static Panel Create(GenericPanelHandler genericPanelHandler)
-        {
-            if (genericPanelHandler.Component == null) return null;
-
-            var panel = new Panel(genericPanelHandler.Target.name, true, true, true);
-            panel.OnFocus += genericPanelHandler.Focus;
-            panel.OnClose += genericPanelHandler.Delete;
-
-            foreach (var binding in genericPanelHandler.Bindings)
-            {
-                if (!genericPanelHandler.PossibleBindings.Contains(binding.Property))
-                {
-                    Debug.Log($"Can't find Property of name <b>{binding.Property}</b> in <b>{genericPanelHandler.Component.name}</b>");
-                    continue;
-                }
-
-                var propertyInfo = genericPanelHandler.Component.GetType().GetProperty(binding.Property);
-
-                if (propertyInfo == null) continue;
-
-                var isReadOnly = !propertyInfo.CanWrite || binding.IsReadOnly;
-
-                var property = (IProperty)propertyInfo.GetValue(genericPanelHandler.Component);
-
-                if (property == null) continue;
-
-                panel.Add(property switch
-                {
-                    IProperty<float> prop => new FloatField(propertyInfo.Name, prop, isReadOnly),
-                    IProperty<int> prop => new IntegerField(propertyInfo.Name, prop, isReadOnly),
-                    IProperty<uint> prop => new UIntegerField(propertyInfo.Name, prop, isReadOnly),
-                    IProperty<long> prop => new LongField(propertyInfo.Name, prop, isReadOnly),
-                    IProperty<ulong> prop => new ULongField(propertyInfo.Name, prop, isReadOnly),
-                    IProperty<Vector2> prop => new Vector2Field(propertyInfo.Name, prop, isReadOnly),
-                    IProperty<Vector2Int> prop => new Vector2IntField(propertyInfo.Name, prop, isReadOnly),
-                    IProperty<Vector3> prop => new Vector3Field(propertyInfo.Name, prop, isReadOnly),
-                    IProperty<Vector3Int> prop => new Vector3IntField(propertyInfo.Name, prop, isReadOnly),
-                    IProperty<bool> prop => MakeBoolField(propertyInfo.Name, prop, isReadOnly),
-                    IProperty<string> prop => new StringField(propertyInfo.Name, prop, isReadOnly),
-                    _ => null
-                });
-            }
+            panel.Add(new PanelLinkStatus(target.Link));
 
             return panel;
         }
@@ -349,11 +294,11 @@ namespace OC.UI.Panel
         {
             if (isReadOnly)
             {
-                return new BinaryStatusField(name, prop);
+                return new PanelBinaryStatusField(name, prop);
             }
             else
             {
-                return new ToggleSlide(name, prop);
+                return new PanelToggleSlide(name, prop);
             }
         }
 
@@ -363,8 +308,8 @@ namespace OC.UI.Panel
 
             foreach (var directoryId in entityTag.DirectoryId)
             {
-                panel.Add(new EntityTagContainer(entityTag, directoryId));
+                panel.Add(new PanelEntityTagContainer(entityTag, directoryId));
             }
-        }
+        }*/
     }
 }

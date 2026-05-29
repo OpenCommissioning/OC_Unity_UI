@@ -10,26 +10,26 @@
                 </ui:VisualElement>
             </ui:VisualElement>
             <ui:VisualElement name="content" class="panel-content">
-                <PlanX.UI.Panel.Button text="button" />
-                <PlanX.UI.Panel.ToggleSlide label="Toggle Slied" value="false" />
-                <PlanX.UI.Panel.Toggle label="Toggle" />
-                <PlanX.UI.Panel.BinaryStatusField label="Binary Status Field" />
-                <PlanX.UI.Panel.StringField label="String Field" />
-                <PlanX.UI.Panel.FloatField label="Float Field" />
-                <PlanX.UI.Panel.IntegerField label="Integer Field" />
-                <PlanX.UI.Panel.Vector3Field label="Vector3 Field" />
-                <PlanX.UI.Panel.Vector3IntField label="Vector3Int Field" />
-                <PlanX.UI.Panel.Vector2Field label="Vector2 Field" />
-                <PlanX.UI.Panel.Vector2IntField label="Vector2Int Field" />
-                <PlanX.UI.Panel.SliderInt label="SliderInt" show-input-field="true" />
-                <PlanX.UI.Panel.Slider label="Slider" show-input-field="true" />
-                <PlanX.UI.Panel.MinMaxSlider low-limit="0.47" high-limit="0.78" label="Min Max Slider" />
-                <PlanX.UI.Panel.DropdownField index="-1" choices="System.Collections.Generic.List`1[System.String]" label="Dropdown" />
-                <PlanX.UI.Panel.EnumField label="Enum" />
-                <PlanX.UI.Panel.ProgressBarField title="PROGRESS" value="50" />
-                <PlanX.UI.Panel.ScrollView scroll-deceleration-rate="0,135" elasticity="0,1" mode="VerticalAndHorizontal" style="height: 80px; width: auto;">
+                <PlanX.UI.Panel.PanelButton text="button" />
+                <PlanX.UI.Panel.PanelToggleSlide label="Toggle Slied" value="false" />
+                <PlanX.UI.Panel.PanelToggle label="Toggle" />
+                <PlanX.UI.Panel.PanelBinaryStatusField label="Binary Status Field" />
+                <PlanX.UI.Panel.PanelStringField label="String Field" />
+                <PlanX.UI.Panel.PanelFloatField label="Float Field" />
+                <PlanX.UI.Panel.PanelIntegerField label="Integer Field" />
+                <PlanX.UI.Panel.PanelVector3Field label="Vector3 Field" />
+                <PlanX.UI.Panel.PanelVector3IntField label="Vector3Int Field" />
+                <PlanX.UI.Panel.PanelVector2Field label="Vector2 Field" />
+                <PlanX.UI.Panel.PanelVector2IntField label="Vector2Int Field" />
+                <PlanX.UI.Panel.PanelSliderInt label="SliderInt" show-input-field="true" />
+                <PlanX.UI.Panel.PanelSlider label="Slider" show-input-field="true" />
+                <PlanX.UI.Panel.PanelMinMaxSlider low-limit="0.47" high-limit="0.78" label="Min Max Slider" />
+                <PlanX.UI.Panel.PanelDropdownField index="-1" choices="System.Collections.Generic.List`1[System.String]" label="Dropdown" />
+                <PlanX.UI.Panel.PanelEnumField label="Enum" />
+                <PlanX.UI.Panel.PanelProgressBarField title="PROGRESS" value="50" />
+                <PlanX.UI.Panel.PanelScrollView scroll-deceleration-rate="0,135" elasticity="0,1" mode="VerticalAndHorizontal" style="height: 80px; width: auto;">
                     <ui:Label text="very long and very large text" style="color: rgb(255, 255, 255); -unity-text-align: upper-left; font-size: 96px;" />
-                </PlanX.UI.Panel.ScrollView>
+                </PlanX.UI.Panel.PanelScrollView>
             </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>

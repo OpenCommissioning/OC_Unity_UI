@@ -8,9 +8,6 @@ namespace OC.UI
     [DisallowMultipleComponent]
     public class TimeControlPanel : MonoBehaviour
     {
-        [SerializeField]
-        private Sprite _pauseIcon;
-
         private Toolbar.Toggle _toggle;
         private SliderInt _slider;
         private Label _sliderValue;
@@ -29,8 +26,6 @@ namespace OC.UI
             uiDocument.rootVisualElement.Add(container);
             
             _toggle = container.Q<Toolbar.Toggle>();
-            _toggle.DefaultIcon = _pauseIcon;
-            
             _slider = container.Q<SliderInt>();
             _sliderValue = container.Q<Label>("sliderValue");
             _timeValue = container.Q<Label>("timeValue");

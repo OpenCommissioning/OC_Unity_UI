@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace OC.UI.Interactions
 {
-    public class MaterialChanger : MonoBehaviour, IHideable
+    public class MaterialChanger : MonoBehaviour, ISceneVisual
     {
         private List<Renderer> _renderers;
         private List<Material> _originalMaterials;

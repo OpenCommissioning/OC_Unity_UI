@@ -1,4 +1,5 @@
 using NaughtyAttributes;
+using OC.Interactions;
 using UnityEngine;
 
 namespace OC.UI.Interactions

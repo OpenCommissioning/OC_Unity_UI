@@ -5,7 +5,7 @@ using UnityEngine.UIElements;
 
 namespace OC.UI
 {
-    public class ExitPopup : VisualElement, ICloseble
+    public class ExitPopup : VisualElement, IFloatingPanel
     {
         public bool Enable
         {
@@ -45,11 +45,11 @@ namespace OC.UI
 
             if (enable)
             {
-                UIManager.Instance.Register(this);
+                AppUI.Instance.Register(this);
             }
             else
             {
-                UIManager.Instance.Unregister(this);
+                AppUI.Instance.Unregister(this);
             }
         }
     }

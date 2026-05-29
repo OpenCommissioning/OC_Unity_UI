@@ -18,7 +18,12 @@ namespace OC.UI.Interactions
 
         private void Start()
         {
+#if UNITY_6000_3_OR_NEWER
+            _colliderViews = FindObjectsByType<ColliderMaterial>().ToList();
+#else
             _colliderViews = FindObjectsOfType<ColliderMaterial>().ToList();
+#endif
+            
             Show(false);
         }
 
