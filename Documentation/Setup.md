@@ -24,8 +24,7 @@ Add Git dependencies in the Unity project’s `**Packages/manifest.json`**:
 After Unity resolves packages, confirm **Package Manager** shows **Open Commissioning UI** without compile errors.
 
 ## Unity version
-
-- **Unity 6000.3** or newer (see `[package.json](../package.json)`).
+> **Unity 6000.3** or newer (see `[package.json](../package.json)`).
 
 ## Render pipeline (URP)
 
