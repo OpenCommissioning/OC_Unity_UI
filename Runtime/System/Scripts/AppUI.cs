@@ -51,7 +51,7 @@ namespace OC.UI
         protected new void Awake()
         {
             base.Awake();
-            Initialize();
+            
         }
 
         private void OnEnable()
@@ -69,6 +69,8 @@ namespace OC.UI
             
             _cancelAction?.Enable();
             _windowAction?.Enable();
+            
+            Initialize();
         }
 
         private void OnDisable()
