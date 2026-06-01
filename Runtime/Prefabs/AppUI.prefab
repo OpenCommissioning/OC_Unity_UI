@@ -65,6 +65,7 @@ GameObject:
   - component: {fileID: 8517096034067801141}
   - component: {fileID: 112820922269108665}
   - component: {fileID: 4475607676228012113}
+  - component: {fileID: 2669351815657346908}
   m_Layer: 5
   m_Name: AppUI
   m_TagString: Untagged
@@ -205,6 +206,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enabled: 0
+--- !u!114 &2669351815657346908
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2404785134897239385}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36a2094038fae98469df935b8658c052, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: OC.UI::OC.UI.DebugManager
+  _debug: {fileID: 570416680223647101, guid: 6221e7b8a5138e244916faf73a7bc1f6, type: 3}
+  OnDebugAction:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &3623221158840643232
 GameObject:
   m_ObjectHideFlags: 0
