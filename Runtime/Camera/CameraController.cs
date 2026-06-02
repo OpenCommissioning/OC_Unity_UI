@@ -88,6 +88,8 @@ namespace OC.UI
         private InputAction _focusAction;
         private InputAction _followAction;
         
+        private Vector3 _targetCameraPosition;
+        private Quaternion _targetCameraRotation;
         private Vector3 _previousCameraPosition;
         private Quaternion _previousCameraRotation;
         
@@ -103,12 +105,22 @@ namespace OC.UI
         private Plane _panPlane;
         private Vector3 _panStartPoint;
         private Vector3 _panStartPivotPosition;
-        private bool _hasPanStartPoint;
+        private bool _dragging;
         private Camera _cameraMain;
+        private CameraPanDrag _panDrag;
+        
+        private CinemachineHardLockToTarget _cinemachineHardLockToTarget;
+        private CinemachineRotateWithFollowTarget _cinemachineRotateWithFollowTarget;
+        private float _cinemachineHardLockToTargetDamping;
+        private float _cinemachineRotateWithFollowTargetDamping;
 
         private void Awake()
         {
             _cameraMain = Camera.main;
+            _cinemachineHardLockToTarget = _camera.GetComponent<CinemachineHardLockToTarget>();
+            _cinemachineRotateWithFollowTarget = _camera.GetComponent<CinemachineRotateWithFollowTarget>();
+            _cinemachineHardLockToTargetDamping = _cinemachineHardLockToTarget.Damping;
+            _cinemachineRotateWithFollowTargetDamping = _cinemachineRotateWithFollowTarget.Damping;
         }
 
         private void OnEnable()
@@ -255,17 +267,19 @@ namespace OC.UI
                 _targetPivotPosition = _target.Value.position;
             }
             
-            transform.position = _targetPivotPosition + _targetPivotRotation * Vector3.back * _distance;
+            _targetCameraPosition = _targetPivotPosition + _targetPivotRotation * Vector3.back * _distance;
+            _targetCameraRotation = Quaternion.LookRotation((_targetPivotPosition - _targetCameraPosition).normalized, Vector3.up);
+            
             _pivot.SetPositionAndRotation(_targetPivotPosition, _targetPivotRotation);
-            transform.LookAt(_targetPivotPosition, Vector3.up);
+            transform.SetPositionAndRotation(_targetCameraPosition, _targetCameraRotation);
             
             //PIVOT
             _previousPivotPosition = _targetPivotPosition;
             _previousPivotRotation = _targetPivotRotation;
             
             //CAMERA
-            _previousCameraPosition = transform.position;
-            _previousCameraRotation = transform.rotation;
+            _previousCameraPosition = _targetCameraPosition;
+            _previousCameraRotation = _targetCameraRotation;
         }
 
         private void OnStateChanged(CameraState state)
@@ -301,11 +315,15 @@ namespace OC.UI
             if (!IsBusy && !_isStatic && ctx.performed && IsPointerValidForAction)
             {
                 _state.Value = CameraState.Orbit;
+                _cinemachineHardLockToTarget.Damping = 0;
+                _cinemachineRotateWithFollowTarget.Damping = 0;
             }
 
             if (ctx.canceled)
             {
                 _state.Value = CameraState.None;
+                _cinemachineHardLockToTarget.Damping = _cinemachineHardLockToTargetDamping;
+                _cinemachineRotateWithFollowTarget.Damping = _cinemachineRotateWithFollowTargetDamping;
             }
         }
         
@@ -320,7 +338,7 @@ namespace OC.UI
             if (ctx.canceled)
             {
                 _state.Value = CameraState.None;
-                _hasPanStartPoint = false;
+                _dragging = false;
             }
         }
         
@@ -419,28 +437,30 @@ namespace OC.UI
             
             Mouse.current.WrapCursorOnScreen();
         }
-
+        
+        private void BeginPan()
+        {
+            if (_debug) Debug.Log("Begin pan");
+            _isLockedToTarget.Value = false;
+           
+            _panDrag = new CameraPanDrag(
+                _cameraMain,
+                _targetPivotPosition
+            );
+            
+            _dragging = true;
+        }
+        
         // ReSharper disable once UnusedParameter.Local
         private void PanMode(float deltaTime)
         {
             _isLockedToTarget.Value = false;
-
-            if (!_hasPanStartPoint)
-            {
-                BeginPan();
-                return;
-            }
-
-            if (!TryGetPanPoint(out var currentPoint))
-                return;
-
-            var delta = _panStartPoint - currentPoint;
-
-            _targetPivotPosition = _panStartPivotPosition + delta;
-
+            if (!_dragging || _panDrag == null) return;
+            var mouseDelta = Mouse.current.delta.ReadValue();
+            _targetPivotPosition = _panDrag.GetPivotPosition(mouseDelta);
             Mouse.current.WrapCursorOnScreen();
         }
-
+        
         public void FocusOnTarget()
         {
             if (_isStatic) return;
@@ -448,7 +468,7 @@ namespace OC.UI
             
             if (_focusedOnBounds)
             {
-                var bounds = GetBoundingBox(_target);
+                var bounds = GetBoundingBox(_target.Value);
                 _distance = bounds.extents.magnitude * _settings.FocusMinDistance;
             }
             else
@@ -477,28 +497,6 @@ namespace OC.UI
             _previousCameraRotation = transform.rotation;
             _focusedOnBounds = true;
         }
-
-        private void InitializeCameraFrustum(out float worldPerPixelX, out float worldPerPixelY)
-        {
-            float frustumHeight;
-            float frustumWidth;
-            
-            var lens = _camera.Lens;
-            
-            if (lens.Orthographic)
-            {
-                frustumHeight = lens.OrthographicSize * 2f;
-                frustumWidth = frustumHeight * lens.Aspect;
-            }
-            else
-            {
-                frustumHeight = 2f * _distance * Mathf.Tan(lens.FieldOfView * 0.5f * Mathf.Deg2Rad);
-                frustumWidth = frustumHeight * lens.Aspect;
-            }
-
-            worldPerPixelX = frustumWidth / Screen.width;
-            worldPerPixelY = frustumHeight / Screen.height;
-        }
         
         private static Bounds GetBoundingBox(Transform transform)
         {
@@ -509,35 +507,6 @@ namespace OC.UI
                 bounds.Encapsulate(item.bounds);
             }
             return bounds;
-        } 
-        
-        private void BeginPan()
-        {
-            _isLockedToTarget.Value = false;
-
-            // Plane through pivot/target, parallel to camera view
-            _panPlane = new Plane(transform.forward, _targetPivotPosition);
-
-            _panStartPivotPosition = _targetPivotPosition;
-            _hasPanStartPoint = TryGetPanPoint(out _panStartPoint);
-        }
-
-        private bool TryGetPanPoint(out Vector3 point)
-        {
-            var mousePosition = Mouse.current.position.ReadValue();
-            if (_cameraMain)
-            {
-                var ray = _cameraMain.ScreenPointToRay(mousePosition);
-
-                if (_panPlane.Raycast(ray, out var enter))
-                {
-                    point = ray.GetPoint(enter);
-                    return true;
-                }
-            }
-
-            point = default;
-            return false;
         }
         
         public enum CameraState
@@ -554,9 +523,50 @@ namespace OC.UI
             if (!_debug) return;
             Gizmos.color = Color.red;
             Gizmos.DrawLine(transform.position, _pivot.position);
+            Gizmos.color = Color.cyan;
+            Gizmos.DrawRay(_panStartPivotPosition, transform.forward);
+            
 #if UNITY_EDITOR
             UnityEditor.Handles.DoPositionHandle(_pivot.position, _pivot.rotation);
 #endif
+        }
+        
+        private sealed class CameraPanDrag
+        {
+            private readonly Camera _camera;
+            private readonly Vector3 _startPivotPosition;
+            private readonly float _worldPerPixelX;
+            private readonly float _worldPerPixelY;
+            private readonly Vector3 _cameraRight;
+            private readonly Vector3 _cameraUp;
+            private  Vector3 _offsetPivotPosition;
+
+            public CameraPanDrag(Camera camera, Vector3 pivotPosition)
+            {
+                _startPivotPosition = pivotPosition;
+                _offsetPivotPosition = Vector3.zero;
+
+                _cameraRight = camera.transform.right;
+                _cameraUp = camera.transform.up;
+
+                var distance = Vector3.Distance(camera.transform.position, pivotPosition);
+
+                var frustumHeight = 2f * distance * Mathf.Tan(camera.fieldOfView * 0.5f * Mathf.Deg2Rad);
+                var frustumWidth = frustumHeight * camera.aspect;
+
+                _worldPerPixelX = frustumWidth / Screen.width;
+                _worldPerPixelY = frustumHeight / Screen.height;
+            }
+
+            public Vector3 GetPivotPosition(Vector2 mouseDelta)
+            {
+                var worldDelta =
+                    -_cameraRight * (mouseDelta.x * _worldPerPixelX)
+                    -_cameraUp * (mouseDelta.y * _worldPerPixelY);
+                
+                _offsetPivotPosition += worldDelta;
+                return _startPivotPosition + _offsetPivotPosition;
+            }
         }
     }
 }
