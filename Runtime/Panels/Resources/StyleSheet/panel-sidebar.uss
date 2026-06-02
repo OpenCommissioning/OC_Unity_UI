@@ -9,10 +9,6 @@
     height: auto;
 }
 
-.sidebar-scrollView_disabled {
-    display: none;
-}
-
 .unity-scroller {
     width: 6px;
 }
