@@ -11,6 +11,7 @@ namespace OC.UI.Panel
         private readonly VisualElement _handle;
         private readonly VisualElement _screen;
         private readonly VisualElement _sideBar;
+        private readonly VisualElement _dropzone;
         private readonly IPanel _panelReference;       
         
         private Vector3 _targetStartPosition;
@@ -25,6 +26,7 @@ namespace OC.UI.Panel
             _panelReference = panel;
             _screen = PanelManager.Instance.Screen;
             _sideBar = PanelManager.Instance.Sidebar;
+            _dropzone = PanelManager.Instance.Dropzone;
         }
 
         protected override void RegisterCallbacksOnTarget()
@@ -99,23 +101,24 @@ namespace OC.UI.Panel
             _panelReference.Pinned = true;
             
             _handle.CapturePointer(evt.pointerId);
+            
+            PanelManager.Instance?.EnableDropzone(true);
         }
 
         private void OnPointerUp(PointerUpEvent evt)
         {
-            if (!_active) return;
             _active = false;
-
+            
             if (_handle.HasPointerCapture(evt.pointerId)) _handle.ReleasePointer(evt.pointerId);
             
-            if (!_dragging) return;
             _dragging = false;
 
-            if (_sideBar.worldBound.Contains(evt.position))
+            if (_dropzone.worldBound.Contains(evt.position))
             {
                 PanelManager.Instance?.AddToSidebar(target);
             }
             
+            PanelManager.Instance?.EnableDropzone(false);
             evt.StopPropagation();
         }
         

@@ -14,6 +14,8 @@ namespace OC.UI.Panel
     public class PanelManager : MonoBehaviourSingleton<PanelManager>
     {
         public VisualElement Sidebar => _sidebar;
+        public VisualElement Dropzone => _dropzone;
+        
         public VisualElement Screen => _appUiRoot;
         public IReadOnlyList<IPanel> ActivePanels => _activePanels;
         
@@ -29,11 +31,11 @@ namespace OC.UI.Panel
 
         private VisualElement _appUiRoot;
         private ScrollView _sidebar;
+        private VisualElement _dropzone;
 
         private const string UXML = "UXML/panel-sidebar";
         private const string STYLE_SHEET = "StyleSheet/panel-sidebar";
-        private const string USS_SIDEBAR_ACTIVE = "sidebar-scrollView";
-        private const string USS_SIDEBAR_DISABLED = "sidebar-scrollView_disabled";
+        private const string USS_SIDEBAR = "sidebar-scrollView";
         private const string USS_DOCKED_PANEL = "panel-container__docked";
         
         private readonly Dictionary<Type, PanelHandler> _factory = new ();
@@ -54,12 +56,17 @@ namespace OC.UI.Panel
         private void Start()
         {
             _appUiRoot = AppUI.Instance.Root;
-            _sidebar = Resources.Load<VisualTreeAsset>(UXML).Instantiate().Q<ScrollView>("sidebar");
-            _sidebar.styleSheets.Add(Resources.Load<StyleSheet>(STYLE_SHEET));
-            _sidebar.AddToClassList(USS_SIDEBAR_ACTIVE);
-            RefreshScrollViewStyle();
+            var sidebarContainer = Resources.Load<VisualTreeAsset>(UXML).Instantiate();
+            sidebarContainer.styleSheets.Add(Resources.Load<StyleSheet>(STYLE_SHEET));
+            
+            _sidebar = sidebarContainer.Q<ScrollView>("sidebar");
+            _sidebar.AddToClassList(USS_SIDEBAR);
+            _dropzone = sidebarContainer.Q<VisualElement>("dropzone");
+            
             _appUiRoot.Add(_sidebar);
+            _appUiRoot.Add(_dropzone);
             _sidebar.SendToBack();
+            _dropzone.SendToBack();
             
             _factory.Clear();
             
@@ -67,6 +74,9 @@ namespace OC.UI.Panel
             {
                 _factory.Add(panelHandler.ReferenceType, panelHandler);
             }
+            
+            RefreshScrollViewStyle();
+            _dropzone.style.display = DisplayStyle.None;
         }
         
         public void AddToScreen(VisualElement visualElement)
@@ -102,6 +112,11 @@ namespace OC.UI.Panel
                 _activePanels.RemoveAt(i);
                 break;
             }
+        }
+
+        public void EnableDropzone(bool enable)
+        {
+            _dropzone.style.display = enable ? DisplayStyle.Flex : DisplayStyle.None;
         }
         
         private void OnSelectionChanged(IReadOnlyList<Interaction> selections)
@@ -193,7 +208,7 @@ namespace OC.UI.Panel
         private void RefreshScrollViewStyle()
         {
             var visible = _activePanels.Any(panel => panel.Enable);
-            _sidebar.EnableInClassList(USS_SIDEBAR_DISABLED, !visible);
+            _sidebar.style.display = visible ? DisplayStyle.Flex : DisplayStyle.None;
         }
 
         [ContextMenu(nameof(FindPanelsInChildren), false, 100)]
