@@ -1,5 +1,6 @@
 using OC.UI.Interactions;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
 using Label = UnityEngine.UIElements.Label;
 
@@ -43,9 +44,11 @@ namespace OC.UI
 
         private void Update()
         {
-            if (!_enabled) return;
-            _container.style.left = Input.mousePosition.x + 25;
-            _container.style.top = Screen.height - Input.mousePosition.y + 25;
+            if (!_enabled || Mouse.current == null) return;
+
+            var mousePosition = Mouse.current.position.ReadValue();
+            _container.style.left = mousePosition.x + 25;
+            _container.style.top = Screen.height - mousePosition.y + 25;
         }
 
         public void Show(ITooltip tooltip)
