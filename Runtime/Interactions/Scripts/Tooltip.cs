@@ -1,3 +1,4 @@
+using OC.Interactions;
 using UnityEngine;
 
 namespace OC.UI.Interactions
@@ -19,18 +20,22 @@ namespace OC.UI.Interactions
         private void Awake()
         {
             _interaction = GetComponent<Interaction>();
-            _interaction.OnHoverChanged += SetActive;
             if (string.IsNullOrEmpty(_name)) _name = _interaction.Target.name;
         }
 
-        private void OnDestroy()
+        private void OnEnable()
         {
-            _interaction.OnHoverChanged -= SetActive;
+            _interaction.State.OnValueChanged += OnStateChanged;
         }
 
-        private void SetActive(bool isActive)
+        private void OnDisable()
         {
-            if (isActive)
+            _interaction.State.OnValueChanged -= OnStateChanged;
+        }
+        
+        private void OnStateChanged(InteractionState interactionState)
+        {
+            if (interactionState.HasFlag(InteractionState.Hovered))
             {
                 TooltipManager.Instance.Show(this);
             }

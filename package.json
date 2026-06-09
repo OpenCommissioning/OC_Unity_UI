@@ -1,15 +1,11 @@
 {
-  "name": "com.open-commissioning.ui",
-  "version": "1.0.8",
+  "name": "com.spiratec.oc.ui",
+  "version": "0.0.0",
   "displayName": "Open Commissioning UI",
-  "description": "Open Commissioning UI",
-  "unity": "2022.3",
-  "documentationUrl": "https://github.com/OpenCommissioning/OC_Unity_UI/blob/upm/README.md",
-  "changelogUrl": "https://github.com/OpenCommissioning/OC_Unity_UI/blob/upm/CHANGELOG.md",
-  "licensesUrl": "https://github.com/OpenCommissioning/OC_Unity_UI/blob/upm/LICENSE.md",
+  "description": "Runtime UI for Open Commissioning",
+  "unity": "6000.3",
   "author": {
-    "name": "Open Commissioning",
-    "email": "opencommissioning@spiratec.com",
+    "name": "SpiraTec AG",
     "url": "https://www.spiratec.com/de/kontakt/"
   },
   "samples": [

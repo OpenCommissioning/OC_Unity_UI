@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.InputSystem;
 
 namespace OC.UI
 {
@@ -17,6 +18,17 @@ namespace OC.UI
                 OnSettingsChanged?.Invoke();
             } 
         }
+
+        public bool AutoLoadSave
+        {
+            get => _autoLoadSave;
+            set
+            {
+                if (_autoLoadSave == value) return;
+                _autoLoadSave = value;
+                OnSettingsChanged?.Invoke();
+            }
+        }
         
         public VisualConfig VisualConfig => _visualConfig;
 
@@ -28,12 +40,17 @@ namespace OC.UI
         [SerializeField]
         private int _mouseSensitivity = 5;
         [SerializeField]
-        private KeyCode _windowMode =  KeyCode.F12;
+        private bool _autoLoadSave;
+
+        private const string MouseSensitivityKey = "MouseSensitivity";
+        private const string AutoLoadSaveKey = "AutoLoadSave";
 
         [Header("Collision")] 
         private bool _isWindowed;
 
         public UnityEvent OnSettingsChanged;
+        
+        private InputAction _actionWindow;
         
         
         private void Awake()
@@ -53,11 +70,6 @@ namespace OC.UI
             Load();
         }
 
-        private void Update()
-        {
-            ScreenModeAction();
-        }
-
         private void OnDisable()
         {
             Save();
@@ -70,40 +82,27 @@ namespace OC.UI
         
         private void Load()
         {
-            _mouseSensitivity = PlayerPrefs.GetInt("MouseSensitivity");
+            if (PlayerPrefs.HasKey(MouseSensitivityKey))
+            {
+                _mouseSensitivity = PlayerPrefs.GetInt(MouseSensitivityKey);
+            }
+
+            _autoLoadSave = PlayerPrefs.GetInt(AutoLoadSaveKey, 0) == 1;
             OnSettingsChanged?.Invoke();
         }
 
         private void Save()
         {
-            PlayerPrefs.SetInt("MouseSensitivity",_mouseSensitivity);
+            PlayerPrefs.SetInt(MouseSensitivityKey, _mouseSensitivity);
+            PlayerPrefs.SetInt(AutoLoadSaveKey, _autoLoadSave ? 1 : 0);
             PlayerPrefs.Save();
-        }
-        
-        private void ScreenModeAction()
-        {
-            if (!Input.GetKeyDown(_windowMode)) return;
-            _isWindowed = !_isWindowed;
-            SetScreenMode(_isWindowed);
-        }
-        
-        private void SetScreenMode(bool window)
-        {
-            if (window)
-            {
-                Screen.SetResolution(Screen.currentResolution.width,Screen.currentResolution.height,FullScreenMode.Windowed);
-            }
-            else
-            {
-                Screen.SetResolution(Screen.currentResolution.width,Screen.currentResolution.height,FullScreenMode.FullScreenWindow);
-            }
         }
     }
     
     public enum ViewModeType
     {
         Default,
-        Transperent,
+        Transparent,
         Hide
     }
 

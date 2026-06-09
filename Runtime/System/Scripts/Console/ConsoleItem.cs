@@ -3,7 +3,8 @@ using UnityEngine.UIElements;
 
 namespace OC.UI.Console
 {
-    public class ConsoleItem : VisualElement
+    [UxmlElement]
+    public partial class ConsoleItem : VisualElement
     {
         public string Message
         {
@@ -26,6 +27,7 @@ namespace OC.UI.Console
         public ConsoleItem()
         {
             var container = new VisualElement();
+            this.AddDefaultTheme();
             container.AddToClassList(USS_CONSOLE_ITEM_ICON_CONTAINER);
 
             _icon = new VisualElement();

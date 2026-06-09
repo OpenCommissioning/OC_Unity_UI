@@ -41,12 +41,19 @@ namespace OC.UI.Panel
             if (!_handle.HasPointerCapture(evt.pointerId)) return;
             var delta = evt.position - _pointerStartPosition;
             var position = _targetStartPosition + delta;
-            target.transform.position = Utils.ClampInParent(target, position);
+            target.style.translate = ClampInParent(target, position);
         }
 
         private void UpEvent(PointerUpEvent evt)
         {
             _handle.ReleasePointer(evt.pointerId);
+        }
+        
+        private Vector2 ClampInParent(VisualElement element, Vector2 position)
+        {
+            position.x = Mathf.Clamp(position.x, element.parent.worldBound.xMin, element.parent.worldBound.xMax - element.worldBound.width);
+            position.y = Mathf.Clamp(position.y, element.parent.worldBound.yMin, element.parent.worldBound.yMax - element.worldBound.height);
+            return position - element.layout.position;
         }
     }
 }

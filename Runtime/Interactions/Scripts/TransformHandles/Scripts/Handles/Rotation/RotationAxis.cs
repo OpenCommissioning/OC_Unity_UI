@@ -13,9 +13,9 @@ namespace OC.UI.TransformHandles
         [SerializeField]
         private Quaternion _startRotation;
 
-        public override void Interact(Vector3 previousPosition)
+        public override void Interact(Vector3 mousePosition)
         {
-            Ray cameraRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+            Ray cameraRay = _camera.ScreenPointToRay(mousePosition);
 
             if (!_axisPlane.Raycast(cameraRay, out float hitT))
             {
@@ -34,11 +34,12 @@ namespace OC.UI.TransformHandles
                 angleRadians = angleDegrees * Mathf.Deg2Rad;
             }
             
-            if (_parentTransformHandle.HandleRotation == HandleRotation.Local)
+            if (_parentTransformHandle.Coordinate.Value == CoordinateSpace.Local)
             {
                 for (int i = 0; i < _parentTransformHandle.Targets.Count; i++)
                 {
                     _parentTransformHandle.Targets[i].transform.rotation = _targetStartRotations[i] * Quaternion.AngleAxis(angleDegrees, _axis);
+                    _transformUndoActions[i].Capture(_parentTransformHandle.Targets[i].transform);
                 }
             }
             else
@@ -46,29 +47,30 @@ namespace OC.UI.TransformHandles
                 for (int i = 0; i < _parentTransformHandle.Targets.Count; i++)
                 {
                     _parentTransformHandle.Targets[i].transform.RotateAround(_parentTransformHandle.transform.position, _axis, angleDegrees);
+                    _transformUndoActions[i].Capture(_parentTransformHandle.Targets[i].transform);
                 }
-                CalculateTangents(hitPoint);
+                CalculateTangents(mousePosition, hitPoint);
             }
         }
 
-        public override void StartInteraction(Vector3 hitPoint)
+        public override void StartInteraction(Vector3 mousePosition, Vector3 hitPoint)
         {
-            base.StartInteraction(hitPoint);
+            base.StartInteraction(mousePosition, hitPoint);
             SetStartRotations();
-            CalculateTangents(hitPoint);
+            CalculateTangents(mousePosition, hitPoint);
         }
 
-        public override void EndInteraction()
+        public override void EndInteraction(Vector3 mousePosition)
         {
-            base.EndInteraction();
+            base.EndInteraction(mousePosition);
             _targetStartRotations.Clear();
         }
 
-        private void CalculateTangents(Vector3 hitPoint)
+        private void CalculateTangents(Vector3 mousePosition, Vector3 hitPoint)
         {
             _axisPlane = new Plane(_rotatedAxis, _parentTransformHandle.transform.position);
             Vector3 startHitPoint;
-            Ray cameraRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+            Ray cameraRay = _camera.ScreenPointToRay(mousePosition);
             if (_axisPlane.Raycast(cameraRay, out float lenghtOfPlaneEnterpoint))
             {
                 startHitPoint = cameraRay.GetPoint(lenghtOfPlaneEnterpoint);
@@ -83,14 +85,14 @@ namespace OC.UI.TransformHandles
 
         public void SetStartRotations()
         {
-            _startRotation = _parentTransformHandle.HandleRotation == HandleRotation.Local ? _parentTransformHandle.transform.localRotation : _parentTransformHandle.transform.rotation;
+            _startRotation = _parentTransformHandle.Coordinate.Value == CoordinateSpace.Local ? _parentTransformHandle.transform.localRotation : _parentTransformHandle.transform.rotation;
 
-            foreach (Transform target in _parentTransformHandle.Targets)
+            foreach (var runtimeInspector in _parentTransformHandle.Targets)
             {
-                _targetStartRotations.Add(target.rotation);
+                _targetStartRotations.Add(runtimeInspector.transform.rotation);
             }
             
-            if (_parentTransformHandle.HandleRotation == HandleRotation.Local)
+            if (_parentTransformHandle.Coordinate.Value == CoordinateSpace.Local)
             {
                 _rotatedAxis = _startRotation * _axis;
             }
