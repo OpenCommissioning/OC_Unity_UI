@@ -1,6 +1,7 @@
 using OC.Interactions;
 using UnityEditor;
 using UnityEngine;
+using OC.UI.Interactions;
 
 namespace OC.UI.Editor
 {
@@ -13,7 +14,7 @@ namespace OC.UI.Editor
             if (gameObject == null) return;
 
             var collider = gameObject.GetOrCreateComponent<BoxCollider>();
-            var _ = gameObject.GetOrCreateComponent<Interaction>();
+            var _ = gameObject.GetOrCreateComponent<Interactions.Interaction>();
 
             var bounds = gameObject.GetChildMeshBoundBox();
             collider.center = bounds.center;

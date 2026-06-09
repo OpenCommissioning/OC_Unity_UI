@@ -1,8 +1,7 @@
-using OC;
 using System;
 using UnityEngine.UIElements;
 
-public static class BaseFieldExtension
+namespace OC.UI
 {
     public static BaseField<T> Bind<T>(this BaseField<T> field, IProperty<T> property)
     {
@@ -24,7 +23,9 @@ public static class BaseFieldExtension
     
     public static void BindProperty<T>(this BaseField<T> field, IProperty<T> property)
     {
-        if (field.userData != null) field.UnbindProperty();
+        public static void BindProperty<T>(this BaseField<T> field, IProperty<T> property)
+        {
+            if (field.userData != null) field.UnbindProperty();
 
         field.SetValueWithoutNotify(property.Value);
         property.OnValueChanged += OnPropertyValueChange(field);
