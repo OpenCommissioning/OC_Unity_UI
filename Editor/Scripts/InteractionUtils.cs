@@ -14,7 +14,7 @@ namespace OC.UI.Editor
             if (gameObject == null) return;
 
             var collider = gameObject.GetOrCreateComponent<BoxCollider>();
-            var _ = gameObject.GetOrCreateComponent<Interactions.Interaction>();
+            var _ = gameObject.GetOrCreateComponent<Interaction>();
 
             var bounds = gameObject.GetChildMeshBoundBox();
             collider.center = bounds.center;
