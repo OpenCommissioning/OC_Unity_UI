@@ -1,3 +1,10 @@
+## [1.1.1](https://github.com/OpenCommissioning/OC_Unity_UI/compare/v1.1.0...v1.1.1) (2026-06-10)
+
+
+### Bug Fixes
+
+* hotfix ([b5a024b](https://github.com/OpenCommissioning/OC_Unity_UI/commit/b5a024bd09882ad19b3f036686ef4ad566162666))
+
 # [1.1.0](https://github.com/OpenCommissioning/OC_Unity_UI/compare/v1.0.8...v1.1.0) (2026-06-09)
 
 
