@@ -1,5 +1,5 @@
 {
-  "name": "com.spiratec.oc.ui",
+  "name": "com.open-commissioning.ui",
   "version": "1.1.1",
   "displayName": "Open Commissioning UI",
   "description": "Runtime UI for Open Commissioning",

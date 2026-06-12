@@ -7,7 +7,7 @@ Mark commissioning objects as selectable, hoverable, and panel-aware. The core *
 ## Core component (external)
 
 **Type:** `OC.Interactions.Interaction`  
-**Assembly:** `OC` (not shipped with `com.spiratec.oc.ui`)
+**Assembly:** `OC` (not shipped with `com.open-commissioning.ui`)
 
 The host project must reference the Open Commissioning core package. Without it, `OC.UI` does not compile.
 
