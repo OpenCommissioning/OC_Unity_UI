@@ -1,11 +1,11 @@
 # Open Commissioning UI
 
-Unity package **`com.spiratec.oc.ui`** — runtime UI for Open Commissioning (URP, UIToolkit, Input System).
+Unity package **`com.open-commissioning.ui`** — runtime UI for Open Commissioning (URP, UIToolkit, Input System).
 
 ## Quick start
 
 1. **Add packages** — [Documentation/Setup.md](Documentation/Setup.md)  
-   Add `com.spiratec.oc.ui` and `com.cqf.outline` to `Packages/manifest.json`, plus host **`OC`** assembly, UniTask, and NaughtyAttributes.
+   Add `com.open-commissioning.ui` and `com.cqf.outline` to `Packages/manifest.json`, plus host **`OC`** assembly, UniTask, and NaughtyAttributes.
 
 2. **Configure URP and outline** — [Documentation/Setup.md](Documentation/Setup.md), [Documentation/Components/Outline.md](Documentation/Components/Outline.md)  
    URP renderer with `OutlineRendererFeature`, volume override, rendering layers `Outline_1`–`Outline_4`, post-processing on camera.
@@ -71,7 +71,7 @@ Unity package **`com.spiratec.oc.ui`** — runtime UI for Open Commissioning (UR
 
 | Item | Value |
 |------|--------|
-| Name | `com.spiratec.oc.ui` |
+| Name | `com.open-commissioning.ui` |
 | Unity | 6000.3+ |
 | Pipeline | URP |
 | Key prefabs | `Runtime/Prefabs/Main Camera`, `Interactions`, `Virtual Camera`, `AppUI` |
