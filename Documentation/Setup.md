@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Install **Open Commissioning UI** (`com.spiratec.oc.ui`) and configure the Unity project so all runtime systems compile and render correctly.
+Install **Open Commissioning UI** (`com.open-commissioning.ui`) and configure the Unity project so all runtime systems compile and render correctly.
 
 ## Install from Git
 
@@ -107,7 +107,7 @@ Other platforms are excluded unless you extend the asmdef in a fork.
 
 ## Setup checklist
 
-1. Add `**com.spiratec.oc.ui`** and `**com.cqf.outline**` to `manifest.json`.
+1. Add `**com.open-commissioning.ui`** and `**com.cqf.outline**` to `manifest.json`.
 2. Ensure **URP** is active; add `**OutlineRendererFeature`** to the renderer.
 3. Add a **Volume** with the **Outline** override.
 4. Define rendering layers `**Outline_1`–`Outline_4`** in **Tags and Layers**.
