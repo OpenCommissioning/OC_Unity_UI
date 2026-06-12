@@ -1,3 +1,10 @@
+## [1.1.2](https://github.com/OpenCommissioning/OC_Unity_UI/compare/v1.1.1...v1.1.2) (2026-06-12)
+
+
+### Bug Fixes
+
+* rename package to com.open-commissioning.ui ([7fc6057](https://github.com/OpenCommissioning/OC_Unity_UI/commit/7fc6057b211ff202f6542828dec8a7288c0c0eb7))
+
 ## [1.1.1](https://github.com/OpenCommissioning/OC_Unity_UI/compare/v1.1.0...v1.1.1) (2026-06-10)
 
 
