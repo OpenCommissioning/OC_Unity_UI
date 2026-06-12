@@ -1,6 +1,6 @@
 {
   "name": "com.open-commissioning.ui",
-  "version": "0.0.0",
+  "version": "1.1.1",
   "displayName": "Open Commissioning UI",
   "description": "Runtime UI for Open Commissioning",
   "unity": "6000.3",
