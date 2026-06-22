@@ -1,3 +1,10 @@
+## [1.1.3](https://github.com/OpenCommissioning/OC_Unity_UI/compare/v1.1.2...v1.1.3) (2026-06-22)
+
+
+### Bug Fixes
+
+* handle selected objects when they get deleted ([4fac0b4](https://github.com/OpenCommissioning/OC_Unity_UI/commit/4fac0b4e9320447f0a926dbb4ab34090fe95b619))
+
 ## [1.1.2](https://github.com/OpenCommissioning/OC_Unity_UI/compare/v1.1.1...v1.1.2) (2026-06-12)
 
 
