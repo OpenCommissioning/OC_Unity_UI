@@ -139,6 +139,12 @@ namespace OC.UI.TransformHandles
 
         private void Update()
         {
+            if (_targets.RemoveAll(t => !t) > 0)
+            {
+                SelectionManager.Instance.SelectedInteractions.Clear();
+                _targets.Clear();
+            }
+            
             _handleRaycastHit = SelectionManager.Instance.HandleRaycastHit;
             
             ManageHandles();
@@ -257,15 +263,17 @@ namespace OC.UI.TransformHandles
         {
             if (_targets.Count > 0)
             {
+                var last = _targets.Last();
+
                 if (_pivotMode == PivotMode.Center && !_rotating)
                 {
                     transform.position = GetCommonCenter();
-                    transform.rotation = _targets.Last().transform.rotation;
+                    transform.rotation = last.transform.rotation;
                 }
                 else if (_pivotMode == PivotMode.Pivot)
                 {
-                    transform.position = _targets.Last().transform.position;
-                    transform.rotation = _targets.Last().transform.rotation;
+                    transform.position = last.transform.position;
+                    transform.rotation = last.transform.rotation;
                 }
             }
 
