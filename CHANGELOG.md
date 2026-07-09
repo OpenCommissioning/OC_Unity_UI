@@ -1,3 +1,10 @@
+## [1.1.4](https://github.com/OpenCommissioning/OC_Unity_UI/compare/v1.1.3...v1.1.4) (2026-07-09)
+
+
+### Bug Fixes
+
+* integrate a scrollView in the PanelSamplerUI ([613ff59](https://github.com/OpenCommissioning/OC_Unity_UI/commit/613ff595b9956beb36632c2ca910493006d8f106))
+
 ## [1.1.3](https://github.com/OpenCommissioning/OC_Unity_UI/compare/v1.1.2...v1.1.3) (2026-06-22)
 
 
