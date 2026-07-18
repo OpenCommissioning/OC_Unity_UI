@@ -289,18 +289,18 @@ namespace OC.UI.ComponentLayout
                 Version = 1,
                 SceneName = SceneManager.GetActiveScene().name
             };
-
-            foreach (var sensor in FindObjectsByType<SensorBinary>(FindObjectsInactive.Include))
+            
+            foreach (var sensor in Utils.FindObjectsByType<SensorBinary>(FindObjectsInactive.Include))
             {
                 AddEntry(data, GetEntryId(sensor.transform), nameof(SensorBinary), sensor.transform);
             }
 
-            foreach (var sensor in FindObjectsByType<SensorAnalog>(FindObjectsInactive.Include))
+            foreach (var sensor in Utils.FindObjectsByType<SensorAnalog>(FindObjectsInactive.Include))
             {
                 AddEntry(data, GetEntryId(sensor.transform), nameof(SensorAnalog), sensor.transform);
             }
 
-            foreach (var cylinder in FindObjectsByType<Cylinder>(FindObjectsInactive.Include))
+            foreach (var cylinder in Utils.FindObjectsByType<Cylinder>(FindObjectsInactive.Include))
             {
                 AddEntry(data, GetEntryId(cylinder.transform), nameof(Cylinder), cylinder.transform);
             }
@@ -339,17 +339,17 @@ namespace OC.UI.ComponentLayout
                 }
             }
 
-            foreach (var sensor in FindObjectsByType<SensorBinary>(FindObjectsInactive.Include))
+            foreach (var sensor in Utils.FindObjectsByType<SensorBinary>(FindObjectsInactive.Include))
             {
                 Add(sensor.transform);
             }
 
-            foreach (var sensor in FindObjectsByType<SensorAnalog>(FindObjectsInactive.Include))
+            foreach (var sensor in Utils.FindObjectsByType<SensorAnalog>(FindObjectsInactive.Include))
             {
                 Add(sensor.transform);
             }
 
-            foreach (var cylinder in FindObjectsByType<Cylinder>(FindObjectsInactive.Include))
+            foreach (var cylinder in Utils.FindObjectsByType<Cylinder>(FindObjectsInactive.Include))
             {
                 Add(cylinder.transform);
             }
