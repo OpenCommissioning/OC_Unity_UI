@@ -18,11 +18,7 @@ namespace OC.UI.Interactions
 
         private void Start()
         {
-#if UNITY_6000_3_OR_NEWER
-            _labels = FindObjectsByType<Label>().ToList();
-#else
-            _labels = FindObjectsOfType<Label>().ToList();
-#endif
+            _labels = Utils.FindObjectsByType<Label>().ToList();
             Show(false);
         }
 

@@ -15,11 +15,7 @@ namespace OC.UI.Toolbar
 
         private void Start()
         {
-#if UNITY_6000_3_OR_NEWER
-            _hideGroups = FindObjectsByType<HideGroup>().ToList().OrderBy(x => x.Name).ToList();
-#else
-            _hideGroups = FindObjectsOfType<HideGroup>().ToList().OrderBy(x => x.Name).ToList();
-#endif
+            _hideGroups = Utils.FindObjectsByType<HideGroup>().ToList().OrderBy(x => x.Name).ToList();
         }
 
         protected override void AddContent(SubsystemPanel subsystemPanel)

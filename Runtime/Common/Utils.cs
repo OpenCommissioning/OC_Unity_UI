@@ -46,5 +46,14 @@ namespace OC.UI
         {
             return !(0 > pointer.x || 0 > pointer.y || Screen.width < pointer.x || Screen.height < pointer.y);
         }
+        
+        public static T[] FindObjectsByType<T>(FindObjectsInactive findObjectsInactive = FindObjectsInactive.Exclude) where T : Component
+        {
+#if UNITY_6000_5_OR_NEWER
+            return Object.FindObjectsByType<T>(findObjectsInactive);
+#else
+            return Object.FindObjectsByType<T>(findObjectsInactive, FindObjectsSortMode.None);
+#endif 
+        }
     }
 }
