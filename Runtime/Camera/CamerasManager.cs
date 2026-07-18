@@ -20,9 +20,7 @@ namespace OC.UI
 
         private void OnEnable()
         {
-            _cameras = FindObjectsByType<CameraController>(FindObjectsInactive.Exclude)
-                .OrderBy(c => GetHierarchyPath(c.transform))
-                .ToList();
+            _cameras = Utils.FindObjectsByType<CameraController>().OrderBy(c => GetHierarchyPath(c.transform)).ToList();
             DisableAllCameras();
             
             if (_cameras.Count > 0) SetCameraActive(_cameras[0]);
