@@ -1,3 +1,11 @@
+## [1.1.5](https://github.com/OpenCommissioning/OC_Unity_UI/compare/v1.1.4...v1.1.5) (2026-07-18)
+
+
+### Bug Fixes
+
+* obsolete FindObjectsByType(FindObjectsSortMode) usage ([0c87441](https://github.com/OpenCommissioning/OC_Unity_UI/commit/0c8744195b07e3896fecb30a4f3ad214cd616ec5))
+* workflow without push after PR to master ([c35738d](https://github.com/OpenCommissioning/OC_Unity_UI/commit/c35738dc04dbdea04e7450dcc7c83f7f8a36a955))
+
 ## [1.1.4](https://github.com/OpenCommissioning/OC_Unity_UI/compare/v1.1.3...v1.1.4) (2026-07-09)
 
 
