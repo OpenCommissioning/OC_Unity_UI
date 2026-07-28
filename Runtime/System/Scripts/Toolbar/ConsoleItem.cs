@@ -500,7 +500,8 @@ namespace OC.UI.Toolbar
 
         private void OnNewLog(string condition, string stackTrace, LogType type)
         {
-            var source = stackTrace[..stackTrace.IndexOf("\n", StringComparison.Ordinal)];
+            var newlineIndex = stackTrace.IndexOf("\n", StringComparison.Ordinal);
+            var source = newlineIndex >= 0 ? stackTrace[..newlineIndex] : stackTrace;
 
             var item = new ConsoleItemData
             {
