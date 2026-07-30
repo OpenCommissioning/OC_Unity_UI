@@ -1,3 +1,11 @@
+## [1.1.6](https://github.com/OpenCommissioning/OC_Unity_UI/compare/v1.1.5...v1.1.6) (2026-07-30)
+
+
+### Bug Fixes
+
+* Console Item with zero stack length ([0a8e6ac](https://github.com/OpenCommissioning/OC_Unity_UI/commit/0a8e6acc24844bf7658fde668b92b2a1cf1c3da5))
+* time control icon reference ([1f8b539](https://github.com/OpenCommissioning/OC_Unity_UI/commit/1f8b539015e69bcacfcb1efa6722c75878911275))
+
 ## [1.1.4](https://github.com/OpenCommissioning/OC_Unity_UI/compare/v1.1.3...v1.1.4) (2026-07-09)
 
 
