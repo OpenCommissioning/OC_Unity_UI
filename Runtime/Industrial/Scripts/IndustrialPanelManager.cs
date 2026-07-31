@@ -26,6 +26,7 @@ namespace OC.UI.Industrial
             _sidebar.AddDefaultTheme();
             _sidebar.styleSheets.Add(Resources.Load<StyleSheet>(STYLE_SHEET));
             _sidebar.AddToClassList(USS_CONTAINER);
+            _sidebar.pickingMode = PickingMode.Ignore;
             uiDocument.rootVisualElement.Add(_sidebar);
             
             _industrialComponents = FindAllComponentsInScene();
