@@ -1,3 +1,10 @@
+## [1.1.7](https://github.com/OpenCommissioning/OC_Unity_UI/compare/v1.1.6...v1.1.7) (2026-07-31)
+
+
+### Bug Fixes
+
+* set pickingmode of IndustrialPanels to ignore so interactions don't get blocked ([bed95cd](https://github.com/OpenCommissioning/OC_Unity_UI/commit/bed95cd41b68b6a94d02b42d4a14df688fa21884))
+
 ## [1.1.4](https://github.com/OpenCommissioning/OC_Unity_UI/compare/v1.1.3...v1.1.4) (2026-07-09)
 
 
