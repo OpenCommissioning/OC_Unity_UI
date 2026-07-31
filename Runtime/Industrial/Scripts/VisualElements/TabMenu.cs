@@ -25,9 +25,11 @@ namespace OC.UI.Industrial
         {
             styleSheets.Add(Resources.Load<StyleSheet>(STYLE_SHEET));
             AddToClassList(USS_TAB_MENU);
+            pickingMode = PickingMode.Ignore; 
 
             var tabsContainer = new VisualElement();
             tabsContainer.AddToClassList(USS_TAB_BAR_CONTAINER);
+            tabsContainer.pickingMode = PickingMode.Ignore;
 
             _tabBar = new VisualElement();
             
@@ -35,6 +37,7 @@ namespace OC.UI.Industrial
             tabsContainer.Add(_tabBar);
             
             _tabsContainer = new VisualElement();
+            _tabsContainer.pickingMode = PickingMode.Ignore;
             
             hierarchy.Add(tabsContainer);
             hierarchy.Add(_tabsContainer);
@@ -61,7 +64,8 @@ namespace OC.UI.Industrial
             
             var tab = new VisualElement()
             {
-                name = tabName
+                name = tabName,
+                pickingMode = PickingMode.Ignore
             };
             tab.AddToClassList(USS_TAB_CONTENT);
             _tabs.Add(tab);
