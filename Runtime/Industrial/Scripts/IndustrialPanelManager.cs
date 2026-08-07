@@ -39,6 +39,18 @@ namespace OC.UI.Industrial
         private List<IIndustrialPanel> FindAllComponentsInScene()
         {
             var industrialVisualElements = new List<IIndustrialPanel>();
+            var rootGameObjects = SceneManager.GetActiveScene().GetRootGameObjects();
+            
+            foreach (var obj in rootGameObjects)
+            {
+                var visualElements = obj.GetComponentsInChildren<IIndustrialPanel>();
+                industrialVisualElements.AddRange(visualElements.Where(item => item.Component.gameObject.activeInHierarchy));
+            }
+
+            return industrialVisualElements;
+            
+            /*
+            var industrialVisualElements = new List<IIndustrialPanel>();
             var clients = new List<Client>();
             
             var rootGameObjects = SceneManager.GetActiveScene().GetRootGameObjects();
@@ -57,6 +69,7 @@ namespace OC.UI.Industrial
             }
 
             return industrialVisualElements;
+            */
         }
 
         private void AddInTreeHierarchy(IIndustrialPanel industrialVisualElement)
