@@ -53,6 +53,8 @@ namespace OC.UI.Interactions
         [SerializeField]
         private InputActionReference _click;
         [SerializeField]
+        private InputActionReference _rightClick;
+        [SerializeField]
         private InputActionReference _pointer;
         
         [Header("Debug")] 
@@ -60,15 +62,19 @@ namespace OC.UI.Interactions
         private bool _debug;
 
         private const float MAX_DISTANCE = 500;
-        
+        private const string RIGHT_CLICK_ACTION = "Player/RightClick";
+        private const float RIGHT_CLICK_TOLERANCE = 10;
+
         private readonly RaycastHit[] _raycastHits = new RaycastHit[10];
         private int _hitsCount;
-        
+
         private Camera _camera;
         private GameObject _closestHitGameObject;
-        
+
         private InputAction _clickAction;
+        private InputAction _rightClickAction;
         private InputAction _pointerAction;
+        private Vector2 _rightClickPosition;
 
         private void OnEnable()
         {
@@ -77,9 +83,11 @@ namespace OC.UI.Interactions
             _camera = Camera.main;
 
             _clickAction = _click.action;
+            _rightClickAction = _rightClick != null ? _rightClick.action : _click.asset.FindAction(RIGHT_CLICK_ACTION);
             _pointerAction = _pointer.action;
-            
+
             _clickAction?.Enable();
+            _rightClickAction?.Enable();
             _pointerAction?.Enable();
 
             if (_clickAction != null)
@@ -88,7 +96,13 @@ namespace OC.UI.Interactions
                 _clickAction.performed += HandleClickAction;
                 _clickAction.canceled += HandleClickAction;
             }
-            
+
+            if (_rightClickAction != null)
+            {
+                _rightClickAction.performed += HandleRightClickAction;
+                _rightClickAction.canceled += HandleRightClickAction;
+            }
+
             Pool.Instance.PoolManager.OnDestroyAction += PoolManagerOnDestroyAction;
         }
         
@@ -97,7 +111,13 @@ namespace OC.UI.Interactions
             _clickAction.started -= HandleClickAction;
             _clickAction.performed -= HandleClickAction;
             _clickAction.canceled -= HandleClickAction;
-            
+
+            if (_rightClickAction != null)
+            {
+                _rightClickAction.performed -= HandleRightClickAction;
+                _rightClickAction.canceled -= HandleRightClickAction;
+            }
+
             Pool.Instance.PoolManager.OnDestroyAction -= PoolManagerOnDestroyAction;
         }
 
@@ -155,6 +175,31 @@ namespace OC.UI.Interactions
                     PointerUpEvent(_closestHitGameObject);
                 }
             }
+        }
+
+        private void HandleRightClickAction(InputAction.CallbackContext context)
+        {
+            if (context.performed)
+            {
+                // Mouse down
+                _rightClickPosition = _pointerAction.ReadValue<Vector2>();
+                return;
+            }
+
+            if (!context.canceled) return;
+
+            // Mouse up
+            if (!_enable) return;
+            if (_handleRaycastHit.Hit) return;
+            if (AppUI.Instance.IsPointerOverUI) return;
+            if (_hitGameObjects.Count < 1) return;
+
+            // The right button also drives the camera look, a release after a drag is not a click
+            if (Vector2.Distance(_rightClickPosition, _pointerAction.ReadValue<Vector2>()) > RIGHT_CLICK_TOLERANCE) return;
+
+            if (_debug) Debug.Log($"Handle Right Click action: {context.phase}");
+
+            PointerClickEvent(_closestHitGameObject, PointerEventData.InputButton.Right);
         }
 
         private void HandleRaycastHits()
@@ -299,9 +344,9 @@ namespace OC.UI.Interactions
             ExecuteEvents.Execute(target, new PointerEventData(EventSystem.current), ExecuteEvents.deselectHandler);
         }
 
-        private void PointerClickEvent(GameObject target)
+        private void PointerClickEvent(GameObject target, PointerEventData.InputButton button = PointerEventData.InputButton.Left)
         {
-            ExecuteEvents.Execute(target, new PointerEventData(EventSystem.current), ExecuteEvents.pointerClickHandler);
+            ExecuteEvents.Execute(target, new PointerEventData(EventSystem.current) { button = button }, ExecuteEvents.pointerClickHandler);
         }
         
         private void PointerDownEvent(GameObject target)

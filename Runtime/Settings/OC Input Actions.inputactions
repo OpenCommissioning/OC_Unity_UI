@@ -115,6 +115,15 @@
                     "initialStateCheck": true
                 },
                 {
+                    "name": "RightClick",
+                    "type": "Button",
+                    "id": "70f1822d-1d2a-4cbf-9404-5b073ff09842",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Pointer",
                     "type": "Value",
                     "id": "decd7ab8-856a-494f-822f-ac7484dba1f6",
@@ -442,6 +451,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Click",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "cde3dff9-7a4e-47e4-8813-ae52a7789810",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RightClick",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

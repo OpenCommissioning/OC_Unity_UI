@@ -35,8 +35,9 @@ The **Interaction Tool** on the AppUI toolbar toggles `Enable` via UnityEvent (`
 | Input | Behavior |
 |-------|----------|
 | Click performed (down) | Select hit object; Ctrl cycles among multiple hits along the ray |
-| Click canceled (up) | Fire pointer click/up on closest hit |
+| Click canceled (up) | Fire pointer click/up (left button) on closest hit |
 | Empty click | Clear selection |
+| Right click canceled (up) | Fire pointer click with **right** button on closest hit; no selection change. Ignored when the pointer moved more than 10 px since the press, so ending a camera look drag is not a click |
 
 Selection rules:
 
@@ -64,7 +65,7 @@ See [`AppUI.cs`](../../Runtime/System/Scripts/AppUI.cs).
 
 1. Include **Interactions** prefab (contains **SelectionManager**).
 2. Set **layer mask** to match interactable collider layers.
-3. Assign **click** and **pointer** actions from OC Input Actions.
+3. Assign **click** and **pointer** actions from OC Input Actions. **Right click** is optional — when left empty, `Player/RightClick` is resolved from the same asset.
 4. Enable **Interaction Tool** at runtime for operators.
 
 ## Related
