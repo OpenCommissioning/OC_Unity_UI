@@ -47,6 +47,8 @@ Assembly references (see `[Runtime/OC.UI.asmdef](../Runtime/OC.UI.asmdef)`):
 
 Set the active pipeline asset in **Project Settings → Graphics** and assign the renderer on the pipeline asset.
 
+Assign the pipeline asset to **Project Settings → Quality → Rendering → Render Pipeline Asset**. When using the Quality settings, the render pipeline asset must also be configured there. If configured, this setting overrides the setting configured under **Graphics**.
+
 ## Unity / registry packages
 
 Declared in `[Runtime/OC.UI.asmdef](../Runtime/OC.UI.asmdef)`:
