@@ -1,3 +1,11 @@
+## [1.1.8](https://github.com/OpenCommissioning/OC_Unity_UI/compare/v1.1.7...v1.1.8) (2026-08-25)
+
+
+### Bug Fixes
+
+* add project setting quality to documentation ([edee49c](https://github.com/OpenCommissioning/OC_Unity_UI/commit/edee49cf7a67c14ccb491c4856cbcb68fc97ecac))
+* BSD License ([f220b41](https://github.com/OpenCommissioning/OC_Unity_UI/commit/f220b41ad65d43177dae93fcb03b25a8e6b888f9))
+
 ## [1.1.4](https://github.com/OpenCommissioning/OC_Unity_UI/compare/v1.1.3...v1.1.4) (2026-07-09)
 
 
