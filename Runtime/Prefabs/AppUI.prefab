@@ -322,7 +322,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 4329466780444675046}
-        m_TargetAssemblyTypeName: PlanX.UI.Interactions.LabelManager, PlanX.UI
+        m_TargetAssemblyTypeName: OC.UI.Interactions.LabelManager, OC.UI
         m_MethodName: Show
         m_Mode: 0
         m_Arguments:

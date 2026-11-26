@@ -42,12 +42,12 @@ Requires **`ColliderViewSystem`** in the scene (add to Interactions root or a ma
 | | |
 |--|--|
 | **Prefab name** | Label Tool |
-| **Type** | `ToolbarItem` + **`LabelManager`** |
+| **Type** | `ToolbarItem` + [`LabelManager`](../../Runtime/System/Scripts/LabelManager.cs) |
 | **Effect** | **`LabelManager.Show(bool)`** |
 
-Shows or hides all **`Label`** components (world-space TextMeshPro names).
+Master on/off for every **`Label`** in the scene. Labels start hidden; turn the tool on to reveal them. Each Label still uses its own **Always Visible** / **Show On Hover** mode once the master switch is on.
 
-Add **`LabelManager`** to the scene if not present. Wire events to `OC.UI.Interactions.LabelManager`.
+> **Note:** Wire UnityEvents to `OC.UI.Interactions.LabelManager`, not legacy `PlanX.UI` type names.
 
 ### Hide Tool
 
@@ -127,7 +127,8 @@ Visible only when at least one interaction is selected.
 
 - [ ] AppUI / Interactions prefab in scene
 - [ ] **Interaction Tool** wired to `SelectionManager`
-- [ ] **LabelManager** and **ColliderViewSystem** present if using those tools
+- [ ] **ColliderViewSystem** present if using the Collider View tool
+- [ ] **LabelManager** on the Label Tool (shipped on AppUI prefab) if using labels
 - [ ] **HideGroup** components on geometry groups for Hide Tool
 - [ ] Virtual cameras in scene for Cameras tool
 - [ ] **LayoutSaveSystem** for Save/Load
