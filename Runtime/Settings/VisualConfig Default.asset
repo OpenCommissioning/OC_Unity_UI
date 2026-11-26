@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: VisualConfig Default
   m_EditorClassIdentifier: 
   Preview: {fileID: 0}
-  Transperent: {fileID: 2100000, guid: 71b8d4d133818d94da7b7bd35bbd6852, type: 2}
+  Transparent: {fileID: 2100000, guid: 71b8d4d133818d94da7b7bd35bbd6852, type: 2}
+  TransparentFull: {fileID: 2100000, guid: 706c73ebc63be424aa66d399e38948f4, type: 2}
   Enable: {fileID: 0}
   Warning: {fileID: 0}
   Error: {fileID: 0}

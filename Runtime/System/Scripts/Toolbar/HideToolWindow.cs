@@ -21,6 +21,13 @@ namespace OC.UI.Toolbar
         protected override void AddContent(SubsystemPanel subsystemPanel)
         {
             _toggleIcons = new List<PanelToggleIcon>();
+
+            var transparentModeToggle = new PanelToggleSlide("Transparent mode")
+            {
+                value = SettingsManager.Instance.TransparentMode
+            };
+            transparentModeToggle.RegisterValueChangedCallback(evt => SetTransparentMode(evt.newValue));
+            subsystemPanel.Add(transparentModeToggle);
             
             foreach (var group in _hideGroups)
             {
@@ -41,6 +48,15 @@ namespace OC.UI.Toolbar
             horizontalGroup.Add(new PanelButton("Hide all", HideAll));
             horizontalGroup.Add(new PanelButton("Show all", ShowAll));
             subsystemPanel.Add(horizontalGroup);
+        }
+
+        private void SetTransparentMode(bool value)
+        {
+            SettingsManager.Instance.TransparentMode = value;
+            foreach (var group in _hideGroups)
+            {
+                group.RefreshTransparentMaterial();
+            }
         }
 
         private void HideAll()

@@ -8,6 +8,7 @@ namespace OC.UI
         [Header("Collision Materials")] 
         public Material Preview;
         public Material Transparent;
+        public Material TransparentFull;
         public Material Enable;
         public Material Warning;
         public Material Error;

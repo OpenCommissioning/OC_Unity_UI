@@ -70,6 +70,14 @@ namespace OC.UI.Interactions
             _geometries = gameObject.GetComponentsInChildren<Geometry>().ToList();
         }
 
+        public void RefreshTransparentMaterial()
+        {
+            foreach (var item in _geometries)
+            {
+                item.RefreshTransparentMaterial();
+            }
+        }
+
         private void SetViewMode(ViewModeType type)
         {
             foreach (var item in _geometries)

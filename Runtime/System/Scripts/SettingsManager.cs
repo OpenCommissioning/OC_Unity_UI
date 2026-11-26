@@ -32,9 +32,22 @@ namespace OC.UI
         
         public VisualConfig VisualConfig => _visualConfig;
 
+        public bool TransparentMode
+        {
+            get => _transparentMode;
+            set => _transparentMode = value;
+        }
+
+        public Material TransparentMaterial =>
+            _transparentMode || _visualConfig.TransparentFull == null
+                ? _visualConfig.Transparent
+                : _visualConfig.TransparentFull;
+
         [Header("Interactions")]
         [SerializeField]
         private VisualConfig _visualConfig;
+        [SerializeField]
+        private bool _transparentMode;
 
         [Header("Settings")]
         [SerializeField]
