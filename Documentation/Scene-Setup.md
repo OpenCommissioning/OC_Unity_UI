@@ -118,7 +118,8 @@ Ensure colliders are on a layer included in **`SelectionManager`**’s layer mas
 | No outline on hover/select | Missing **`Outline`** component; rendering layers not named `Outline_1`/`Outline_2`; post-processing disabled on camera |
 | Camera does not move | Wrong camera active; pointer over UI; `AppUI.IsPointerValidForAction` is false |
 | No component panel on select | No matching **`PanelHandler`** for the selected component type; `PanelManager` not in scene |
-| Toolbar tools do nothing | Missing singleton (`LabelManager`, `ColliderViewSystem`) in scene; broken UnityEvent wiring on AppUI prefab |
+| Toolbar tools do nothing | Missing singleton (`ColliderViewSystem` / `LabelManager`) in scene; broken UnityEvent wiring on AppUI prefab |
+| Labels never appear | Label Tool is off (labels start hidden); turn on the **Label Tool** in the AppUI toolbar |
 
 ## Related
 
