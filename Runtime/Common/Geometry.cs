@@ -50,7 +50,7 @@ namespace OC.UI.Interactions
                     break;
                 case ViewModeType.Transparent:
                     Hide(false);
-                    SetMaterial(SettingsManager.Instance.VisualConfig.Transparent);
+                    SetMaterial(SettingsManager.Instance.TransparentMaterial);
                     DisableInteraction(true);
                     break;
                 case ViewModeType.Hide:
@@ -60,6 +60,12 @@ namespace OC.UI.Interactions
                 default:
                     throw new ArgumentOutOfRangeException(nameof(type), type, null);
             }
+        }
+
+        public void RefreshTransparentMaterial()
+        {
+            if (_lastViewModeType != ViewModeType.Transparent) return;
+            SetMaterial(SettingsManager.Instance.TransparentMaterial);
         }
 
         private void SetViewState(ViewModeState state)

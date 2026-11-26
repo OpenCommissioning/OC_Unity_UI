@@ -32,9 +32,27 @@ namespace OC.UI
         
         public VisualConfig VisualConfig => _visualConfig;
 
+        public bool TransparentMode
+        {
+            get => _transparentMode;
+            set
+            {
+                if (_transparentMode == value) return;
+                _transparentMode = value;
+                OnSettingsChanged?.Invoke();
+            }
+        }
+
+        public Material TransparentMaterial =>
+            _transparentMode || _visualConfig.TransparentFull == null
+                ? _visualConfig.Transparent
+                : _visualConfig.TransparentFull;
+
         [Header("Interactions")]
         [SerializeField]
         private VisualConfig _visualConfig;
+        [SerializeField]
+        private bool _transparentMode;
 
         [Header("Settings")]
         [SerializeField]
@@ -44,6 +62,7 @@ namespace OC.UI
 
         private const string MouseSensitivityKey = "MouseSensitivity";
         private const string AutoLoadSaveKey = "AutoLoadSave";
+        private const string TransparentModeKey = "TransparentMode";
 
         [Header("Collision")] 
         private bool _isWindowed;
@@ -88,6 +107,7 @@ namespace OC.UI
             }
 
             _autoLoadSave = PlayerPrefs.GetInt(AutoLoadSaveKey, 0) == 1;
+            _transparentMode = PlayerPrefs.GetInt(TransparentModeKey, 0) == 1;
             OnSettingsChanged?.Invoke();
         }
 
@@ -95,6 +115,7 @@ namespace OC.UI
         {
             PlayerPrefs.SetInt(MouseSensitivityKey, _mouseSensitivity);
             PlayerPrefs.SetInt(AutoLoadSaveKey, _autoLoadSave ? 1 : 0);
+            PlayerPrefs.SetInt(TransparentModeKey, _transparentMode ? 1 : 0);
             PlayerPrefs.Save();
         }
     }
